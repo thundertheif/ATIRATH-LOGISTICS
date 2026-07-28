@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "firebase": "^12.15.0",
+    "recharts": "^3.10.1"
+  }
+}

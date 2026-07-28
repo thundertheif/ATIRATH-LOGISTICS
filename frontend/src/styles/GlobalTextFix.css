@@ -1,0 +1,193 @@
+/* ========================================
+   ADMIN PAGE ONLY - CLEAN STYLES
+   (ఇది మీ Homepage ని పాడుచేయదు)
+   ======================================== */
+
+/* Admin Page Headings & Text */
+.admin-page h1, 
+.admin-page h2, 
+.admin-page h3, 
+.admin-page h4 {
+  color: #0f172a;
+  font-weight: 600;
+}
+
+.admin-page p, 
+.admin-page li, 
+.admin-page span {
+  color: #334155;
+}
+
+.admin-page a {
+  color: #2563eb;
+  text-decoration: none;
+}
+
+.admin-page label {
+  color: #475569;
+  font-weight: 500;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.admin-page .text-muted, 
+.admin-page small {
+  color: #64748b;
+  font-size: 0.875rem;
+}
+
+/* Admin Stats & Values */
+.admin-page .stat-value {
+  color: #0f172a;
+  font-weight: 700;
+  font-size: 1.8rem;
+}
+
+.admin-page .amount {
+  color: #059669; /* Green color for money */
+  font-weight: 600;
+}
+
+.admin-page .mono {
+  color: #2563eb;
+  font-family: monospace;
+}
+
+/* Admin Buttons */
+.admin-page .btn-primary {
+  background-color: #2563eb;
+  color: #ffffff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.admin-page .btn-primary:hover {
+  background-color: #1d4ed8;
+}
+
+.admin-page .btn-secondary {
+  background-color: #e2e8f0;
+  color: #0f172a;
+  border: 1px solid #cbd5e1;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.admin-page .btn-danger {
+  background-color: #ef4444;
+  color: white;
+  border: none;
+}
+
+.admin-page .btn-success {
+  background-color: #10b981;
+  color: white;
+  border: none;
+}
+
+/* Admin Sidebar Navigation */
+.admin-page .nav-item {
+  color: #cbd5e1;
+  padding: 10px 15px;
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+
+.admin-page .nav-item:hover {
+  background-color: #334155;
+  color: #ffffff;
+}
+
+.admin-page .nav-item.active {
+  color: #ffffff;
+  background-color: #2563eb;
+}
+
+.admin-page .nav-section-title {
+  color: #94a3b8;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 10px 15px;
+}
+
+/* Admin Forms & Inputs */
+.admin-page input,
+.admin-page textarea,
+.admin-page select {
+  color: #0f172a;
+  background-color: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  padding: 8px 12px;
+  width: 100%;
+}
+
+.admin-page input::placeholder,
+.admin-page textarea::placeholder {
+  color: #94a3b8;
+}
+
+/* Admin Badges */
+.admin-page .badge {
+  padding: 4px 8px;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.admin-page .badge.active, 
+.admin-page .badge.success {
+  background-color: #d1fae5;
+  color: #065f46;
+}
+
+.admin-page .badge.pending, 
+.admin-page .badge.warning {
+  background-color: #fef3c7;
+  color: #92400e;
+}
+
+.admin-page .badge.banned, 
+.admin-page .badge.danger {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+/* Admin Topbar */
+.admin-page .admin-topbar h1 {
+  color: #0f172a;
+  font-size: 1.5rem;
+}
+
+.admin-page .admin-topbar p {
+  color: #64748b;
+  font-size: 0.875rem;
+}
+
+/* Admin Logout Button */
+.admin-page .btn-logout {
+  background-color: #fee2e2;
+  color: #ef4444;
+  border: 1px solid #fca5a5;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: 20px;
+}
+
+.admin-page .btn-logout:hover {
+  background-color: #ef4444;
+  color: white;
+  border-color: #ef4444;
+}
