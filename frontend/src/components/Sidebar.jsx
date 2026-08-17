@@ -7,7 +7,7 @@ export default function Sidebar() {
   const location = useLocation();
   const { logout, currentUser } = useAuth();
 
-  // ✅ UPDATED: Added essential logistics features
+  // ✅ Added Pickup Scheduler & History to YOUR existing structure
   const menuItems = [
     // --- Main Navigation ---
     { path: "/dashboard", icon: "📊", label: "Dashboard" },
@@ -15,12 +15,16 @@ export default function Sidebar() {
     { path: "/my-shipments", icon: "🚚", label: "My Shipments" },
     { path: "/tracking", icon: "📍", label: "Track Shipment" },
     
-    // --- Tools & Financials (New) ---
+    // --- 🚚 PICKUP MANAGEMENT (NEW - Just Added!) ---
+    { path: "/pickup-scheduler", icon: "📅", label: "Pickup Scheduler" },
+    { path: "/pickup-history", icon: "📋", label: "Pickup History" },
+    
+    // --- Tools & Financials ---
     { path: "/rate-calculator", icon: "🧮", label: "Rate Calculator" },
     { path: "/invoices", icon: "🧾", label: "Invoices" },
-    { path: "/wallets-payments", icon: "💳", label: "Wallets & Payments" }, // ✅ FIXED PATH
+    { path: "/wallets-payments", icon: "💳", label: "Wallets & Payments" },
     
-    // --- Management (New) ---
+    // --- Management ---
     { path: "/address-book", icon: "📒", label: "Address Book" },
     { path: "/returns", icon: "↩️", label: "Returns" },
     { path: "/documents", icon: "", label: "Documents" },
@@ -43,7 +47,7 @@ export default function Sidebar() {
 
   return (
     <aside className="sidebar">
-      {/* Logo Section */}
+      {/* Logo Section - SAME AS YOURS */}
       <div className="sidebar-header">
         <div className="sidebar-logo">
           <img 
@@ -54,7 +58,7 @@ export default function Sidebar() {
         </div>
       </div>
 
-      {/* Navigation Menu */}
+      {/* Navigation Menu - SAME AS YOURS */}
       <nav className="sidebar-nav">
         <div className="nav-section">
           {menuItems.map((item) => (
@@ -71,7 +75,7 @@ export default function Sidebar() {
         </div>
       </nav>
 
-      {/* Footer with Logout */}
+      {/* Footer with Logout - SAME AS YOURS */}
       <div className="sidebar-footer">
         <button onClick={handleLogout} className="nav-item logout-btn">
           <span className="nav-icon">🚪</span>

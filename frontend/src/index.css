@@ -541,3 +541,82 @@ html.light-theme body {
 html.light-theme .bg-cream {
   color: var(--text-dark);
 }
+
+/* =========================================
+   🌍 ULTIMATE INVISIBLE TEXT FIX (APPENDED)
+   Fixes White-on-White text in Light Containers, Modals, and Charts
+   ========================================= */
+
+/* 1. FIX HEADINGS & TEXT INSIDE LIGHT/CREAM CONTAINERS */
+.bg-cream h1, .bg-cream h2, .bg-cream h3, .bg-cream h4, .bg-cream h5, .bg-cream h6,
+.bg-white h1, .bg-white h2, .bg-white h3, .bg-white h4, .bg-white h5, .bg-white h6,
+.bg-light h1, .bg-light h2, .bg-light h3, .bg-light h4, .bg-light h5, .bg-light h6,
+.card h1, .card h2, .card h3, .card h4, .card h5, .card h6,
+.modal-content h1, .modal-content h2, .modal-content h3, .modal-content h4, .modal-content h5, .modal-content h6 {
+  color: #111827 !important; /* Dark Gray/Black */
+  -webkit-text-fill-color: #111827 !important;
+}
+
+.bg-cream p, .bg-white p, .bg-light p, .card p, .modal-content p,
+.bg-cream span, .bg-white span, .bg-light span, .card span, .modal-content span,
+.bg-cream label, .bg-white label, .bg-light label, .card label, .modal-content label,
+.bg-cream li, .bg-white li, .bg-light li, .card li, .modal-content li {
+  color: #374151 !important; /* Readable Medium Gray */
+  -webkit-text-fill-color: #374151 !important;
+}
+
+/* 2. FIX SVG & RECHARTS INSIDE LIGHT CONTAINERS */
+/* By default SVGs are light for the dark theme, but inside white cards they must be dark */
+.bg-cream svg text, .bg-white svg text, .bg-light svg text, .card svg text, .modal-content svg text,
+.bg-cream .recharts-text, .bg-white .recharts-text, .bg-light .recharts-text, .card .recharts-text, .modal-content .recharts-text,
+.bg-cream .recharts-cartesian-axis-tick-value, .bg-white .recharts-cartesian-axis-tick-value {
+  fill: #4B5563 !important;
+  color: #4B5563 !important;
+}
+
+/* 3. FIX FORM INPUTS IN LIGHT CONTAINERS (Prevent white text on white input) */
+.bg-cream input, .bg-white input, .bg-light input, .card input, .modal-content input,
+.bg-cream textarea, .bg-white textarea, .bg-light textarea, .card textarea, .modal-content textarea,
+.bg-cream select, .bg-white select, .bg-light select, .card select, .modal-content select {
+  color: #111827 !important;
+  -webkit-text-fill-color: #111827 !important;
+  background-color: #ffffff !important;
+  border: 1px solid #d1d5db !important;
+}
+
+.bg-cream input::placeholder, .bg-white input::placeholder, .modal-content input::placeholder,
+.bg-cream textarea::placeholder, .bg-white textarea::placeholder, .modal-content textarea::placeholder {
+  color: #9CA3AF !important;
+  -webkit-text-fill-color: #9CA3AF !important;
+}
+
+/* 4. CHROME/SAFARI AUTOFILL FIX (Dark Theme) */
+/* Prevents the browser from turning text white on a white autofill background */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+select:-webkit-autofill {
+  -webkit-text-fill-color: var(--text-primary) !important;
+  -webkit-box-shadow: 0 0 0px 1000px var(--bg-surface) inset !important;
+  transition: background-color 5000s ease-in-out 0s !important;
+}
+
+/* Autofill fix for inputs inside light containers */
+.bg-cream input:-webkit-autofill, .bg-white input:-webkit-autofill, .modal-content input:-webkit-autofill,
+.bg-cream select:-webkit-autofill, .bg-white select:-webkit-autofill, .modal-content select:-webkit-autofill {
+  -webkit-text-fill-color: #111827 !important;
+  -webkit-box-shadow: 0 0 0px 1000px #ffffff inset !important;
+}
+
+/* 5. SECURE BUTTON & LINK TEXT */
+button, .btn, a {
+  -webkit-text-fill-color: currentColor !important;
+}
+
+/* 6. ADMIN DASHBOARD PROTECTION */
+/* Ensure the Admin Dashboard (which is light themed) doesn't get overridden by global dark theme SVG rules */
+.admin-page svg text, .admin-page .recharts-text, .admin-page .recharts-cartesian-axis-tick-value {
+  fill: #475569 !important;
+  color: #475569 !important;
+}

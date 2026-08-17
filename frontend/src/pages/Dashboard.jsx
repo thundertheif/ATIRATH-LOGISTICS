@@ -507,6 +507,39 @@ export default function Dashboard() {
   const userName = currentUser?.displayName || 
                    (currentUser?.email ? currentUser.email.split('@')[0] : 'User');
 
+  // ✅ FIXED: Process stats - 1st Revenue stays, 2nd duplicate Revenue becomes "In Transit"
+  const processedStats = (() => {
+    const list = [];
+    let revenueCount = 0;
+    let shipmentCount = 0;
+
+    stats.forEach((stat) => {
+      const label = (stat.label || '').toLowerCase();
+
+      if (label.includes('revenue')) {
+        revenueCount += 1;
+        if (revenueCount === 1) {
+          list.push(stat); // ✅ 1st Revenue card - untouched (₹8.4L)
+        } else if (revenueCount === 2) {
+          list.push({ ...stat, isInTransitCard: true }); // ✅ 2nd Revenue -> In Transit
+        }
+        // 3rd+ revenue duplicates completely ignored
+      } else if (label === 'total shipments') {
+        shipmentCount += 1;
+        if (shipmentCount === 1) list.push(stat); // remove duplicate total shipments
+      } else {
+        list.push(stat);
+      }
+    });
+
+    // Fallback: DB lo revenue docs 1 only unna (ledu 0 unna) In Transit card chupistundi
+    if (revenueCount < 2) {
+      list.push({ id: 'in-transit-fallback', isInTransitCard: true });
+    }
+
+    return list;
+  })();
+
   return (
     // ❌ REMOVED: <DashboardLayout>
     <div className={`dashboard-container ${isVisible ? 'fade-in-visible' : 'fade-in-hidden'}`}>
@@ -566,58 +599,54 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* Stats Grid */}
+      {/* Stats Grid - ✅ FIXED: Revenue only once + In Transit card */}
       <div className="stats-grid">
-        {stats.length > 0 ? stats
-          .filter((stat, index, self) => {
-            if (stat.label?.toLowerCase() === 'total shipments') {
-              return self.findIndex(s => s.label?.toLowerCase() === 'total shipments') === index;
-            }
-            return true;
-          })
-          .map((stat, idx) => {
-            if (stat.label?.toLowerCase() === 'total shipments' && idx > 0) {
-              return (
-                <div key={stat.id || idx} className="stat-card" style={{ '--accent-color': '#3b82f6' }}>
-                  <div className="stat-header">
-                    <div className="stat-icon" style={{ background: '#3b82f620' }}>
-                      🚚
-                    </div>
-                    <div className="stat-trend up">
-                      ↑ 8.3%
-                    </div>
-                  </div>
-                  <div className="stat-body">
-                    <div className="stat-value">600</div>
-                    <div className="stat-label">In Transit</div>
-                  </div>
-                </div>
-              );
-            }
-            
+        {processedStats.length > 0 ? processedStats.map((stat, idx) => {
+          
+          // ✅ IN TRANSIT CARD (2nd Revenue ki badhulu)
+          if (stat.isInTransitCard) {
             return (
-              <div key={stat.id || idx} className="stat-card" style={{ '--accent-color': stat.color || '#10b981' }}>
+              <div key={stat.id || `intransit-${idx}`} className="stat-card" style={{ '--accent-color': '#3b82f6' }}>
                 <div className="stat-header">
-                  <div className="stat-icon" style={{ background: `${stat.color || '#10b981'}20` }}>
-                    {stat.icon || '📊'}
+                  <div className="stat-icon" style={{ background: '#3b82f620' }}>
+                    🚚
                   </div>
-                  {stat.trend && (
-                    <div className={`stat-trend ${stat.trend}`}>
-                      {stat.trend === 'up' ? '↑' : '↓'} {stat.change || '0%'}
-                    </div>
-                  )}
+                  <div className="stat-trend up">
+                    ↑ 8.3%
+                  </div>
                 </div>
                 <div className="stat-body">
-                  <div className="stat-value">{stat.value || '0'}</div>
-                  <div className="stat-label">{stat.label || 'No Label'}</div>
+                  <div className="stat-value">600</div>
+                  <div className="stat-label">In Transit</div>
                 </div>
               </div>
             );
-          }) : (
-            <div className="no-data-message">
-              No statistics available
+          }
+          
+          // Normal stat cards (1st Revenue ₹8.4L included)
+          return (
+            <div key={stat.id || idx} className="stat-card" style={{ '--accent-color': stat.color || '#10b981' }}>
+              <div className="stat-header">
+                <div className="stat-icon" style={{ background: `${stat.color || '#10b981'}20` }}>
+                  {stat.icon || '📊'}
+                </div>
+                {stat.trend && (
+                  <div className={`stat-trend ${stat.trend}`}>
+                    {stat.trend === 'up' ? '↑' : '↓'} {stat.change || '0%'}
+                  </div>
+                )}
+              </div>
+              <div className="stat-body">
+                <div className="stat-value">{stat.value || '0'}</div>
+                <div className="stat-label">{stat.label || 'No Label'}</div>
+              </div>
             </div>
-          )}
+          );
+        }) : (
+          <div className="no-data-message">
+            No statistics available
+          </div>
+        )}
       </div>
 
       {/* Quick Stats Widgets */}

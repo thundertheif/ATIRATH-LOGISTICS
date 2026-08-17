@@ -1,12 +1,18 @@
-/* =========================================
-   ADMIN DASHBOARD - ULTIMATE TEXT VISIBILITY & SHARPNESS
-   Guaranteed 100% Visibility, No Hidden Text
-   ========================================= */
+/* =========================================================
+   ATIRATH ADMIN — FINAL CORRECTED CSS (v5.0)
+   ✅ Dark-mode hidden-text bugs FIXED
+   ✅ rgb() inline-style matching FIXED
+   ✅ Modal forced light FIXED
+   ✅ Global opacity reset FIXED
+   ========================================================= */
 
+/* ---------------------------------------------------------
+   1. DESIGN TOKENS (LIGHT)
+   --------------------------------------------------------- */
 :root {
-  /* Brand Colors */
   --primary: #2563eb;
   --primary-hover: #1d4ed8;
+  --primary-soft: #dbeafe;
   --success: #10b981;
   --success-light: #d1fae5;
   --success-dark: #065f46;
@@ -19,36 +25,67 @@
   --info: #3b82f6;
   --info-light: #dbeafe;
   --info-dark: #1e3a8a;
-  
-  /* Backgrounds */
+
   --bg-body: #f8fafc;
   --bg-card: #ffffff;
   --bg-sidebar: #0f172a;
   --bg-hover: #f1f5f9;
-  
-  /* Text Colors - MAXIMUM CONTRAST & SHARPNESS */
+  --bg-input: #ffffff;
+
   --text-primary: #000000;
   --text-secondary: #1f2937;
   --text-muted: #4b5563;
+  --text-faint: #64748b;
   --text-sidebar: #f9fafb;
   --text-sidebar-active: #ffffff;
-  
-  /* Borders & Shadows */
+
   --border-color: #e5e7eb;
+  --border-strong: #d1d5db;
+
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+
   --radius: 8px;
   --radius-lg: 12px;
-  
-  /* Layout */
+  --radius-xl: 16px;
+
   --sidebar-width: 260px;
   --sidebar-collapsed: 72px;
+
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'SF Mono', 'Cascadia Code', 'Courier New', monospace;
 }
 
-/* =========================================
-   GLOBAL SHARPNESS & VISIBILITY RESET
-   ========================================= */
-* {
+/* ---------------------------------------------------------
+   2. DESIGN TOKENS (DARK) — applied via class on .admin-page
+   --------------------------------------------------------- */
+.admin-page.dark-mode {
+  --bg-body: #0f172a;
+  --bg-card: #1e293b;
+  --bg-sidebar: #020617;
+  --bg-hover: #334155;
+  --bg-input: #334155;
+
+  --text-primary: #f1f5f9;
+  --text-secondary: #e2e8f0;
+  --text-muted: #94a3b8;
+  --text-faint: #64748b;
+
+  --border-color: #334155;
+  --border-strong: #475569;
+
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.6);
+}
+
+/* ---------------------------------------------------------
+   3. SAFE GLOBAL RESET  (✅ NO forced opacity/visibility)
+   --------------------------------------------------------- */
+*,
+*::before,
+*::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -57,28 +94,76 @@
   text-rendering: optimizeLegibility;
 }
 
-.admin-page,
-.admin-page *,
-.admin-page *::before,
-.admin-page *::after {
-  -webkit-text-fill-color: initial !important;
+/* Inherit color only — no !important so components can hide/animate */
+body,
+html,
+div,
+span,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+a,
+strong,
+em,
+small,
+ol,
+ul,
+li,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+input,
+textarea,
+select,
+button {
+  color: inherit;
 }
 
-/* =========================================
-   BASE ADMIN PAGE
-   ========================================= */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+}
+
+::selection {
+  background: #2563eb;
+  color: #ffffff;
+}
+
+.admin-page.dark-mode ::selection {
+  background: #3b82f6;
+  color: #0f172a;
+}
+
+/* ---------------------------------------------------------
+   4. BASE ADMIN PAGE
+   --------------------------------------------------------- */
 .admin-page {
   display: flex;
   min-height: 100vh;
   background: var(--bg-body);
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: var(--font-sans);
   color: var(--text-primary);
   line-height: 1.5;
+  transition: background 0.3s ease;
 }
 
-/* =========================================
-   SIDEBAR - DARK BACKGROUND, LIGHT TEXT
-   ========================================= */
+/* ---------------------------------------------------------
+   5. SIDEBAR
+   --------------------------------------------------------- */
 .admin-sidebar {
   width: var(--sidebar-width);
   background: var(--bg-sidebar);
@@ -87,10 +172,11 @@
   top: 0;
   height: 100vh;
   overflow-y: auto;
+  overflow-x: hidden;
   z-index: 1000;
   display: flex;
   flex-direction: column;
-  transition: width 0.3s ease;
+  transition: width 0.3s ease, transform 0.3s ease;
   border-right: 1px solid rgba(255, 255, 255, 0.05);
 }
 
@@ -104,6 +190,7 @@
   justify-content: space-between;
   padding: 20px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  min-height: 76px;
 }
 
 .logo-image {
@@ -134,6 +221,7 @@
   justify-content: center;
   font-size: 12px;
   transition: all 0.2s;
+  flex-shrink: 0;
 }
 
 .sidebar-toggle:hover {
@@ -158,6 +246,14 @@
   letter-spacing: 0.05em;
   padding: 0 12px;
   margin-bottom: 8px;
+  white-space: nowrap;
+}
+
+.admin-sidebar.closed .nav-section-title {
+  opacity: 0;
+  height: 0;
+  margin: 0;
+  overflow: hidden;
 }
 
 .nav-item {
@@ -176,6 +272,7 @@
   transition: all 0.2s;
   text-align: left;
   margin-bottom: 4px;
+  font-family: var(--font-sans);
 }
 
 .nav-item:hover {
@@ -188,6 +285,11 @@
   color: white !important;
   font-weight: 600;
   box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+
+.nav-item:focus-visible {
+  outline: 2px solid #60a5fa;
+  outline-offset: 2px;
 }
 
 .nav-icon {
@@ -203,6 +305,7 @@
   color: inherit !important;
 }
 
+/* ✅ Now works (no global opacity !important anymore) */
 .admin-sidebar.closed .nav-text {
   opacity: 0;
   width: 0;
@@ -221,6 +324,15 @@
   text-align: center;
 }
 
+.admin-sidebar.closed .nav-badge {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  margin: 0;
+  min-width: 16px;
+  font-size: 9px;
+}
+
 .sidebar-footer {
   margin-top: auto;
   padding: 16px;
@@ -237,9 +349,9 @@
   color: #fecaca !important;
 }
 
-/* =========================================
-   MAIN CONTENT & TOPBAR
-   ========================================= */
+/* ---------------------------------------------------------
+   6. MAIN AREA + TOPBAR
+   --------------------------------------------------------- */
 .admin-main {
   margin-left: var(--sidebar-width);
   flex: 1;
@@ -264,6 +376,8 @@
   top: 0;
   z-index: 100;
   box-shadow: var(--shadow-sm);
+  gap: 16px;
+  flex-wrap: wrap;
 }
 
 .topbar-left {
@@ -297,7 +411,8 @@
 .topbar-right {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 12px;
+  flex-wrap: wrap;
 }
 
 .user-profile {
@@ -325,6 +440,7 @@
   justify-content: center;
   font-weight: 700;
   font-size: 14px;
+  flex-shrink: 0;
 }
 
 .user-info {
@@ -355,6 +471,7 @@
   cursor: pointer;
   transition: all 0.2s ease;
   font-size: 14px;
+  font-family: var(--font-sans);
 }
 
 .topbar-logout-btn:hover {
@@ -365,9 +482,9 @@
   box-shadow: 0 4px 6px rgba(239, 68, 68, 0.2);
 }
 
-/* =========================================
-   DASHBOARD CONTENT
-   ========================================= */
+/* ---------------------------------------------------------
+   7. CONTENT + SECTIONS
+   --------------------------------------------------------- */
 .dashboard-content {
   padding: 32px;
   flex: 1;
@@ -407,11 +524,16 @@
   display: flex;
   gap: 12px;
   align-items: center;
+  flex-wrap: wrap;
 }
 
-/* =========================================
-   STATS GRID
-   ========================================= */
+.settings-form h3 {
+  color: #000000 !important;
+}
+
+/* ---------------------------------------------------------
+   8. STATS GRID
+   --------------------------------------------------------- */
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -434,10 +556,25 @@
   box-shadow: var(--shadow-md);
 }
 
-.stat-primary { border-top: 3px solid var(--primary); }
-.stat-success { border-top: 3px solid var(--success); }
-.stat-warning { border-top: 3px solid var(--warning); }
-.stat-danger { border-top: 3px solid var(--danger); }
+.stat-primary {
+  border-top: 3px solid var(--primary);
+}
+
+.stat-success {
+  border-top: 3px solid var(--success);
+}
+
+.stat-warning {
+  border-top: 3px solid var(--warning);
+}
+
+.stat-danger {
+  border-top: 3px solid var(--danger);
+}
+
+.stat-info-card {
+  border-top: 3px solid var(--info);
+}
 
 .stat-icon {
   font-size: 24px;
@@ -453,6 +590,7 @@
 
 .stat-info {
   flex: 1;
+  min-width: 0;
 }
 
 .stat-label {
@@ -469,6 +607,7 @@
   font-weight: 800;
   color: #000000 !important;
   margin-bottom: 4px;
+  word-break: break-word;
 }
 
 .stat-subtitle {
@@ -477,15 +616,16 @@
   font-weight: 500;
 }
 
-/* =========================================
-   TABLES - MAXIMUM CONTRAST & VISIBILITY + SCROLLING
-   ========================================= */
+/* ---------------------------------------------------------
+   9. TABLES
+   --------------------------------------------------------- */
 .table-wrapper {
   overflow-x: auto;
   overflow-y: auto;
-  max-height: 600px; /* ✅ NEW: Prevents page from getting too long */
+  max-height: 600px;
   border-radius: var(--radius);
   border: 1px solid var(--border-color);
+  background: var(--bg-card);
 }
 
 table {
@@ -535,6 +675,7 @@ tr:hover td {
   display: flex;
   gap: 8px;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 table input[type="checkbox"] {
@@ -544,22 +685,34 @@ table input[type="checkbox"] {
   accent-color: var(--primary);
 }
 
-/* =========================================
-   TEXT UTILITIES
-   ========================================= */
-.text-muted { color: #4b5563 !important; }
-.text-small { font-size: 12px; }
-.font-semibold { font-weight: 600; }
-
-.mono-text { 
-  font-family: 'SF Mono', 'Courier New', monospace; 
-  font-weight: 600; 
-  color: #1e3a8a !important;
-  font-size: 13px; 
+/* ---------------------------------------------------------
+   10. TEXT UTILITIES
+   --------------------------------------------------------- */
+.text-muted {
+  color: #4b5563 !important;
 }
 
-.amount-text { 
-  font-weight: 700; 
+.text-small {
+  font-size: 12px;
+}
+
+.font-semibold {
+  font-weight: 600;
+}
+
+.font-bold {
+  font-weight: 700;
+}
+
+.mono-text {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  color: #1e3a8a !important;
+  font-size: 13px;
+}
+
+.amount-text {
+  font-weight: 700;
   color: #065f46 !important;
 }
 
@@ -575,9 +728,9 @@ table input[type="checkbox"] {
   font-size: 14px;
 }
 
-/* =========================================
-   BUTTONS - HIGH CONTRAST TEXT
-   ========================================= */
+/* ---------------------------------------------------------
+   11. BUTTONS
+   --------------------------------------------------------- */
 .btn-primary {
   background: var(--primary);
   color: white !important;
@@ -588,13 +741,19 @@ table input[type="checkbox"] {
   cursor: pointer;
   transition: all 0.2s;
   font-size: 14px;
-  font-family: inherit;
+  font-family: var(--font-sans);
 }
 
 .btn-primary:hover {
   background: var(--primary-hover);
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
 }
 
 .btn-secondary {
@@ -607,7 +766,7 @@ table input[type="checkbox"] {
   cursor: pointer;
   transition: all 0.2s;
   font-size: 14px;
-  font-family: inherit;
+  font-family: var(--font-sans);
 }
 
 .btn-secondary:hover {
@@ -625,11 +784,16 @@ table input[type="checkbox"] {
   background: white;
   color: #000000 !important;
   transition: all 0.2s;
-  font-family: inherit;
+  font-family: var(--font-sans);
 }
 
 .btn-sm:hover {
   background: var(--bg-hover);
+}
+
+.btn-sm:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 .btn-sm.btn-primary {
@@ -660,7 +824,7 @@ table input[type="checkbox"] {
   background: white;
   color: #000000 !important;
   transition: all 0.2s;
-  font-family: inherit;
+  font-family: var(--font-sans);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -669,6 +833,11 @@ table input[type="checkbox"] {
 
 .btn-xs:hover {
   background: var(--bg-hover);
+}
+
+.btn-xs:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 .btn-xs.btn-primary {
@@ -695,9 +864,9 @@ table input[type="checkbox"] {
   border-color: var(--border-color);
 }
 
-/* =========================================
-   FORMS & INPUTS - CRITICAL FIX
-   ========================================= */
+/* ---------------------------------------------------------
+   12. FORMS & INPUTS
+   --------------------------------------------------------- */
 .search-input {
   padding: 10px 14px;
   border: 1px solid var(--border-color);
@@ -707,7 +876,7 @@ table input[type="checkbox"] {
   width: 280px;
   color: #000000 !important;
   background: white !important;
-  font-family: inherit;
+  font-family: var(--font-sans);
 }
 
 .search-input:focus {
@@ -728,6 +897,7 @@ table input[type="checkbox"] {
 .form-group {
   margin-bottom: 20px;
   flex: 1;
+  min-width: 0;
 }
 
 .form-label {
@@ -747,11 +917,11 @@ table input[type="checkbox"] {
   border-radius: var(--radius);
   font-size: 14px;
   outline: none;
-  font-family: inherit;
+  font-family: var(--font-sans);
   background: white !important;
   color: #000000 !important;
   -webkit-text-fill-color: #000000 !important;
-  transition: all 0.2s;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 .form-textarea-large {
@@ -786,20 +956,12 @@ table input[type="checkbox"] {
   margin-top: 8px;
 }
 
-/* =========================================
-   SELECT DROPDOWNS - CRITICAL FIX
-   ========================================= */
+/* Selects */
 .admin-page select,
 .admin-page option {
   color: #000000 !important;
   background-color: #ffffff !important;
   -webkit-text-fill-color: #000000 !important;
-}
-
-.admin-page select option:hover,
-.admin-page select option:checked {
-  background-color: var(--primary) !important;
-  color: #ffffff !important;
 }
 
 .status-select {
@@ -811,14 +973,14 @@ table input[type="checkbox"] {
   color: #000000 !important;
   font-weight: 600;
   outline: none;
-  font-family: inherit;
+  font-family: var(--font-sans);
   cursor: pointer;
   min-width: 120px;
 }
 
-/* =========================================
-   BADGES - HIGH CONTRAST
-   ========================================= */
+/* ---------------------------------------------------------
+   13. BADGES
+   --------------------------------------------------------- */
 .badge {
   padding: 4px 10px;
   border-radius: 20px;
@@ -832,34 +994,34 @@ table input[type="checkbox"] {
   color: inherit !important;
 }
 
-.badge-success { 
-  background-color: #d1fae5 !important; 
+.badge-success {
+  background-color: #d1fae5 !important;
   color: #065f46 !important;
 }
 
-.badge-warning { 
-  background-color: #fef3c7 !important; 
+.badge-warning {
+  background-color: #fef3c7 !important;
   color: #92400e !important;
 }
 
-.badge-danger { 
-  background-color: #fee2e2 !important; 
+.badge-danger {
+  background-color: #fee2e2 !important;
   color: #7f1d1d !important;
 }
 
-.badge-info { 
-  background-color: #dbeafe !important; 
+.badge-info {
+  background-color: #dbeafe !important;
   color: #1e3a8a !important;
 }
 
-.badge-secondary { 
-  background-color: #f3f4f6 !important; 
+.badge-secondary {
+  background-color: #f3f4f6 !important;
   color: #1f2937 !important;
 }
 
-/* =========================================
-   TICKETS - VISIBLE TEXT (FIXED)
-   ========================================= */
+/* ---------------------------------------------------------
+   14. TICKETS
+   --------------------------------------------------------- */
 .tickets-grid {
   display: flex;
   flex-direction: column;
@@ -905,11 +1067,13 @@ table input[type="checkbox"] {
   font-size: 13px;
   margin-top: 4px;
   color: #4b5563 !important;
+  flex-wrap: wrap;
 }
 
 .ticket-badges {
   display: flex;
   gap: 8px;
+  flex-wrap: wrap;
 }
 
 .ticket-message {
@@ -962,15 +1126,17 @@ table input[type="checkbox"] {
   margin-bottom: 6px;
   font-size: 12px;
   font-weight: 600;
+  flex-wrap: wrap;
+  gap: 6px;
 }
 
-.reply-from { 
+.reply-from {
   color: #000000 !important;
 }
 
-.reply-time { 
+.reply-time {
   color: #4b5563 !important;
-  font-weight: 500; 
+  font-weight: 500;
 }
 
 .reply-message {
@@ -990,9 +1156,9 @@ table input[type="checkbox"] {
   flex-wrap: wrap;
 }
 
-/* =========================================
-   MODAL - BULLETPROOF TEXT VISIBILITY
-   ========================================= */
+/* ---------------------------------------------------------
+   15. MODAL — ✅ ALWAYS LIGHT (readable in both modes)
+   --------------------------------------------------------- */
 .modal-overlay {
   position: fixed;
   inset: 0;
@@ -1017,8 +1183,14 @@ table input[type="checkbox"] {
 }
 
 @keyframes modalSlide {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .modal-header {
@@ -1026,7 +1198,8 @@ table input[type="checkbox"] {
   justify-content: space-between;
   align-items: center;
   padding: 20px 24px;
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 1px solid #e5e7eb;
+  background: #ffffff;
 }
 
 .modal-title {
@@ -1048,7 +1221,7 @@ table input[type="checkbox"] {
 }
 
 .modal-close:hover {
-  background: var(--bg-hover);
+  background: #f1f5f9;
   color: #000000 !important;
 }
 
@@ -1056,6 +1229,7 @@ table input[type="checkbox"] {
   padding: 24px;
   overflow-wrap: break-word;
   word-wrap: break-word;
+  background: #ffffff;
 }
 
 .modal-body * {
@@ -1080,6 +1254,7 @@ table input[type="checkbox"] {
   background-color: #ffffff !important;
   color: #000000 !important;
   -webkit-text-fill-color: #000000 !important;
+  border: 1px solid #d1d5db !important;
 }
 
 .modal-footer {
@@ -1087,14 +1262,14 @@ table input[type="checkbox"] {
   justify-content: flex-end;
   gap: 12px;
   padding: 16px 24px;
-  border-top: 1px solid var(--border-color);
+  border-top: 1px solid #e5e7eb;
   background: #f9fafb !important;
   border-radius: 0 0 var(--radius-lg) var(--radius-lg);
 }
 
-/* =========================================
-   TOAST NOTIFICATIONS
-   ========================================= */
+/* ---------------------------------------------------------
+   16. TOASTS
+   --------------------------------------------------------- */
 .toast {
   position: fixed;
   top: 24px;
@@ -1107,24 +1282,39 @@ table input[type="checkbox"] {
   box-shadow: var(--shadow-md);
   animation: slideIn 0.3s ease-out;
   color: white !important;
+  max-width: 420px;
 }
 
 .toast * {
   color: white !important;
 }
 
-.toast-success { background: var(--success); }
-.toast-error { background: var(--danger); }
-.toast-info { background: var(--info); }
-
-@keyframes slideIn {
-  from { opacity: 0; transform: translateX(100%); }
-  to { opacity: 1; transform: translateX(0); }
+.toast-success {
+  background: var(--success);
 }
 
-/* =========================================
-   EMPTY STATES & LOADING
-   ========================================= */
+.toast-error {
+  background: var(--danger);
+}
+
+.toast-info {
+  background: var(--info);
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* ---------------------------------------------------------
+   17. EMPTY / LOADING
+   --------------------------------------------------------- */
 .empty-state-box {
   text-align: center;
   padding: 60px 20px;
@@ -1164,11 +1354,22 @@ table input[type="checkbox"] {
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
+.loading-logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ---------------------------------------------------------
+   18. BROADCAST NOTICE
+   --------------------------------------------------------- */
 .broadcast-notice {
-  background: #076df3 !important;
+  background: #dbeafe !important;
   border: 1px solid var(--info);
   color: #1e3a8a !important;
   padding: 12px 16px;
@@ -1178,11 +1379,17 @@ table input[type="checkbox"] {
   justify-content: space-between;
   align-items: center;
   font-weight: 500;
+  gap: 12px;
+  flex-wrap: wrap;
 }
 
-/* =========================================
-   GENERIC FALLBACK - ALL HEADINGS & TEXT VISIBLE
-   ========================================= */
+.broadcast-notice span {
+  color: inherit !important;
+}
+
+/* ---------------------------------------------------------
+   19. LIGHT-MODE TEXT SAFETY (targeted only)
+   --------------------------------------------------------- */
 .admin-page h1,
 .admin-page h2,
 .admin-page h3,
@@ -1209,94 +1416,903 @@ table input[type="checkbox"] {
   color: #1f2937 !important;
 }
 
-/* =========================================
-   AUTOFILL FIX (Chrome/Safari)
-   ========================================= */
+/* Autofill (light) */
 .admin-page input:-webkit-autofill,
 .admin-page input:-webkit-autofill:hover,
 .admin-page input:-webkit-autofill:focus,
 .admin-page textarea:-webkit-autofill,
-.admin-page textarea:-webkit-autofill:hover,
-.admin-page textarea:-webkit-autofill:focus,
 .admin-page select:-webkit-autofill {
   -webkit-text-fill-color: #000000 !important;
   -webkit-box-shadow: 0 0 0px 1000px #ffffff inset !important;
   transition: background-color 5000s ease-in-out 0s !important;
 }
 
-/* =========================================
-   RESPONSIVE DESIGN
-   ========================================= */
-@media (max-width: 1024px) {
-  .stats-grid {
-    grid-template-columns: repeat(2, 1fr);
+/* ---------------------------------------------------------
+   20. RECHARTS (LIGHT)
+   --------------------------------------------------------- */
+.recharts-legend-item-text {
+  color: #1f2937 !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+}
+
+.recharts-tooltip-wrapper {
+  outline: none !important;
+}
+
+.recharts-default-tooltip {
+  background-color: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 8px !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1) !important;
+}
+
+.recharts-tooltip-label {
+  color: #000000 !important;
+  font-weight: 700 !important;
+  margin-bottom: 4px !important;
+}
+
+.recharts-tooltip-item {
+  color: #1f2937 !important;
+  font-weight: 600 !important;
+}
+
+.recharts-pie-label-text {
+  fill: #1f2937 !important;
+  font-weight: 600 !important;
+  font-size: 12px !important;
+}
+
+/* ---------------------------------------------------------
+   21. COMMAND PALETTE
+   --------------------------------------------------------- */
+.command-palette-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  z-index: 10000;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 120px;
+  animation: fadeIn 0.15s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }
 
-@media (max-width: 768px) {
-  .admin-sidebar {
-    transform: translateX(-100%);
-    width: var(--sidebar-width);
+.command-palette {
+  width: 100%;
+  max-width: 640px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  border: 1px solid #e5e7eb;
+  animation: slideDown 0.2s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
   }
-  
-  .admin-sidebar.open {
-    transform: translateX(0);
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
-  
+}
+
+.command-palette-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  border-bottom: 1px solid #e5e7eb;
+  background: #f9fafb;
+}
+
+.command-icon {
+  font-size: 20px;
+  color: #2563eb;
+}
+
+.command-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-size: 16px;
+  color: #0f172a;
+  outline: none;
+  font-family: var(--font-sans);
+}
+
+.command-input::placeholder {
+  color: #9ca3af;
+}
+
+.command-esc {
+  background: #e5e7eb;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #4b5563;
+  font-family: var(--font-mono);
+}
+
+.command-results {
+  max-height: 400px;
+  overflow-y: auto;
+  padding: 8px;
+}
+
+.command-category {
+  padding: 8px 12px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #94a3b8;
+  letter-spacing: 0.05em;
+}
+
+.command-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 6px;
+  background: transparent;
+  border: none;
+  width: 100%;
+  cursor: pointer;
+  text-align: left;
+  color: #1f2937;
+  font-size: 14px;
+  transition: background 0.1s;
+  font-family: var(--font-sans);
+}
+
+.command-item:hover {
+  background: #f1f5f9;
+}
+
+.command-item-icon {
+  font-size: 18px;
+  width: 28px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.command-item-label {
+  flex: 1;
+  font-weight: 500;
+}
+
+.command-item-arrow {
+  color: #94a3b8;
+  font-size: 16px;
+}
+
+.command-empty {
+  padding: 40px 20px;
+  text-align: center;
+  color: #94a3b8;
+  font-size: 14px;
+}
+
+.command-palette-footer {
+  padding: 12px 20px;
+  background: #f9fafb;
+  border-top: 1px solid #e5e7eb;
+  font-size: 12px;
+  color: #6b7280;
+  text-align: center;
+}
+
+.command-palette-footer kbd {
+  background: #e5e7eb;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 600;
+  color: #4b5563;
+  margin: 0 2px;
+  font-family: var(--font-mono);
+}
+
+/* ---------------------------------------------------------
+   22. AI INSIGHTS
+   --------------------------------------------------------- */
+.ai-insight-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  background: linear-gradient(135deg, #dbeafe 0%, #eff6ff 100%);
+  border: 1px solid #3b82f6;
+  gap: 16px;
+  animation: slideDown 0.3s ease-out;
+  flex-wrap: wrap;
+}
+
+.ai-insight-banner.urgent {
+  background: linear-gradient(135deg, #fee2e2 0%, #fef2f2 100%);
+  border-color: #ef4444;
+}
+
+.ai-banner-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  min-width: 0;
+}
+
+.ai-icon {
+  font-size: 24px;
+}
+
+.ai-text {
+  font-size: 14px;
+  color: #1f2937;
+}
+
+.ai-text strong {
+  color: #1e40af;
+}
+
+.ai-insight-banner.urgent .ai-text strong {
+  color: #991b1b;
+}
+
+.ai-insights-panel {
+  border: 1px solid #bfdbfe;
+}
+
+.ai-insight-item {
+  background: #ffffff;
+}
+
+/* ---------------------------------------------------------
+   23. OPEN TABS BAR
+   --------------------------------------------------------- */
+.open-tabs-bar {
+  display: flex;
+  gap: 4px;
+  padding: 8px 16px;
+  background: #f8fafc;
+  border-bottom: 1px solid var(--border-color);
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
+.open-tabs-bar::-webkit-scrollbar {
+  height: 4px;
+}
+
+.open-tabs-bar::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 2px;
+}
+
+.open-tab {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  color: #4b5563;
+  white-space: nowrap;
+  transition: all 0.15s;
+  position: relative;
+  font-family: var(--font-sans);
+}
+
+.open-tab:hover {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+}
+
+.open-tab.active {
+  background: #2563eb;
+  color: white;
+  border-color: #2563eb;
+}
+
+.open-tab-icon {
+  font-size: 14px;
+}
+
+.open-tab-label {
+  font-weight: 500;
+}
+
+.open-tab-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border: none;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1;
+  color: inherit;
+  margin-left: 4px;
+  transition: background 0.15s;
+  padding: 0;
+}
+
+.open-tab-close:hover {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.open-tab.active .open-tab-close {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* ---------------------------------------------------------
+   24. LEAFLET MAP
+   --------------------------------------------------------- */
+.leaflet-container {
+  font-family: var(--font-sans);
+  z-index: 1;
+}
+
+.leaflet-popup-content-wrapper {
+  border-radius: 8px;
+  color: #1f2937;
+}
+
+.leaflet-popup-content {
+  margin: 12px 16px;
+  line-height: 1.5;
+}
+
+/* ---------------------------------------------------------
+   25. 🌙 DARK MODE — COMPLETE & CORRECT
+   --------------------------------------------------------- */
+
+/* 25.1 Surfaces */
+.admin-page.dark-mode .admin-topbar,
+.admin-page.dark-mode .admin-section,
+.admin-page.dark-mode .table-wrapper,
+.admin-page.dark-mode .stat-card,
+.admin-page.dark-mode .ticket-card,
+.admin-page.dark-mode .settings-form,
+.admin-page.dark-mode .ai-insights-panel,
+.admin-page.dark-mode .open-tabs-bar,
+.admin-page.dark-mode .command-palette {
+  background: var(--bg-card);
+  border-color: var(--border-color);
+}
+
+/* 25.2 Primary text */
+.admin-page.dark-mode h1,
+.admin-page.dark-mode h2,
+.admin-page.dark-mode h3,
+.admin-page.dark-mode h4,
+.admin-page.dark-mode h5,
+.admin-page.dark-mode h6,
+.admin-page.dark-mode p,
+.admin-page.dark-mode label,
+.admin-page.dark-mode li,
+.admin-page.dark-mode .section-title,
+.admin-page.dark-mode .topbar-title,
+.admin-page.dark-mode .user-name,
+.admin-page.dark-mode .stat-value,
+.admin-page.dark-mode .font-semibold,
+.admin-page.dark-mode .ticket-title,
+.admin-page.dark-mode .replies-title,
+.admin-page.dark-mode .empty-state-box h2 {
+  color: #f1f5f9 !important;
+  -webkit-text-fill-color: #f1f5f9 !important;
+}
+
+/* 25.3 Muted text */
+.admin-page.dark-mode .text-muted,
+.admin-page.dark-mode .stat-subtitle,
+.admin-page.dark-mode .stat-label,
+.admin-page.dark-mode .topbar-subtitle,
+.admin-page.dark-mode .user-role,
+.admin-page.dark-mode .form-hint,
+.admin-page.dark-mode .empty-cell,
+.admin-page.dark-mode .ticket-meta,
+.admin-page.dark-mode .reply-time,
+.admin-page.dark-mode .empty-state-box p,
+.admin-page.dark-mode .command-category,
+.admin-page.dark-mode .command-empty,
+.admin-page.dark-mode .command-palette-footer {
+  color: #94a3b8 !important;
+  -webkit-text-fill-color: #94a3b8 !important;
+}
+
+/* 25.4 Tables */
+.admin-page.dark-mode th {
+  background: #334155 !important;
+  color: #f1f5f9 !important;
+}
+
+.admin-page.dark-mode td {
+  color: #e2e8f0 !important;
+  border-color: #334155;
+}
+
+.admin-page.dark-mode tr:hover td {
+  background: #334155 !important;
+}
+
+.admin-page.dark-mode .table-wrapper {
+  border-color: #334155;
+}
+
+/* 25.5 ✅ Inputs — text-fill-color RESET (the invisible-input fix) */
+.admin-page.dark-mode input,
+.admin-page.dark-mode textarea,
+.admin-page.dark-mode select,
+.admin-page.dark-mode option,
+.admin-page.dark-mode .form-input-large,
+.admin-page.dark-mode .form-select-large,
+.admin-page.dark-mode .form-textarea-large,
+.admin-page.dark-mode .search-input,
+.admin-page.dark-mode .status-select {
+  background: #334155 !important;
+  color: #f1f5f9 !important;
+  -webkit-text-fill-color: #f1f5f9 !important;
+  border-color: #475569 !important;
+}
+
+.admin-page.dark-mode input::placeholder,
+.admin-page.dark-mode textarea::placeholder,
+.admin-page.dark-mode .search-input::placeholder,
+.admin-page.dark-mode .form-input-large::placeholder,
+.admin-page.dark-mode .form-textarea-large::placeholder {
+  color: #64748b !important;
+  -webkit-text-fill-color: #64748b !important;
+  opacity: 1 !important;
+}
+
+/* Dark autofill */
+.admin-page.dark-mode input:-webkit-autofill,
+.admin-page.dark-mode textarea:-webkit-autofill,
+.admin-page.dark-mode select:-webkit-autofill {
+  -webkit-text-fill-color: #f1f5f9 !important;
+  -webkit-box-shadow: 0 0 0px 1000px #334155 inset !important;
+}
+
+/* 25.6 ✅ Inline-styled light boxes — match BOTH hex AND rgb() forms */
+.admin-page.dark-mode [style*="f8fafc"],
+.admin-page.dark-mode [style*="248, 250, 252"],
+.admin-page.dark-mode [style*="248,250,252"] {
+  background: #334155 !important;
+}
+
+.admin-page.dark-mode [style*="f3f4f6"],
+.admin-page.dark-mode [style*="243, 244, 246"],
+.admin-page.dark-mode [style*="243,244,246"] {
+  background: #334155 !important;
+}
+
+.admin-page.dark-mode [style*="f1f5f9"],
+.admin-page.dark-mode [style*="241, 245, 249"],
+.admin-page.dark-mode [style*="241,245,249"] {
+  background: #334155 !important;
+}
+
+.admin-page.dark-mode [style*="fffbeb"],
+.admin-page.dark-mode [style*="255, 251, 235"],
+.admin-page.dark-mode [style*="255,251,235"] {
+  background: #422006 !important;
+}
+
+.admin-page.dark-mode [style*="fee2e2"],
+.admin-page.dark-mode [style*="254, 226, 226"],
+.admin-page.dark-mode [style*="254,226,226"] {
+  background: #450a0a !important;
+}
+
+.admin-page.dark-mode [style*="dbeafe"],
+.admin-page.dark-mode [style*="219, 234, 254"],
+.admin-page.dark-mode [style*="219,234,254"] {
+  background: #1e3a8a !important;
+}
+
+.admin-page.dark-mode [style*="d1fae5"],
+.admin-page.dark-mode [style*="209, 250, 229"],
+.admin-page.dark-mode [style*="209,250,229"] {
+  background: #064e3b !important;
+}
+
+.admin-page.dark-mode [style*="f0fdf4"],
+.admin-page.dark-mode [style*="240, 253, 244"],
+.admin-page.dark-mode [style*="240,253,244"] {
+  background: #064e3b !important;
+}
+
+.admin-page.dark-mode [style*="fef3c7"],
+.admin-page.dark-mode [style*="254, 243, 199"],
+.admin-page.dark-mode [style*="254,243,199"] {
+  background: #78350f !important;
+}
+
+/* Text inside those boxes */
+.admin-page.dark-mode [style*="f8fafc"] *,
+.admin-page.dark-mode [style*="248, 250, 252"] *,
+.admin-page.dark-mode [style*="f3f4f6"] *,
+.admin-page.dark-mode [style*="243, 244, 246"] *,
+.admin-page.dark-mode [style*="f1f5f9"] *,
+.admin-page.dark-mode [style*="241, 245, 249"] *,
+.admin-page.dark-mode [style*="fffbeb"] *,
+.admin-page.dark-mode [style*="255, 251, 235"] *,
+.admin-page.dark-mode [style*="fee2e2"] *,
+.admin-page.dark-mode [style*="254, 226, 226"] *,
+.admin-page.dark-mode [style*="dbeafe"] *,
+.admin-page.dark-mode [style*="219, 234, 254"] *,
+.admin-page.dark-mode [style*="d1fae5"] *,
+.admin-page.dark-mode [style*="209, 250, 229"] *,
+.admin-page.dark-mode [style*="f0fdf4"] *,
+.admin-page.dark-mode [style*="240, 253, 244"] *,
+.admin-page.dark-mode [style*="fef3c7"] *,
+.admin-page.dark-mode [style*="254, 243, 199"] * {
+  color: #e2e8f0 !important;
+  -webkit-text-fill-color: #e2e8f0 !important;
+}
+
+/* 25.7 Badges dark */
+.admin-page.dark-mode .badge-success {
+  background: #064e3b !important;
+  color: #6ee7b7 !important;
+}
+
+.admin-page.dark-mode .badge-warning {
+  background: #78350f !important;
+  color: #fcd34d !important;
+}
+
+.admin-page.dark-mode .badge-danger {
+  background: #7f1d1d !important;
+  color: #fca5a5 !important;
+}
+
+.admin-page.dark-mode .badge-info {
+  background: #1e3a8a !important;
+  color: #93c5fd !important;
+}
+
+.admin-page.dark-mode .badge-secondary {
+  background: #334155 !important;
+  color: #cbd5e1 !important;
+}
+
+/* 25.8 Accents */
+.admin-page.dark-mode .amount-text {
+  color: #34d399 !important;
+}
+
+.admin-page.dark-mode .mono-text {
+  color: #93c5fd !important;
+}
+
+.admin-page.dark-mode .stat-icon {
+  background: #334155 !important;
+}
+
+/* 25.9 Neutral buttons dark */
+.admin-page.dark-mode .btn-secondary,
+.admin-page.dark-mode .btn-sm:not(.btn-primary):not(.btn-success):not(.btn-danger),
+.admin-page.dark-mode .btn-xs:not(.btn-primary):not(.btn-success):not(.btn-danger) {
+  background: #334155 !important;
+  color: #e2e8f0 !important;
+  border-color: #475569 !important;
+}
+
+.admin-page.dark-mode .btn-secondary:hover,
+.admin-page.dark-mode .btn-sm:not(.btn-primary):hover,
+.admin-page.dark-mode .btn-xs:not(.btn-primary):hover {
+  background: #475569 !important;
+}
+
+/* 25.10 Tickets dark */
+.admin-page.dark-mode .ticket-card {
+  background: #1e293b !important;
+  border-color: #334155 !important;
+}
+
+.admin-page.dark-mode .ticket-card.ticket-open {
+  background: #422006 !important;
+  border-left-color: #f59e0b !important;
+}
+
+.admin-page.dark-mode .ticket-message {
+  background: #334155 !important;
+  color: #e2e8f0 !important;
+}
+
+.admin-page.dark-mode .ticket-replies * {
+  color: #e2e8f0 !important;
+}
+
+.admin-page.dark-mode .reply-admin {
+  background: #1e3a8a !important;
+}
+
+.admin-page.dark-mode .reply-client {
+  background: #065f46 !important;
+}
+
+/* 25.11 Notices / AI / palette dark */
+.admin-page.dark-mode .broadcast-notice {
+  background: #1e3a8a !important;
+  border-color: #3b82f6 !important;
+  color: #dbeafe !important;
+}
+
+.admin-page.dark-mode .broadcast-notice span {
+  color: #dbeafe !important;
+}
+
+.admin-page.dark-mode .ai-insight-banner {
+  background: #1e3a8a !important;
+  border-color: #3b82f6 !important;
+}
+
+.admin-page.dark-mode .ai-insight-banner.urgent {
+  background: #7f1d1d !important;
+  border-color: #ef4444 !important;
+}
+
+.admin-page.dark-mode .ai-text,
+.admin-page.dark-mode .ai-text strong {
+  color: #e0e7ff !important;
+}
+
+.admin-page.dark-mode .ai-insight-item {
+  background: #1e293b !important;
+}
+
+.admin-page.dark-mode .command-palette-header {
+  background: #0f172a;
+  border-color: #334155;
+}
+
+.admin-page.dark-mode .command-input {
+  color: #f1f5f9;
+}
+
+.admin-page.dark-mode .command-item {
+  color: #e2e8f0;
+}
+
+.admin-page.dark-mode .command-item:hover {
+  background: #334155;
+}
+
+.admin-page.dark-mode .command-esc {
+  background: #334155;
+  color: #cbd5e1;
+}
+
+.admin-page.dark-mode .command-palette-footer {
+  background: #0f172a;
+  border-color: #334155;
+}
+
+.admin-page.dark-mode .command-palette-footer kbd {
+  background: #334155;
+  color: #cbd5e1;
+}
+
+/* 25.12 Tabs dark */
+.admin-page.dark-mode .open-tab {
+  background: #1e293b;
+  border-color: #334155;
+  color: #cbd5e1;
+}
+
+.admin-page.dark-mode .open-tab:hover {
+  background: #334155;
+}
+
+.admin-page.dark-mode .open-tab.active {
+  background: #2563eb;
+  color: white;
+}
+
+/* 25.13 Recharts dark */
+.admin-page.dark-mode .recharts-text {
+  fill: #cbd5e1 !important;
+}
+
+.admin-page.dark-mode .recharts-cartesian-grid line {
+  stroke: #334155 !important;
+}
+
+.admin-page.dark-mode .recharts-default-tooltip {
+  background: #1e293b !important;
+  border: 1px solid #475569 !important;
+}
+
+.admin-page.dark-mode .recharts-tooltip-label,
+.admin-page.dark-mode .recharts-tooltip-item,
+.admin-page.dark-mode .recharts-legend-item-text {
+  color: #e2e8f0 !important;
+}
+
+/* 25.14 Map dark */
+.admin-page.dark-mode .leaflet-container {
+  filter: invert(0.9) hue-rotate(180deg) brightness(0.9) contrast(0.9);
+}
+
+.admin-page.dark-mode .leaflet-popup-content-wrapper {
+  filter: invert(1) hue-rotate(180deg);
+}
+
+/* 25.15 ✅ MODAL STAYS LIGHT (overrides everything above for modals) */
+.admin-page.dark-mode .modal-content {
+  background: #ffffff !important;
+}
+
+.admin-page.dark-mode .modal-header {
+  background: #ffffff !important;
+  border-color: #e5e7eb !important;
+}
+
+.admin-page.dark-mode .modal-title {
+  color: #000000 !important;
+  -webkit-text-fill-color: #000000 !important;
+}
+
+.admin-page.dark-mode .modal-close {
+  color: #4b5563 !important;
+}
+
+.admin-page.dark-mode .modal-body {
+  background: #ffffff !important;
+}
+
+.admin-page.dark-mode .modal-body,
+.admin-page.dark-mode .modal-body * {
+  color: #000000 !important;
+  -webkit-text-fill-color: #000000 !important;
+}
+
+.admin-page.dark-mode .modal-body .form-hint,
+.admin-page.dark-mode .modal-body .text-muted {
+  color: #4b5563 !important;
+  -webkit-text-fill-color: #4b5563 !important;
+}
+
+.admin-page.dark-mode .modal-body input,
+.admin-page.dark-mode .modal-body textarea,
+.admin-page.dark-mode .modal-body select,
+.admin-page.dark-mode .modal-body option {
+  background: #ffffff !important;
+  color: #000000 !important;
+  -webkit-text-fill-color: #000000 !important;
+  border: 1px solid #d1d5db !important;
+}
+
+.admin-page.dark-mode .modal-footer {
+  background: #f9fafb !important;
+  border-color: #e5e7eb !important;
+}
+
+/* 25.16 Misc dark */
+.admin-page.dark-mode .user-profile:hover {
+  background: #334155;
+}
+
+.admin-page.dark-mode .topbar-logout-btn {
+  background: #7f1d1d;
+  border-color: #991b1b;
+  color: #fecaca !important;
+}
+
+.admin-page.dark-mode .logo-image {
+  background: #ffffff;
+}
+
+.admin-page.dark-mode .spinner-large {
+  border-color: #334155;
+  border-top-color: #3b82f6;
+}
+
+.admin-page.dark-mode .empty-state-box {
+  color: #e2e8f0 !important;
+}
+
+/* ---------------------------------------------------------
+   26. ACCESSIBILITY
+   --------------------------------------------------------- */
+.admin-page :focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+}
+
+.admin-page.dark-mode :focus-visible {
+  outline-color: #60a5fa;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .admin-page *,
+  .admin-page *::before,
+  .admin-page *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@media (prefers-contrast: more) {
+  .admin-page {
+    --border-color: #000000;
+  }
+
+  .admin-page.dark-mode {
+    --border-color: #ffffff;
+  }
+}
+
+/* ---------------------------------------------------------
+   27. PRINT STYLES
+   --------------------------------------------------------- */
+@media print {
+  .admin-sidebar,
+  .admin-topbar,
+  .open-tabs-bar,
+  .command-palette-overlay,
+  .modal-overlay,
+  .toast,
+  .btn-xs,
+  .btn-sm {
+    display: none !important;
+  }
+
   .admin-main {
-    margin-left: 0;
+    margin-left: 0 !important;
   }
-  
-  .menu-toggle {
-    display: block;
+
+  .admin-page {
+    background: #ffffff !important;
   }
-  
-  .stats-grid {
-    grid-template-columns: 1fr;
+
+  .admin-section {
+    box-shadow: none !important;
+    border: 1px solid #000000 !important;
   }
-  
-  .dashboard-content {
-    padding: 16px;
-  }
-  
-  .admin-topbar {
-    padding: 16px;
-  }
-  
-  .section-header {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  
-  .ticket-actions {
-    flex-direction: column;
-    align-items: stretch;
-  }
-  
-  .status-select {
-    margin-left: 0;
-    width: 100%;
-  }
-  
-  .actions-cell {
-    flex-direction: column;
-  }
-  
-  .search-input {
-    width: 100%;
-  }
-  
-  .form-row {
-    flex-direction: column;
-    gap: 0;
+
+  .admin-page * {
+    color: #000000 !important;
+    background: transparent !important;
   }
 }
 
-/* =========================================
-   SCROLLBAR
-   ========================================= */
+/* ---------------------------------------------------------
+   28. SCROLLBARS
+   --------------------------------------------------------- */
 .admin-sidebar::-webkit-scrollbar,
-.table-wrapper::-webkit-scrollbar {
+.table-wrapper::-webkit-scrollbar,
+.command-results::-webkit-scrollbar,
+.modal-content::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
@@ -1311,7 +2327,736 @@ table input[type="checkbox"] {
   border-radius: 3px;
 }
 
-.table-wrapper::-webkit-scrollbar-thumb {
+.table-wrapper::-webkit-scrollbar-thumb,
+.command-results::-webkit-scrollbar-thumb,
+.modal-content::-webkit-scrollbar-thumb {
   background: #cbd5e1;
   border-radius: 3px;
 }
+
+.admin-page.dark-mode .table-wrapper::-webkit-scrollbar-thumb,
+.admin-page.dark-mode .command-results::-webkit-scrollbar-thumb,
+.admin-page.dark-mode .modal-content::-webkit-scrollbar-thumb {
+  background: #475569;
+}
+
+/* ---------------------------------------------------------
+   29. EXTRA KEYFRAMES
+   --------------------------------------------------------- */
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+.ai-insight-banner.urgent .ai-icon {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -400px 0;
+  }
+  100% {
+    background-position: 400px 0;
+  }
+}
+
+.skeleton {
+  background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+  background-size: 800px 100%;
+  animation: shimmer 1.4s infinite linear;
+  border-radius: 6px;
+}
+
+.admin-page.dark-mode .skeleton {
+  background: linear-gradient(90deg, #1e293b 25%, #334155 50%, #1e293b 75%);
+  background-size: 800px 100%;
+}
+
+/* ---------------------------------------------------------
+   30. RESPONSIVE — 1280px
+   --------------------------------------------------------- */
+@media (max-width: 1280px) {
+  .dashboard-content {
+    padding: 24px;
+  }
+
+  .topbar-right {
+    gap: 8px;
+  }
+}
+
+/* ---------------------------------------------------------
+   31. RESPONSIVE — 1024px
+   --------------------------------------------------------- */
+@media (max-width: 1024px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .admin-topbar {
+    padding: 16px 24px;
+  }
+
+  .search-input {
+    width: 220px;
+  }
+}
+
+/* ---------------------------------------------------------
+   32. RESPONSIVE — 900px
+   --------------------------------------------------------- */
+@media (max-width: 900px) {
+  .user-info {
+    display: none;
+  }
+
+  .section-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+/* ---------------------------------------------------------
+   33. RESPONSIVE — 768px
+   --------------------------------------------------------- */
+@media (max-width: 768px) {
+  .admin-sidebar {
+    transform: translateX(-100%);
+    width: var(--sidebar-width);
+  }
+
+  .admin-sidebar.open {
+    transform: translateX(0);
+  }
+
+  .admin-main {
+    margin-left: 0 !important;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-content {
+    padding: 16px;
+  }
+
+  .admin-topbar {
+    padding: 16px;
+  }
+
+  .ticket-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .status-select {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .actions-cell {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .search-input {
+    width: 100%;
+  }
+
+  .form-row {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .command-palette-overlay {
+    padding: 20px;
+    padding-top: 60px;
+  }
+
+  .command-palette {
+    max-width: 100%;
+  }
+
+  .open-tabs-bar {
+    padding: 8px;
+  }
+
+  .open-tab {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+
+  .topbar-logout-btn span:last-child {
+    display: none;
+  }
+}
+
+/* ---------------------------------------------------------
+   34. RESPONSIVE — 480px
+   --------------------------------------------------------- */
+@media (max-width: 480px) {
+  .stat-card {
+    padding: 14px;
+    gap: 10px;
+  }
+
+  .stat-value {
+    font-size: 20px;
+  }
+
+  .admin-section {
+    padding: 16px;
+  }
+
+  .modal-content {
+    max-height: 95vh;
+  }
+
+  .toast {
+    left: 16px;
+    right: 16px;
+    max-width: none;
+  }
+}
+
+/* ---------------------------------------------------------
+   35. UTILITY APPENDIX (spacing / type / layout helpers)
+   --------------------------------------------------------- */
+.mt-0 { margin-top: 0; }
+.mt-1 { margin-top: 4px; }
+.mt-2 { margin-top: 8px; }
+.mt-3 { margin-top: 12px; }
+.mt-4 { margin-top: 16px; }
+.mt-5 { margin-top: 20px; }
+.mt-6 { margin-top: 24px; }
+.mt-8 { margin-top: 32px; }
+.mt-10 { margin-top: 40px; }
+
+.mb-0 { margin-bottom: 0; }
+.mb-1 { margin-bottom: 4px; }
+.mb-2 { margin-bottom: 8px; }
+.mb-3 { margin-bottom: 12px; }
+.mb-4 { margin-bottom: 16px; }
+.mb-5 { margin-bottom: 20px; }
+.mb-6 { margin-bottom: 24px; }
+.mb-8 { margin-bottom: 32px; }
+.mb-10 { margin-bottom: 40px; }
+
+.ml-1 { margin-left: 4px; }
+.ml-2 { margin-left: 8px; }
+.ml-3 { margin-left: 12px; }
+.ml-4 { margin-left: 16px; }
+.mr-1 { margin-right: 4px; }
+.mr-2 { margin-right: 8px; }
+.mr-3 { margin-right: 12px; }
+.mr-4 { margin-right: 16px; }
+
+.p-0 { padding: 0; }
+.p-1 { padding: 4px; }
+.p-2 { padding: 8px; }
+.p-3 { padding: 12px; }
+.p-4 { padding: 16px; }
+.p-5 { padding: 20px; }
+.p-6 { padding: 24px; }
+
+.px-1 { padding-left: 4px; padding-right: 4px; }
+.px-2 { padding-left: 8px; padding-right: 8px; }
+.px-3 { padding-left: 12px; padding-right: 12px; }
+.px-4 { padding-left: 16px; padding-right: 16px; }
+.py-1 { padding-top: 4px; padding-bottom: 4px; }
+.py-2 { padding-top: 8px; padding-bottom: 8px; }
+.py-3 { padding-top: 12px; padding-bottom: 12px; }
+.py-4 { padding-top: 16px; padding-bottom: 16px; }
+
+.gap-1 { gap: 4px; }
+.gap-2 { gap: 8px; }
+.gap-3 { gap: 12px; }
+.gap-4 { gap: 16px; }
+.gap-5 { gap: 20px; }
+.gap-6 { gap: 24px; }
+
+.text-10 { font-size: 10px; }
+.text-11 { font-size: 11px; }
+.text-12 { font-size: 12px; }
+.text-13 { font-size: 13px; }
+.text-14 { font-size: 14px; }
+.text-15 { font-size: 15px; }
+.text-16 { font-size: 16px; }
+.text-18 { font-size: 18px; }
+.text-20 { font-size: 20px; }
+.text-24 { font-size: 24px; }
+.text-28 { font-size: 28px; }
+.text-32 { font-size: 32px; }
+
+.fw-400 { font-weight: 400; }
+.fw-500 { font-weight: 500; }
+.fw-600 { font-weight: 600; }
+.fw-700 { font-weight: 700; }
+.fw-800 { font-weight: 800; }
+
+.w-100 { width: 100%; }
+.w-50 { width: 50%; }
+.h-100 { height: 100%; }
+
+.flex { display: flex; }
+.flex-col { display: flex; flex-direction: column; }
+.items-center { align-items: center; }
+.items-start { align-items: flex-start; }
+.justify-between { justify-content: space-between; }
+.justify-center { justify-content: center; }
+.justify-end { justify-content: flex-end; }
+.flex-wrap { flex-wrap: wrap; }
+.flex-1 { flex: 1; }
+
+.text-left { text-align: left; }
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+
+.rounded-sm { border-radius: 4px; }
+.rounded-md { border-radius: 8px; }
+.rounded-lg { border-radius: 12px; }
+.rounded-full { border-radius: 999px; }
+
+.cursor-pointer { cursor: pointer; }
+.cursor-default { cursor: default; }
+.select-none { user-select: none; }
+.overflow-hidden { overflow: hidden; }
+.relative { position: relative; }
+
+.c-primary { color: #2563eb !important; }
+.c-success { color: #10b981 !important; }
+.c-warning { color: #f59e0b !important; }
+.c-danger { color: #ef4444 !important; }
+.c-muted { color: #64748b !important; }
+
+/* =========================================================
+   v6 — FINAL VISIBILITY LOCK (BOTH THEMES)
+   Paste at the VERY END of Admin.css. Overrides all old patches.
+   ========================================================= */
+
+/* ---------- 1) LIGHT MODE: force dark readable text everywhere ---------- */
+.admin-page:not(.dark-mode) .admin-topbar div,
+.admin-page:not(.dark-mode) .admin-topbar span,
+.admin-page:not(.dark-mode) .admin-topbar p,
+.admin-page:not(.dark-mode) .open-tabs-bar div,
+.admin-page:not(.dark-mode) .open-tabs-bar span,
+.admin-page:not(.dark-mode) .dashboard-content div,
+.admin-page:not(.dark-mode) .dashboard-content span,
+.admin-page:not(.dark-mode) .dashboard-content p,
+.admin-page:not(.dark-mode) .dashboard-content strong,
+.admin-page:not(.dark-mode) .dashboard-content small,
+.admin-page:not(.dark-mode) .dashboard-content h1,
+.admin-page:not(.dark-mode) .dashboard-content h2,
+.admin-page:not(.dark-mode) .dashboard-content h3,
+.admin-page:not(.dark-mode) .dashboard-content h4,
+.admin-page:not(.dark-mode) .dashboard-content h5,
+.admin-page:not(.dark-mode) .dashboard-content h6,
+.admin-page:not(.dark-mode) .dashboard-content label,
+.admin-page:not(.dark-mode) .dashboard-content td,
+.admin-page:not(.dark-mode) .dashboard-content th,
+.admin-page:not(.dark-mode) .dashboard-content li {
+  color: #0f172a !important;
+  -webkit-text-fill-color: #0f172a !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* ---------- 2) LIGHT: restore muted / accent colors ---------- */
+.admin-page.admin-page:not(.dark-mode) .dashboard-content .text-muted,
+.admin-page.admin-page:not(.dark-mode) .dashboard-content .stat-label,
+.admin-page.admin-page:not(.dark-mode) .dashboard-content .stat-subtitle,
+.admin-page.admin-page:not(.dark-mode) .dashboard-content .topbar-subtitle,
+.admin-page.admin-page:not(.dark-mode) .dashboard-content .user-role,
+.admin-page.admin-page:not(.dark-mode) .dashboard-content .form-hint,
+.admin-page.admin-page:not(.dark-mode) .dashboard-content .empty-cell,
+.admin-page.admin-page:not(.dark-mode) .dashboard-content .ticket-meta,
+.admin-page.admin-page:not(.dark-mode) .dashboard-content .reply-time {
+  color: #4b5563 !important;
+  -webkit-text-fill-color: #4b5563 !important;
+}
+
+.admin-page.admin-page:not(.dark-mode) .dashboard-content .mono-text {
+  color: #1e3a8a !important;
+  -webkit-text-fill-color: #1e3a8a !important;
+}
+
+.admin-page.admin-page:not(.dark-mode) .dashboard-content .amount-text {
+  color: #065f46 !important;
+  -webkit-text-fill-color: #065f46 !important;
+}
+
+/* ---------- 3) LIGHT: restore badge colors ---------- */
+.admin-page.admin-page:not(.dark-mode) .dashboard-content .badge-success { color: #065f46 !important; background: #d1fae5 !important; }
+.admin-page.admin-page:not(.dark-mode) .dashboard-content .badge-warning { color: #92400e !important; background: #fef3c7 !important; }
+.admin-page.admin-page:not(.dark-mode) .dashboard-content .badge-danger  { color: #7f1d1d !important; background: #fee2e2 !important; }
+.admin-page.admin-page:not(.dark-mode) .dashboard-content .badge-info    { color: #1e3a8a !important; background: #dbeafe !important; }
+.admin-page.admin-page:not(.dark-mode) .dashboard-content .badge-secondary { color: #1f2937 !important; background: #f3f4f6 !important; }
+
+/* ---------- 4) LIGHT: neutral buttons + logout + tabs ---------- */
+.admin-page:not(.dark-mode) .dashboard-content .btn-secondary,
+.admin-page:not(.dark-mode) .dashboard-content .btn-sm:not(.btn-primary):not(.btn-success):not(.btn-danger),
+.admin-page:not(.dark-mode) .dashboard-content .btn-xs:not(.btn-primary):not(.btn-success):not(.btn-danger) {
+  background: #eef2f7 !important;
+  border-color: #d1d5db !important;
+}
+
+.admin-page:not(.dark-mode) .topbar-logout-btn,
+.admin-page:not(.dark-mode) .topbar-logout-btn span {
+  background: #fee2e2 !important;
+  color: #7f1d1d !important;
+  border: 1px solid #fecaca !important;
+}
+
+.admin-page:not(.dark-mode) .open-tabs-bar .open-tab {
+  background: #ffffff !important;
+  border-color: #e5e7eb !important;
+}
+
+.admin-page:not(.dark-mode) .open-tabs-bar .open-tab .open-tab-label,
+.admin-page:not(.dark-mode) .open-tabs-bar .open-tab .open-tab-icon {
+  color: #4b5563 !important;
+}
+
+.admin-page:not(.dark-mode) .open-tabs-bar .open-tab.active,
+.admin-page:not(.dark-mode) .open-tabs-bar .open-tab.active .open-tab-label,
+.admin-page:not(.dark-mode) .open-tabs-bar .open-tab.active .open-tab-icon {
+  background: #2563eb !important;
+  color: #ffffff !important;
+}
+
+/* ---------- 5) LIGHT: keep white text on blue/colored buttons ---------- */
+.admin-page.admin-page:not(.dark-mode) .dashboard-content .btn-primary,
+.admin-page.admin-page:not(.dark-mode) .dashboard-content .btn-primary span,
+.admin-page.admin-page:not(.dark-mode) .dashboard-content .btn-sm.btn-primary,
+.admin-page.admin-page:not(.dark-mode) .dashboard-content .btn-sm.btn-primary span,
+.admin-page.admin-page:not(.dark-mode) .dashboard-content .btn-xs.btn-primary,
+.admin-page.admin-page:not(.dark-mode) .dashboard-content .btn-xs.btn-primary span,
+.admin-page.admin-page:not(.dark-mode) .dashboard-content .user-avatar,
+.admin-page.admin-page:not(.dark-mode) .dashboard-content .nav-badge {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+/* ---------- 6) DARK MODE: fix stat cards (were white + light text) ---------- */
+.admin-page.dark-mode .stat-card {
+  background: #1e293b !important;
+  border-color: #334155 !important;
+}
+
+.admin-page.dark-mode .stat-value {
+  color: #f1f5f9 !important;
+  -webkit-text-fill-color: #f1f5f9 !important;
+}
+
+.admin-page.dark-mode .stat-label,
+.admin-page.dark-mode .stat-subtitle {
+  color: #94a3b8 !important;
+  -webkit-text-fill-color: #94a3b8 !important;
+}
+
+.admin-page.dark-mode .stat-icon {
+  background: #334155 !important;
+}
+
+/* ---------- 7) DARK MODE: force light readable text everywhere ---------- */
+.admin-page.dark-mode .admin-topbar div,
+.admin-page.dark-mode .admin-topbar span,
+.admin-page.dark-mode .admin-topbar p,
+.admin-page.dark-mode .open-tabs-bar div,
+.admin-page.dark-mode .open-tabs-bar span,
+.admin-page.dark-mode .dashboard-content div,
+.admin-page.dark-mode .dashboard-content span,
+.admin-page.dark-mode .dashboard-content p,
+.admin-page.dark-mode .dashboard-content strong,
+.admin-page.dark-mode .dashboard-content small,
+.admin-page.dark-mode .dashboard-content h1,
+.admin-page.dark-mode .dashboard-content h2,
+.admin-page.dark-mode .dashboard-content h3,
+.admin-page.dark-mode .dashboard-content h4,
+.admin-page.dark-mode .dashboard-content h5,
+.admin-page.dark-mode .dashboard-content h6,
+.admin-page.dark-mode .dashboard-content label,
+.admin-page.dark-mode .dashboard-content td,
+.admin-page.dark-mode .dashboard-content th,
+.admin-page.dark-mode .dashboard-content li {
+  color: #e2e8f0 !important;
+  -webkit-text-fill-color: #e2e8f0 !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* ---------- 8) DARK: restore muted / accents / badges ---------- */
+.admin-page.admin-page.dark-mode .dashboard-content .text-muted,
+.admin-page.admin-page.dark-mode .dashboard-content .stat-label,
+.admin-page.admin-page.dark-mode .dashboard-content .stat-subtitle,
+.admin-page.admin-page.dark-mode .dashboard-content .topbar-subtitle,
+.admin-page.admin-page.dark-mode .dashboard-content .user-role,
+.admin-page.admin-page.dark-mode .dashboard-content .form-hint,
+.admin-page.admin-page.dark-mode .dashboard-content .empty-cell,
+.admin-page.admin-page.dark-mode .dashboard-content .ticket-meta,
+.admin-page.admin-page.dark-mode .dashboard-content .reply-time {
+  color: #94a3b8 !important;
+  -webkit-text-fill-color: #94a3b8 !important;
+}
+
+.admin-page.admin-page.dark-mode .dashboard-content .mono-text { color: #93c5fd !important; -webkit-text-fill-color: #93c5fd !important; }
+.admin-page.admin-page.dark-mode .dashboard-content .amount-text { color: #34d399 !important; -webkit-text-fill-color: #34d399 !important; }
+
+.admin-page.admin-page.dark-mode .dashboard-content .badge-success { color: #6ee7b7 !important; background: #064e3b !important; }
+.admin-page.admin-page.dark-mode .dashboard-content .badge-warning { color: #fcd34d !important; background: #78350f !important; }
+.admin-page.admin-page.dark-mode .dashboard-content .badge-danger  { color: #fca5a5 !important; background: #7f1d1d !important; }
+.admin-page.admin-page.dark-mode .dashboard-content .badge-info    { color: #93c5fd !important; background: #1e3a8a !important; }
+.admin-page.admin-page.dark-mode .dashboard-content .badge-secondary { color: #cbd5e1 !important; background: #334155 !important; }
+
+/* ---------- 9) DARK: neutral buttons (fixes "Manage Hubs", Export, etc.) ---------- */
+.admin-page.dark-mode .dashboard-content .btn-secondary,
+.admin-page.dark-mode .dashboard-content .btn-sm:not(.btn-primary):not(.btn-success):not(.btn-danger),
+.admin-page.dark-mode .dashboard-content .btn-xs:not(.btn-primary):not(.btn-success):not(.btn-danger) {
+  background: #334155 !important;
+  border-color: #475569 !important;
+}
+
+.admin-page.dark-mode .dashboard-content .btn-secondary span,
+.admin-page.dark-mode .dashboard-content .btn-sm:not(.btn-primary) span,
+.admin-page.dark-mode .dashboard-content .btn-xs:not(.btn-primary) span {
+  color: #e2e8f0 !important;
+  -webkit-text-fill-color: #e2e8f0 !important;
+}
+
+.admin-page.dark-mode .dashboard-content .btn-primary,
+.admin-page.dark-mode .dashboard-content .btn-primary span,
+.admin-page.dark-mode .dashboard-content .btn-sm.btn-primary span,
+.admin-page.dark-mode .dashboard-content .btn-xs.btn-primary span {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+.admin-page.dark-mode .open-tabs-bar .open-tab { background: #1e293b !important; border-color: #334155 !important; }
+.admin-page.dark-mode .open-tabs-bar .open-tab .open-tab-label { color: #cbd5e1 !important; }
+.admin-page.dark-mode .open-tabs-bar .open-tab.active,
+.admin-page.dark-mode .open-tabs-bar .open-tab.active .open-tab-label { background: #2563eb !important; color: #ffffff !important; }
+
+/* ---------- 10) MAP: remove broken invert filter (tiles were invisible) ---------- */
+.admin-page.dark-mode .leaflet-container,
+.admin-page.dark-mode .leaflet-popup-content-wrapper {
+  filter: none !important;
+}
+
+.admin-page.dark-mode .leaflet-container {
+  background: #0f172a !important;
+}
+
+/* ---------- 11) Hub capacity bar visibility (both modes) ---------- */
+.admin-page:not(.dark-mode) .dashboard-content [style*="height: '8px'"],
+.admin-page:not(.dark-mode) .dashboard-content [style*="height: 8px"] {
+  background: #e2e8f0 !important;
+}
+
+.admin-page.dark-mode .dashboard-content [style*="height: '8px'"],
+.admin-page.dark-mode .dashboard-content [style*="height: 8px"] {
+  background: #334155 !important;
+}
+
+/* =========================================================
+   END v6 LOCK
+   ========================================================= */
+   /* =========================================================
+   v6.1 — TEXT CONTRAST LOCK
+   Fixes text that "sinks into" the background color
+   ========================================================= */
+
+/* 1) DARK MODE: neutral buttons — color the BUTTON ITSELF (text is a direct text node, no span!) */
+.admin-page.dark-mode .btn-secondary,
+.admin-page.dark-mode .btn-sm:not(.btn-primary):not(.btn-success):not(.btn-danger),
+.admin-page.dark-mode .btn-xs:not(.btn-primary):not(.btn-success):not(.btn-danger) {
+  background: #334155 !important;
+  border-color: #475569 !important;
+  color: #e2e8f0 !important;
+  -webkit-text-fill-color: #e2e8f0 !important;
+}
+
+.admin-page.dark-mode .btn-secondary:hover,
+.admin-page.dark-mode .btn-sm:not(.btn-primary):not(.btn-success):not(.btn-danger):hover,
+.admin-page.dark-mode .btn-xs:not(.btn-primary):not(.btn-success):not(.btn-danger):hover {
+  background: #3f4c63 !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+/* 2) DARK MODE: colored buttons keep WHITE text (their text is also direct text nodes) */
+.admin-page.dark-mode .btn-primary,
+.admin-page.dark-mode .btn-sm.btn-primary,
+.admin-page.dark-mode .btn-xs.btn-primary,
+.admin-page.dark-mode .btn-sm.btn-success,
+.admin-page.dark-mode .btn-xs.btn-success,
+.admin-page.dark-mode .btn-sm.btn-danger,
+.admin-page.dark-mode .btn-xs.btn-danger,
+.admin-page.dark-mode .topbar-logout-btn {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+/* 3) LIGHT MODE: neutral buttons keep BLACK text */
+.admin-page:not(.dark-mode) .btn-secondary,
+.admin-page:not(.dark-mode) .btn-sm:not(.btn-primary):not(.btn-success):not(.btn-danger),
+.admin-page:not(.dark-mode) .btn-xs:not(.btn-primary):not(.btn-success):not(.btn-danger) {
+  color: #0f172a !important;
+  -webkit-text-fill-color: #0f172a !important;
+}
+
+/* 4) kbd chips (Ctrl+K etc.) readable in dark mode */
+.admin-page.dark-mode kbd {
+  background: #475569 !important;
+  color: #f1f5f9 !important;
+}
+
+/* 5) LEAFLET attribution — stop the blue-on-blue melt (both modes) */
+.admin-page .leaflet-control-attribution {
+  background: rgba(255, 255, 255, 0.9) !important;
+  color: #333333 !important;
+}
+
+.admin-page .leaflet-control-attribution a {
+  color: #0078a8 !important;
+  background: transparent !important;
+}
+
+.admin-page.dark-mode .leaflet-control-attribution {
+  background: rgba(15, 23, 42, 0.85) !important;
+  color: #94a3b8 !important;
+}
+
+.admin-page.dark-mode .leaflet-control-attribution a {
+  color: #7dd3fc !important;
+  background: transparent !important;
+}
+
+/* 6) LEAFLET zoom (+ / −) buttons readable in both modes */
+.admin-page .leaflet-control-zoom a {
+  color: #333333 !important;
+  background: #ffffff !important;
+}
+
+.admin-page.dark-mode .leaflet-control-zoom a {
+  color: #e2e8f0 !important;
+  background: #1e293b !important;
+  border-color: #334155 !important;
+}
+
+/* 7) SAFETY: any button anywhere in admin that has no color class — force contrast per theme */
+.admin-page.dark-mode .dashboard-content button:not([class*="btn-"]):not([class*="open-tab"]):not([class*="nav-"]):not([class*="leaflet-"]),
+.admin-page.dark-mode .admin-topbar button:not([class*="btn-"]) {
+  color: #e2e8f0 !important;
+  -webkit-text-fill-color: #e2e8f0 !important;
+}
+
+.admin-page:not(.dark-mode) .dashboard-content button:not([class*="btn-"]):not([class*="open-tab"]):not([class*="nav-"]):not([class*="leaflet-"]),
+.admin-page:not(.dark-mode) .admin-topbar button:not([class*="btn-"]) {
+  color: #0f172a !important;
+  -webkit-text-fill-color: #0f172a !important;
+}
+
+/* =========================================================
+   END v6.1
+   ========================================================= */
+   /* =========================================================
+   v6.2 — MODAL LIGHT LOCK
+   Fixes invisible text inside View/Update modals in DARK mode
+   (modal stays fully light, so black text is always readable)
+   ========================================================= */
+
+/* 1) Inline-styled boxes inside modal stay LIGHT in dark mode */
+.admin-page.dark-mode .modal-body [style*="f8fafc"],
+.admin-page.dark-mode .modal-body [style*="248, 250, 252"],
+.admin-page.dark-mode .modal-body [style*="248,250,252"],
+.admin-page.dark-mode .modal-body [style*="f3f4f6"],
+.admin-page.dark-mode .modal-body [style*="243, 244, 246"],
+.admin-page.dark-mode .modal-body [style*="243,244,246"],
+.admin-page.dark-mode .modal-body [style*="fffbeb"],
+.admin-page.dark-mode .modal-body [style*="255, 251, 235"],
+.admin-page.dark-mode .modal-body [style*="255,251,235"],
+.admin-page.dark-mode .modal-body [style*="fee2e2"],
+.admin-page.dark-mode .modal-body [style*="254, 226, 226"],
+.admin-page.dark-mode .modal-body [style*="254,226,226"],
+.admin-page.dark-mode .modal-body [style*="dbeafe"],
+.admin-page.dark-mode .modal-body [style*="219, 234, 254"],
+.admin-page.dark-mode .modal-body [style*="219,234,254"],
+.admin-page.dark-mode .modal-body [style*="d1fae5"],
+.admin-page.dark-mode .modal-body [style*="209, 250, 229"] {
+  background: #f8fafc !important;
+  border-color: #e2e8f0 !important;
+}
+
+/* 2) If Theme Guard stripped the inline background, keep those divs light too */
+.admin-page.dark-mode .modal-body div:not(.user-avatar):not(.badge):not([class*="btn"]):not(.open-tab) {
+  background-color: #f8fafc;
+}
+
+/* 3) Tables inside modal stay light */
+.admin-page.dark-mode .modal-body .table-wrapper {
+  background: #ffffff !important;
+  border-color: #e2e8f0 !important;
+}
+
+.admin-page.dark-mode .modal-body th {
+  background: #f3f4f6 !important;
+  color: #1f2937 !important;
+  -webkit-text-fill-color: #1f2937 !important;
+}
+
+.admin-page.dark-mode .modal-body td {
+  background: transparent !important;
+  color: #0f172a !important;
+  -webkit-text-fill-color: #0f172a !important;
+  border-color: #e2e8f0 !important;
+}
+
+.admin-page.dark-mode .modal-body tr:hover td {
+  background: #f9fafb !important;
+}
+
+.admin-page.dark-mode .modal-body .empty-cell {
+  background: #f9fafb !important;
+  color: #4b5563 !important;
+  -webkit-text-fill-color: #4b5563 !important;
+}
+
+/* 4) Avatar letter stays white on blue */
+.admin-page.dark-mode .modal-body .user-avatar {
+  background: #2563eb !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+/* 5) Muted labels inside modal readable on light boxes */
+.admin-page.dark-mode .modal-body .text-muted,
+.admin-page.dark-mode .modal-body .text-small {
+  color: #4b5563 !important;
+  -webkit-text-fill-color: #4b5563 !important;
+}
+
+/* 6) Modal footer + close button stay light */
+.admin-page.dark-mode .modal-footer {
+  background: #f9fafb !important;
+  border-color: #e2e8f0 !important;
+}
+
+.admin-page.dark-mode .modal-footer .btn-secondary {
+  background: #334155 !important;
+  color: #e2e8f0 !important;
+}
+
+/* =========================================================
+   END v6.2
+   ========================================================= */

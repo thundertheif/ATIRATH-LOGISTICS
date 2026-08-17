@@ -1,82 +1,113 @@
 /* =========================================
-   ATIRATH LOGISTICS - CONTACT PAGE
-   DARK THEME | PERFECT ALIGNMENT | 100% TEXT VISIBILITY | PLACEHOLDER FALLBACK
-========================================= */
+   ATIRATH LOGISTICS - CONTACT PAGE (FIXED)
+   Dark Theme | 100% Text Visibility
+   ========================================= */
 
 :root {
-  /* Dark Theme Colors - SOLID */
   --bg-dark-primary: #050814;
   --bg-dark-secondary: #0a0e27;
   --bg-dark-tertiary: #111827;
   --bg-dark-card: #0f172a;
   --bg-dark-glass: #1e293b;
   --bg-dark-deep: #020617;
-  
-  /* Accent Colors */
+
   --accent: #f97316;
   --accent-hover: #ea580c;
   --accent-light: #fbbf24;
   --accent-cyan: #06b6d4;
   --accent-purple: #8b5cf6;
   --accent-green: #10b981;
-  
-  /* Text - ALL WHITE */
+
   --text-white: #ffffff;
-  --text-light: #ffffff;
-  --text-muted: #ffffff;
-  --text-disabled: #cbd5e1;
-  
-  /* Effects */
+  --text-muted: #cbd5e1;
+
   --border: rgba(59, 130, 246, 0.3);
   --border-hover: rgba(249, 115, 22, 0.5);
   --shadow-dark: 0 10px 40px rgba(0, 0, 0, 0.8);
   --shadow-accent: 0 8px 25px rgba(249, 115, 22, 0.4);
   --transition: 0.3s ease;
-  
-  /* Spacing */
+
   --radius-sm: 8px;
   --radius-md: 12px;
   --radius-lg: 16px;
   --radius-xl: 24px;
-  --radius-full: 9999px;
-  --input-height: 52px;
-  --container-max: 1200px;
-  --container-padding: 24px;
-  --navbar-height: 78px;
 }
 
-/* ===== BASE STYLES ===== */
-*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-html, body { width: 100%; min-height: 100vh; margin: 0 !important; padding: 0 !important; overflow-x: hidden; scroll-behavior: smooth; }
-body { 
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
-  background: var(--bg-dark-deep); 
-  color: var(--text-white); 
-  line-height: 1.6; 
-  -webkit-font-smoothing: antialiased; 
-  -moz-osx-font-smoothing: grayscale; 
-  display: flex; 
-  flex-direction: column; 
+/* ===== SAFE GLOBAL RESET ===== */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
-#root { display: flex; flex-direction: column; min-height: 100vh; width: 100%; }
 
-/* ✅ GUARANTEE: All text is visible and white */
-h1, h2, h3, h4, h5, h6, p, span, a, button, input, label, li, td, th, legend, code {
+html, body {
+  width: 100%;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: var(--bg-dark-deep);
+  color: var(--text-white);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  display: flex;
+  flex-direction: column;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100%;
+}
+
+/* ===== TARGETED TEXT VISIBILITY (NO BLANKET !important) ===== */
+.contact-hero h1,
+.contact-hero .hero-content p,
+.form-header h2,
+.form-header p,
+.info-header h2,
+.info-header p,
+.map-section h2,
+.faq-preview h2,
+.faq-preview > p,
+.info-card h3,
+.info-card p,
+.faq-item h3,
+.faq-item p,
+.success-message h3,
+.success-message p,
+.quick-contact h3,
+.quick-contact > p,
+.social-section h3,
+.contact-form label,
+.required,
+.error-text {
+  color: var(--text-white) !important;
   visibility: visible !important;
   opacity: 1 !important;
-  color: #ffffff !important;
 }
 
+/* Required asterisk in orange */
+.required { color: var(--accent) !important; }
+
+/* Error text in light red */
+.error-text { color: #fecaca !important; font-size: 13px; font-weight: 500; }
+
 /* =========================================
-   🔥 HERO SECTION - WITH PLACEHOLDER FALLBACK
-========================================= */
+   🔥 HERO SECTION
+   ========================================= */
 .contact-hero {
   position: relative;
   min-height: 60vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--text-white);
   padding-top: 90px;
   overflow: hidden;
 }
@@ -89,24 +120,22 @@ h1, h2, h3, h4, h5, h6, p, span, a, button, input, label, li, td, th, legend, co
   background-repeat: no-repeat;
   background-attachment: fixed;
   z-index: 1;
-  transition: background-image 0.3s ease;
+  background-color: #0a0e27; /* fallback color if image missing */
 }
 
-/* ✅ PLACEHOLDER BACKGROUND - Shows if image fails to load */
 .hero-bg-placeholder {
-  background: linear-gradient(135deg, 
-    rgba(10, 14, 39, 0.9) 0%, 
-    rgba(15, 23, 42, 0.95) 50%, 
-    rgba(2, 6, 23, 0.9) 100%
-  ) !important;
+  background: linear-gradient(135deg,
+    rgba(10, 14, 39, 0.9) 0%,
+    rgba(15, 23, 42, 0.95) 50%,
+    rgba(2, 6, 23, 0.9) 100%) !important;
+  background-attachment: fixed !important;
 }
 
-/* Optional: Add subtle pattern to placeholder */
 .hero-bg-placeholder::after {
   content: '';
   position: absolute;
   inset: 0;
-  background-image: 
+  background-image:
     radial-gradient(rgba(249, 115, 22, 0.1) 1px, transparent 1px),
     radial-gradient(rgba(59, 130, 246, 0.1) 1px, transparent 1px);
   background-size: 40px 40px;
@@ -136,7 +165,7 @@ h1, h2, h3, h4, h5, h6, p, span, a, button, input, label, li, td, th, legend, co
   font-weight: 800;
   margin-bottom: 16px;
   color: var(--text-white) !important;
-  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
 }
 
 .hero-content > p {
@@ -147,7 +176,9 @@ h1, h2, h3, h4, h5, h6, p, span, a, button, input, label, li, td, th, legend, co
   line-height: 1.6;
 }
 
-/* 📦 MAIN CONTAINER */
+/* =========================================
+   📦 MAIN CONTAINER
+   ========================================= */
 .contact-container {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -159,7 +190,9 @@ h1, h2, h3, h4, h5, h6, p, span, a, button, input, label, li, td, th, legend, co
   z-index: 10;
 }
 
-/* ✉️ CONTACT FORM SECTION */
+/* =========================================
+   ✉️ FORM
+   ========================================= */
 .contact-form-section {
   background: var(--bg-dark-card) !important;
   padding: 40px;
@@ -168,39 +201,15 @@ h1, h2, h3, h4, h5, h6, p, span, a, button, input, label, li, td, th, legend, co
   border: 1px solid var(--border);
 }
 
-.form-header {
-  margin-bottom: 30px;
-}
+.form-header { margin-bottom: 30px; }
+.form-header h2 { font-size: 28px; font-weight: 700; margin: 0 0 8px; }
+.form-header p { margin: 0; color: var(--text-muted) !important; }
 
-.form-header h2 {
-  font-size: 28px;
-  color: var(--text-white) !important;
-  margin: 0 0 8px;
-  font-weight: 700;
-}
+.contact-form { display: flex; flex-direction: column; gap: 20px; }
 
-.form-header p {
-  color: var(--text-white) !important;
-  margin: 0;
-}
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
 
-.contact-form {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.form-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-}
-
-.form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
+.form-group { display: flex; flex-direction: column; gap: 6px; }
 
 .form-group label {
   font-weight: 600;
@@ -208,10 +217,7 @@ h1, h2, h3, h4, h5, h6, p, span, a, button, input, label, li, td, th, legend, co
   font-size: 14px;
 }
 
-.required {
-  color: var(--accent) !important;
-}
-
+/* ✅ INPUTS with proper autofill fix */
 .form-group input,
 .form-group select,
 .form-group textarea {
@@ -223,6 +229,7 @@ h1, h2, h3, h4, h5, h6, p, span, a, button, input, label, li, td, th, legend, co
   transition: all var(--transition);
   background: var(--bg-dark-glass) !important;
   color: var(--text-white) !important;
+  -webkit-text-fill-color: var(--text-white) !important;
 }
 
 .form-group input:focus,
@@ -233,14 +240,30 @@ h1, h2, h3, h4, h5, h6, p, span, a, button, input, label, li, td, th, legend, co
   box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.25);
 }
 
-.form-group textarea {
-  resize: vertical;
-  min-height: 120px;
-}
+.form-group textarea { resize: vertical; min-height: 120px; }
 
 .form-group input::placeholder,
 .form-group textarea::placeholder {
-  color: rgba(255, 255, 255, 0.6) !important;
+  color: rgba(255, 255, 255, 0.5) !important;
+  -webkit-text-fill-color: rgba(255, 255, 255, 0.5) !important;
+  opacity: 1 !important;
+}
+
+/* ✅ SELECT OPTIONS — visible dropdown items */
+.form-group select option {
+  background: var(--bg-dark-card) !important;
+  color: var(--text-white) !important;
+  padding: 8px;
+}
+
+/* ✅ AUTOFILL FIX (Chrome/Safari) */
+.form-group input:-webkit-autofill,
+.form-group input:-webkit-autofill:hover,
+.form-group input:-webkit-autofill:focus,
+.form-group select:-webkit-autofill {
+  -webkit-text-fill-color: var(--text-white) !important;
+  -webkit-box-shadow: 0 0 0px 1000px var(--bg-dark-glass) inset !important;
+  transition: background-color 5000s ease-in-out 0s !important;
 }
 
 .form-group input.error,
@@ -248,12 +271,6 @@ h1, h2, h3, h4, h5, h6, p, span, a, button, input, label, li, td, th, legend, co
 .form-group textarea.error {
   border-color: #ef4444 !important;
   box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.25) !important;
-}
-
-.error-text {
-  color: #fecaca !important;
-  font-size: 13px;
-  font-weight: 500;
 }
 
 .submit-btn {
@@ -275,12 +292,9 @@ h1, h2, h3, h4, h5, h6, p, span, a, button, input, label, li, td, th, legend, co
   box-shadow: 0 12px 35px rgba(249, 115, 22, 0.5);
 }
 
-.submit-btn:disabled {
-  opacity: 0.65;
-  cursor: not-allowed;
-}
+.submit-btn:disabled { opacity: 0.65; cursor: not-allowed; }
 
-/* ✅ SUCCESS MESSAGE - DARK */
+/* ✅ SUCCESS */
 .success-message {
   text-align: center;
   padding: 60px 40px;
@@ -306,23 +320,13 @@ h1, h2, h3, h4, h5, h6, p, span, a, button, input, label, li, td, th, legend, co
   border: 2px solid var(--border);
 }
 
-.success-message h3 {
-  font-size: 24px;
-  color: var(--text-white) !important;
-  margin: 0 0 12px;
-}
+.success-message h3 { font-size: 24px; margin: 0 0 12px; }
+.success-message p { margin: 0; }
 
-.success-message p {
-  color: var(--text-white) !important;
-  margin: 0;
-}
-
-/* 📇 CONTACT INFO SECTION */
-.contact-info-section {
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
-}
+/* =========================================
+   📇 INFO CARDS
+   ========================================= */
+.contact-info-section { display: flex; flex-direction: column; gap: 30px; }
 
 .info-header {
   background: var(--bg-dark-card) !important;
@@ -332,22 +336,10 @@ h1, h2, h3, h4, h5, h6, p, span, a, button, input, label, li, td, th, legend, co
   border: 1px solid var(--border);
 }
 
-.info-header h2 {
-  font-size: 28px;
-  color: var(--text-white) !important;
-  margin: 0 0 8px;
-}
+.info-header h2 { font-size: 28px; margin: 0 0 8px; }
+.info-header p { margin: 0; color: var(--text-muted) !important; }
 
-.info-header p {
-  color: var(--text-white) !important;
-  margin: 0;
-}
-
-.info-cards {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
+.info-cards { display: flex; flex-direction: column; gap: 20px; }
 
 .info-card {
   background: var(--bg-dark-glass) !important;
@@ -366,10 +358,7 @@ h1, h2, h3, h4, h5, h6, p, span, a, button, input, label, li, td, th, legend, co
   border-color: var(--border-hover);
 }
 
-.info-icon {
-  font-size: 36px;
-  flex-shrink: 0;
-}
+.info-icon { font-size: 36px; flex-shrink: 0; }
 
 .info-content h3 {
   font-size: 17px;
@@ -385,17 +374,22 @@ h1, h2, h3, h4, h5, h6, p, span, a, button, input, label, li, td, th, legend, co
   line-height: 1.6;
 }
 
-.info-content a {
+/* ✅ Orange links — NOT overridden by blanket rule */
+.info-content .contact-link {
   color: var(--accent) !important;
+  -webkit-text-fill-color: var(--accent) !important;
   text-decoration: none;
   font-weight: 500;
 }
 
-.info-content a:hover {
+.info-content .contact-link:hover {
   text-decoration: underline;
+  color: var(--accent-light) !important;
 }
 
-/* 🔗 SOCIAL SECTION - DARK */
+/* =========================================
+   🔗 SOCIAL
+   ========================================= */
 .social-section {
   background: var(--bg-dark-card) !important;
   padding: 30px;
@@ -405,11 +399,7 @@ h1, h2, h3, h4, h5, h6, p, span, a, button, input, label, li, td, th, legend, co
   border: 1px solid var(--border);
 }
 
-.social-section h3 {
-  font-size: 20px;
-  color: var(--text-white) !important;
-  margin: 0 0 20px;
-}
+.social-section h3 { font-size: 20px; margin: 0 0 20px; }
 
 .social-links {
   display: flex;
@@ -433,47 +423,45 @@ h1, h2, h3, h4, h5, h6, p, span, a, button, input, label, li, td, th, legend, co
   border: 1px solid var(--border);
 }
 
+.social-link span {
+  color: var(--text-white) !important;
+  -webkit-text-fill-color: var(--text-white) !important;
+}
+
 .social-link:hover {
   background: var(--accent);
-  color: var(--text-white) !important;
   transform: translateY(-3px);
   border-color: var(--accent);
   box-shadow: var(--shadow-accent);
 }
 
-/* 📞 QUICK CONTACT - DARK */
+.social-link:hover span { color: var(--text-white) !important; }
+
+/* =========================================
+   📞 QUICK CONTACT
+   ========================================= */
 .quick-contact {
   background: linear-gradient(135deg, var(--bg-dark-secondary), var(--bg-dark-tertiary)) !important;
   padding: 30px;
   border-radius: var(--radius-xl);
   text-align: center;
-  color: var(--text-white);
   border: 1px solid var(--border);
   box-shadow: var(--shadow-dark);
 }
 
-.quick-contact h3 {
-  font-size: 20px;
-  margin: 0 0 8px;
-  color: var(--text-white) !important;
-}
-
-.quick-contact > p {
-  margin: 0 0 20px;
-  opacity: 0.9;
-  color: var(--text-white) !important;
-}
+.quick-contact h3 { font-size: 20px; margin: 0 0 8px; }
+.quick-contact > p { margin: 0 0 20px; opacity: 0.9; }
 
 .quick-call-btn {
   display: inline-block;
   padding: 14px 28px;
   background: linear-gradient(135deg, var(--accent), var(--accent-hover));
   color: var(--text-white) !important;
+  -webkit-text-fill-color: var(--text-white) !important;
   text-decoration: none;
   border-radius: var(--radius-md);
   font-weight: 600;
   transition: all var(--transition);
-  border: none;
 }
 
 .quick-call-btn:hover {
@@ -481,7 +469,9 @@ h1, h2, h3, h4, h5, h6, p, span, a, button, input, label, li, td, th, legend, co
   box-shadow: var(--shadow-accent);
 }
 
-/* 🗺️ MAP SECTION - DARK */
+/* =========================================
+   🗺️ MAP — filter applied ONCE in CSS only
+   ========================================= */
 .map-section {
   padding: 80px 24px;
   background: var(--bg-dark-secondary);
@@ -489,7 +479,6 @@ h1, h2, h3, h4, h5, h6, p, span, a, button, input, label, li, td, th, legend, co
 
 .map-section h2 {
   font-size: 32px;
-  color: var(--text-white) !important;
   text-align: center;
   margin: 0 0 40px;
 }
@@ -505,26 +494,21 @@ h1, h2, h3, h4, h5, h6, p, span, a, button, input, label, li, td, th, legend, co
 
 .map-container iframe {
   display: block;
+  width: 100%;
   filter: invert(90%) hue-rotate(180deg) brightness(1.1);
 }
 
-/* ❓ FAQ PREVIEW - DARK */
+/* =========================================
+   ❓ FAQ
+   ========================================= */
 .faq-preview {
   padding: 80px 24px;
   background: var(--bg-dark-card);
   text-align: center;
 }
 
-.faq-preview h2 {
-  font-size: 32px;
-  color: var(--text-white) !important;
-  margin: 0 0 12px;
-}
-
-.faq-preview > p {
-  color: var(--text-white) !important;
-  margin: 0 0 40px;
-}
+.faq-preview h2 { font-size: 32px; margin: 0 0 12px; }
+.faq-preview > p { margin: 0 0 40px; color: var(--text-muted) !important; }
 
 .faq-grid {
   display: grid;
@@ -549,25 +533,15 @@ h1, h2, h3, h4, h5, h6, p, span, a, button, input, label, li, td, th, legend, co
   border-color: var(--border-hover);
 }
 
-.faq-item h3 {
-  font-size: 17px;
-  color: var(--text-white) !important;
-  margin: 0 0 12px;
-  font-weight: 700;
-}
-
-.faq-item p {
-  margin: 0;
-  color: var(--text-white) !important;
-  font-size: 14px;
-  line-height: 1.6;
-}
+.faq-item h3 { font-size: 17px; margin: 0 0 12px; font-weight: 700; }
+.faq-item p { margin: 0; font-size: 14px; line-height: 1.6; }
 
 .view-all-faq {
   display: inline-block;
   padding: 14px 28px;
   background: linear-gradient(135deg, var(--accent), var(--accent-hover));
   color: var(--text-white) !important;
+  -webkit-text-fill-color: var(--text-white) !important;
   text-decoration: none;
   border-radius: var(--radius-md);
   font-weight: 600;
@@ -579,12 +553,11 @@ h1, h2, h3, h4, h5, h6, p, span, a, button, input, label, li, td, th, legend, co
   box-shadow: var(--shadow-accent);
 }
 
-/* 📱 RESPONSIVE DESIGN */
+/* =========================================
+   📱 RESPONSIVE
+   ========================================= */
 @media (max-width: 1024px) {
-  .contact-container {
-    grid-template-columns: 1fr;
-    padding: 0 20px;
-  }
+  .contact-container { grid-template-columns: 1fr; padding: 0 20px; }
   .contact-hero { padding-top: 70px; min-height: auto; padding-bottom: 40px; }
   .hero-content h1 { font-size: 2.5rem; }
 }
@@ -624,48 +597,100 @@ select:focus-visible {
   border-radius: var(--radius-sm);
 }
 
-/* 🌓 DARK MODE SUPPORT */
-@media (prefers-color-scheme: dark) {
-  .contact-page {
-    background: var(--bg-dark-deep);
-    color: var(--text-white);
-  }
-  
-  .contact-form-section,
-  .info-header,
-  .info-card,
-  .social-section,
-  .quick-contact,
-  .faq-item {
-    background: var(--bg-dark-card) !important;
-    color: var(--text-white);
-  }
-  
-  .form-group input,
-  .form-group select,
-  .form-group textarea {
-    background: var(--bg-dark-glass) !important;
-    color: var(--text-white);
-  }
+/* =========================================================
+   v2 — CROSS-PAGE OVERRIDE LOCK (fixes FAQ dark-on-dark text)
+   Higher specificity than ANY other page CSS (Faq.css etc.)
+   ========================================================= */
+
+.contact-page,
+.contact-page * {
+  visibility: visible !important;
 }
 
-/* =========================================
-   🔥 CRITICAL FIX: SECTION HEADINGS VISIBILITY
-========================================= */
-.contact-hero h1,
-.form-header h2,
-.info-header h2,
-.map-section h2,
-.faq-preview h2,
-.info-card h3,
-.faq-item h3,
-.success-message h3,
-.quick-contact h3,
-.social-section h3 {
-  visibility: visible !important;
+/* Headings — forced white, cannot be overridden by other pages */
+.contact-page .contact-hero .hero-content h1,
+.contact-page .contact-form-section .form-header h2,
+.contact-page .contact-info-section .info-header h2,
+.contact-page .map-section h2,
+.contact-page .faq-preview h2,
+.contact-page .faq-preview .faq-grid .faq-item h3,
+.contact-page .info-card .info-content h3,
+.contact-page .quick-contact h3,
+.contact-page .social-section h3,
+.contact-page .success-message h3 {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
   opacity: 1 !important;
-  display: block !important;
-  color: var(--text-white) !important;
-  position: relative !important;
-  z-index: 100 !important;
 }
+
+/* Paragraphs — light gray, readable on dark cards */
+.contact-page .faq-preview .faq-grid .faq-item p,
+.contact-page .info-card .info-content p,
+.contact-page .hero-content p,
+.contact-page .quick-contact p,
+.contact-page .success-message p {
+  color: #e2e8f0 !important;
+  -webkit-text-fill-color: #e2e8f0 !important;
+  opacity: 1 !important;
+}
+
+/* Muted subtitles */
+.contact-page .form-header p,
+.contact-page .info-header p,
+.contact-page .faq-preview > p {
+  color: #cbd5e1 !important;
+  -webkit-text-fill-color: #cbd5e1 !important;
+  opacity: 1 !important;
+}
+
+/* Cards themselves never faded */
+.contact-page .faq-item,
+.contact-page .info-card {
+  opacity: 1 !important;
+}
+
+/* Orange links stay orange */
+.contact-page .info-content a,
+.contact-page .info-content .contact-link {
+  color: #f97316 !important;
+  -webkit-text-fill-color: #f97316 !important;
+}
+
+/* Labels / required / errors */
+.contact-page .contact-form label {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+.contact-page .required {
+  color: #f97316 !important;
+  -webkit-text-fill-color: #f97316 !important;
+}
+.contact-page .error-text {
+  color: #fecaca !important;
+  -webkit-text-fill-color: #fecaca !important;
+}
+
+/* Buttons & social icons — white text */
+.contact-page .submit-btn,
+.contact-page .quick-call-btn,
+.contact-page .view-all-faq,
+.contact-page .social-link,
+.contact-page .social-link span {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  opacity: 1 !important;
+}
+
+/* Inputs stay white-on-dark */
+.contact-page .form-group input,
+.contact-page .form-group select,
+.contact-page .form-group textarea {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  background: #1e293b !important;
+  opacity: 1 !important;
+}
+
+/* =========================================================
+   END v2 LOCK
+   ========================================================= */

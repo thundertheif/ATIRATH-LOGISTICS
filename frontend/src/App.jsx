@@ -34,13 +34,11 @@ import Profile from "./pages/Profile";
 // 💰 Wallets & Payments
 import WalletsAndPayments from "./pages/WalletsAndPayments";
 
-// 📒 Address Book - NEW
+// 📒 Address Book
 import AddressBook from "./pages/AddressBook";
 
-// Add import at the top:
+// 📦 Returns & Reports
 import Returns from "./pages/Returns";
-
-        // Add import at the top:
 import ReportsAnalytics from "./pages/ReportsAnalytics";
 
 // 🛠️ Shipping Tools
@@ -49,9 +47,12 @@ import PincodeChecker from "./pages/PincodeChecker";
 import BulkUpload from "./pages/BulkUpload";
 import VolumetricCalculator from "./pages/VolumetricCalculator";
 
+// 🚚 NEW: Pickup Scheduler Module
+import PickupScheduler from "./pages/PickupScheduler";
+import PickupHistory from "./pages/PickupHistory";
+
 // 🛡️ Admin
 import Admin from "./pages/Admin";
-
 
 // 🔒 Components
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -135,7 +136,7 @@ export default function App() {
             </ProtectedRoute>
           } />
           
-          {/* 📒 ADDRESS BOOK - NEW ROUTE */}
+          {/* 📒 ADDRESS BOOK */}
           <Route path="/address-book" element={
             <ProtectedRoute>
               <DashboardLayout>
@@ -144,25 +145,23 @@ export default function App() {
             </ProtectedRoute>
           } />
 
-          // Add route in CUSTOMER DASHBOARD ROUTES section:
-           <Route path="/returns" element={
+          {/* 📦 RETURNS */}
+          <Route path="/returns" element={
             <ProtectedRoute>
-            <DashboardLayout>
-          <Returns />
-          </DashboardLayout>
-          </ProtectedRoute>
-        } />
+              <DashboardLayout>
+                <Returns />
+              </DashboardLayout>
+            </ProtectedRoute>
+          } />
 
-
-
-        // Add route in CUSTOMER DASHBOARD ROUTES section:
-        <Route path="/reports" element={
-         <ProtectedRoute>
-          <DashboardLayout>
-          <ReportsAnalytics />
-          </DashboardLayout>
-          </ProtectedRoute>
-         } />
+          {/* 📊 REPORTS & ANALYTICS */}
+          <Route path="/reports" element={
+            <ProtectedRoute>
+              <DashboardLayout>
+                <ReportsAnalytics />
+              </DashboardLayout>
+            </ProtectedRoute>
+          } />
           
           <Route path="/documents" element={
             <ProtectedRoute>
@@ -192,6 +191,39 @@ export default function App() {
             <ProtectedRoute>
               <DashboardLayout>
                 <Profile />
+              </DashboardLayout>
+            </ProtectedRoute>
+          } />
+
+          {/* 🚚 PICKUP SCHEDULER - NEW ENTERPRISE FEATURES */}
+          <Route path="/pickup-scheduler" element={
+            <ProtectedRoute>
+              <DashboardLayout>
+                <PickupScheduler />
+              </DashboardLayout>
+            </ProtectedRoute>
+          } />
+
+          <Route path="/pickup-history" element={
+            <ProtectedRoute>
+              <DashboardLayout>
+                <PickupHistory />
+              </DashboardLayout>
+            </ProtectedRoute>
+          } />
+
+          <Route path="/pickup-scheduler/edit/:id" element={
+            <ProtectedRoute>
+              <DashboardLayout>
+                <PickupScheduler />
+              </DashboardLayout>
+            </ProtectedRoute>
+          } />
+
+          <Route path="/pickup-scheduler/details/:id" element={
+            <ProtectedRoute>
+              <DashboardLayout>
+                <PickupHistory />
               </DashboardLayout>
             </ProtectedRoute>
           } />

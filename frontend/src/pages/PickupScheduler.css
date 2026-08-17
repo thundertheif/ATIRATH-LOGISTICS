@@ -1,0 +1,366 @@
+/* ==========================================================
+   🚀 PICKUP SCHEDULER — PREMIUM UI v3.0 (VISIBILITY FIXED)
+   ========================================================== */
+
+:root {
+  --ps-primary: #2563eb;
+  --ps-primary-2: #4f46e5;
+  --ps-sky: #38bdf8;
+  --ps-text-dark: #0f172a;
+  --ps-text-mid: #475569;
+  --ps-text-light: #64748b;
+  --ps-border: #e2e8f0;
+  --ps-card: #ffffff;
+  --ps-radius: 16px;
+  --ps-shadow-sm: 0 1px 3px rgba(15, 23, 42, .07), 0 1px 2px rgba(15, 23, 42, .05);
+  --ps-shadow-md: 0 6px 16px -6px rgba(15, 23, 42, .12);
+}
+
+.pickup-scheduler-container * { box-sizing: border-box; }
+
+/* ---------- Page Container ---------- */
+.pickup-scheduler-container {
+  min-height: 100vh;
+  padding: 2.5rem clamp(1rem, 4vw, 3rem);
+  background:
+    radial-gradient(1100px 520px at 100% -10%, rgba(56, 189, 248, .14), transparent 60%),
+    radial-gradient(900px 480px at -10% 15%, rgba(79, 70, 229, .10), transparent 55%),
+    linear-gradient(180deg, #f6f8fc 0%, #eef2f8 100%);
+  color: var(--ps-text-dark);
+  font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+}
+
+@keyframes psFadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ---------- Header ---------- */
+.scheduler-header {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+  animation: psFadeUp .55s ease backwards;
+}
+
+@media (min-width: 768px) {
+  .scheduler-header { flex-direction: row; align-items: center; }
+}
+
+.scheduler-title {
+  margin: 0;
+  font-size: clamp(1.6rem, 3vw, 2.1rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--ps-text-dark);
+}
+
+.scheduler-title::after {
+  content: "";
+  display: block;
+  width: 64px;
+  height: 4px;
+  margin-top: 8px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--ps-primary), var(--ps-sky));
+}
+
+.scheduler-subtitle {
+  margin: .5rem 0 0;
+  color: var(--ps-text-light);
+  font-size: .95rem;
+}
+
+/* ---------- Primary Button ---------- */
+.schedule-btn {
+  position: relative;
+  overflow: hidden;
+  padding: .8rem 1.6rem;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--ps-primary), var(--ps-primary-2));
+  color: #fff !important;
+  font-size: .95rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 8px 20px -6px rgba(37, 99, 235, .45);
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+
+.schedule-btn::before {
+  content: "";
+  position: absolute;
+  top: 0; left: -80%;
+  width: 50%; height: 100%;
+  background: linear-gradient(120deg, transparent, rgba(255,255,255,.35), transparent);
+  transform: skewX(-20deg);
+  transition: left .55s ease;
+}
+
+.schedule-btn:hover { transform: translateY(-2px); }
+.schedule-btn:hover::before { left: 130%; }
+.schedule-btn:active { transform: scale(.98); }
+
+/* ---------- Stats Grid ---------- */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.1rem;
+  margin-bottom: 2rem;
+}
+
+@media (min-width: 900px) {
+  .stats-grid { grid-template-columns: repeat(4, 1fr); }
+}
+
+.stat-card {
+  position: relative;
+  overflow: hidden;
+  background: var(--ps-card);
+  border: 1px solid var(--ps-border);
+  border-radius: var(--ps-radius);
+  padding: 1.3rem 1.4rem;
+  box-shadow: var(--ps-shadow-sm);
+  transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+  animation: psFadeUp .55s ease backwards;
+}
+
+.stat-card:nth-child(1) { animation-delay: .06s; }
+.stat-card:nth-child(2) { animation-delay: .12s; }
+.stat-card:nth-child(3) { animation-delay: .18s; }
+.stat-card:nth-child(4) { animation-delay: .24s; }
+
+.stat-card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 4px;
+  background: linear-gradient(90deg, var(--accent), transparent 120%);
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--accent);
+  box-shadow: 0 16px 32px -12px var(--glow), var(--ps-shadow-md);
+}
+
+.stat-card.today     { --accent: #2563eb; --accent-soft: #dbeafe; --accent-text: #1d4ed8; --glow: rgba(37,99,235,.25); }
+.stat-card.pending   { --accent: #f59e0b; --accent-soft: #fef3c7; --accent-text: #b45309; --glow: rgba(245,158,11,.25); }
+.stat-card.completed { --accent: #22c55e; --accent-soft: #dcfce7; --accent-text: #15803d; --glow: rgba(34,197,94,.25); }
+.stat-card.missed    { --accent: #ef4444; --accent-soft: #fee2e2; --accent-text: #b91c1c; --glow: rgba(239,68,68,.25); }
+
+.stat-top {
+  display: flex;
+  align-items: center;
+  gap: .7rem;
+  margin-bottom: .9rem;
+}
+
+.stat-icon-bubble {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: var(--accent-soft);
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+.stat-label {
+  margin: 0;
+  font-size: .8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--ps-text-light);
+}
+
+.stat-value {
+  margin: 0;
+  font-size: 2.1rem;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--accent-text);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- View Toggle ---------- */
+.view-toggle-container {
+  display: inline-flex;
+  gap: 4px;
+  padding: 5px;
+  margin-bottom: 1.4rem;
+  background: #e8edf5;
+  border: 1px solid var(--ps-border);
+  border-radius: 999px;
+}
+
+.toggle-btn {
+  padding: .55rem 1.25rem;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ps-text-mid);
+  font-size: .875rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all .22s ease;
+}
+
+.toggle-btn:hover { color: var(--ps-primary); background: rgba(37,99,235,.08); }
+
+.toggle-btn.active {
+  background: linear-gradient(135deg, var(--ps-primary), var(--ps-primary-2));
+  color: #fff !important;
+  box-shadow: 0 4px 12px rgba(37,99,235,.4);
+}
+
+/* ---------- Spinner ---------- */
+.loading-spinner-container { display: flex; justify-content: center; padding: 5rem 0; }
+
+@keyframes psSpin { to { transform: rotate(360deg); } }
+
+.spinner {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: 4px solid transparent;
+  border-top-color: var(--ps-primary);
+  border-right-color: var(--ps-sky);
+  animation: psSpin .8s linear infinite;
+}
+
+/* ---------- Pickups List ---------- */
+.pickups-list { display: flex; flex-direction: column; gap: 1.1rem; }
+
+.pickups-list > * {
+  background: var(--ps-card);
+  border: 1px solid var(--ps-border);
+  border-radius: var(--ps-radius);
+  box-shadow: var(--ps-shadow-sm);
+  padding: 1.25rem 1.4rem;
+  color: var(--ps-text-dark);
+  transition: transform .22s ease, box-shadow .22s ease;
+  animation: psFadeUp .5s ease backwards;
+}
+
+.pickups-list > *:hover { transform: translateY(-3px); box-shadow: var(--ps-shadow-md); }
+
+/* ---------- Empty State ---------- */
+.empty-state {
+  background: var(--ps-card);
+  border: 2px dashed #cbd5e1;
+  border-radius: var(--ps-radius);
+  padding: 4rem 2rem;
+  text-align: center;
+}
+
+@keyframes psFloat {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-8px); }
+}
+
+.empty-state::before {
+  content: "📭";
+  display: block;
+  font-size: 3.2rem;
+  margin-bottom: 1rem;
+  animation: psFloat 3s ease-in-out infinite;
+}
+
+.empty-state-text {
+  margin: 0;
+  color: var(--ps-text-mid);
+  font-size: 1.05rem;
+  font-weight: 500;
+}
+
+/* ---------- Calendar Wrapper ---------- */
+.calendar-wrapper {
+  background: var(--ps-card);
+  border: 1px solid var(--ps-border);
+  border-radius: var(--ps-radius);
+  box-shadow: var(--ps-shadow-sm);
+  padding: 1.5rem;
+}
+
+/* ---------- Small Screens ---------- */
+@media (max-width: 560px) {
+  .pickup-scheduler-container { padding: 1.25rem; }
+  .schedule-btn { width: 100%; }
+  .stat-value { font-size: 1.7rem; }
+}
+
+/* ==========================================================
+   🚨 FORCE-VISIBILITY OVERRIDES
+   Global CSS (index.css / App.css) em override chesina,
+   ee rules texts ni definitely kanipincheలా chestayi.
+   ========================================================== */
+
+.pickup-scheduler-container {
+  opacity: 1 !important;
+  visibility: visible !important;
+  color: #1f2937 !important;
+}
+
+/* Prati element ki visibility + dark text force */
+.pickup-scheduler-container * {
+  opacity: 1 !important;
+  visibility: visible !important;
+  color: #1f2937 !important;
+  -webkit-text-fill-color: currentColor !important;
+  text-fill-color: currentColor !important;
+}
+
+/* White backgrounds force (contrast kosam) */
+.pickup-scheduler-container .stat-card,
+.pickup-scheduler-container .empty-state,
+.pickup-scheduler-container .calendar-wrapper,
+.pickup-scheduler-container .pickups-list > * {
+  background-color: #ffffff !important;
+}
+
+/* Specific text colors (universal rule taruvata, higher specificity) */
+.pickup-scheduler-container .scheduler-title { color: #0f172a !important; }
+
+.pickup-scheduler-container .scheduler-subtitle,
+.pickup-scheduler-container .stat-label,
+.pickup-scheduler-container .empty-state-text { color: #64748b !important; }
+
+.pickup-scheduler-container .stat-card.today .stat-value     { color: #1d4ed8 !important; }
+.pickup-scheduler-container .stat-card.pending .stat-value   { color: #b45309 !important; }
+.pickup-scheduler-container .stat-card.completed .stat-value { color: #15803d !important; }
+.pickup-scheduler-container .stat-card.missed .stat-value    { color: #b91c1c !important; }
+
+.pickup-scheduler-container .toggle-btn { color: #475569 !important; }
+
+.pickup-scheduler-container .schedule-btn,
+.pickup-scheduler-container .toggle-btn.active { color: #ffffff !important; }
+
+.pickup-scheduler-container .schedule-btn {
+  background: linear-gradient(135deg, #2563eb, #4f46e5) !important;
+}
+
+.pickup-scheduler-container .toggle-btn.active {
+  background: #2563eb !important;
+}
+
+/* Focus rings */
+.schedule-btn:focus-visible,
+.toggle-btn:focus-visible {
+  outline: 3px solid rgba(37, 99, 235, .45);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pickup-scheduler-container *,
+  .pickup-scheduler-container *::before,
+  .pickup-scheduler-container *::after {
+    animation-duration: 0.01s !important;
+    transition: none !important;
+  }
+}
