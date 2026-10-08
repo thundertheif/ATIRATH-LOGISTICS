@@ -4,15 +4,17 @@
 
 .rt-page {
   min-height: 100vh;
-  background: #f3f4f6;
+  background: #f3f4f6 !important;
   font-family: 'Inter', sans-serif;
-  color: #111827;
+  color: #111827 !important;
+  -webkit-text-fill-color: #111827 !important;
 }
 
 /* ============ HEADER ============ */
 .rt-header {
   background: linear-gradient(135deg, #dc2626 0%, #b91c1c 50%, #991b1b 100%);
-  color: #ffffff;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
   padding: 2rem 2.5rem;
 }
 
@@ -34,6 +36,7 @@
   gap: 0.75rem;
   margin: 0;
   color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
 }
 
 .rt-header__emoji {
@@ -42,6 +45,7 @@
 
 .rt-header__subtitle {
   color: #fecaca !important;
+  -webkit-text-fill-color: #fecaca !important;
   margin-top: 0.25rem;
   font-size: 0.95rem;
 }
@@ -99,6 +103,7 @@
 .rt-stat-card__label {
   font-size: 0.875rem;
   color: #6b7280 !important;
+  -webkit-text-fill-color: #6b7280 !important;
   margin: 0;
 }
 
@@ -106,6 +111,7 @@
   font-size: 1.5rem;
   font-weight: 700;
   color: #111827 !important;
+  -webkit-text-fill-color: #111827 !important;
   margin: 0.25rem 0 0;
 }
 
@@ -132,6 +138,7 @@
   font-weight: 500;
   font-size: 0.875rem;
   color: #6b7280 !important;
+  -webkit-text-fill-color: #6b7280 !important;
   background: none;
   border: none;
   border-bottom: 2px solid transparent;
@@ -143,10 +150,12 @@
 
 .rt-tab:hover {
   color: #374151 !important;
+  -webkit-text-fill-color: #374151 !important;
 }
 
 .rt-tab--active {
   color: #dc2626 !important;
+  -webkit-text-fill-color: #dc2626 !important;
   border-bottom-color: #dc2626;
 }
 
@@ -185,12 +194,14 @@
   outline: none;
   font-family: inherit;
   color: #111827 !important;
+  -webkit-text-fill-color: #111827 !important;
   background: #ffffff;
   box-sizing: border-box;
 }
 
 .rt-search-box__input::placeholder {
-  color: #9ca3af;
+  color: #9ca3af !important;
+  -webkit-text-fill-color: #9ca3af !important;
 }
 
 .rt-search-box__input:focus {
@@ -217,6 +228,7 @@
 .rt-btn--primary {
   background: #dc2626;
   color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
 }
 
 .rt-btn--primary:hover {
@@ -226,6 +238,7 @@
 .rt-btn--outline {
   background: #ffffff;
   color: #374151 !important;
+  -webkit-text-fill-color: #374151 !important;
   border: 1px solid #e5e7eb;
 }
 
@@ -236,6 +249,7 @@
 .rt-btn--white {
   background: #ffffff;
   color: #b91c1c !important;
+  -webkit-text-fill-color: #b91c1c !important;
   font-weight: 600;
 }
 
@@ -246,6 +260,7 @@
 .rt-btn--danger {
   background: #dc2626;
   color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
 }
 
 .rt-btn--danger:hover {
@@ -292,6 +307,7 @@
   font-size: 1.125rem;
   font-weight: 700;
   color: #111827 !important;
+  -webkit-text-fill-color: #111827 !important;
   margin: 0;
 }
 
@@ -338,18 +354,21 @@
 .rt-info-label {
   font-size: 0.75rem;
   color: #6b7280 !important;
+  -webkit-text-fill-color: #6b7280 !important;
   font-weight: 500;
 }
 
 .rt-info-value {
   font-size: 0.875rem;
   color: #111827 !important;
+  -webkit-text-fill-color: #111827 !important;
   font-weight: 500;
 }
 
 .rt-return-card__description {
   font-size: 0.875rem;
   color: #6b7280 !important;
+  -webkit-text-fill-color: #6b7280 !important;
   margin: 0.5rem 0;
   padding: 0.5rem 0.75rem;
   background: #f9fafb;
@@ -365,6 +384,7 @@
   gap: 0.5rem;
   font-size: 0.8125rem;
   color: #374151 !important;
+  -webkit-text-fill-color: #374151 !important;
   margin-top: 0.5rem;
   padding: 0.5rem 0.75rem;
   background: #eff6ff;
@@ -392,6 +412,7 @@
 .rt-refund-label {
   font-size: 0.75rem;
   color: #6b7280 !important;
+  -webkit-text-fill-color: #6b7280 !important;
   font-weight: 500;
 }
 
@@ -399,11 +420,13 @@
   font-size: 1rem;
   font-weight: 700;
   color: #111827 !important;
+  -webkit-text-fill-color: #111827 !important;
 }
 
 .rt-refund-method {
   font-size: 0.875rem;
   color: #374151 !important;
+  -webkit-text-fill-color: #374151 !important;
   font-weight: 500;
 }
 
@@ -419,16 +442,19 @@
 .rt-refund--pending {
   background: #fef3c7;
   color: #d97706 !important;
+  -webkit-text-fill-color: #d97706 !important;
 }
 
 .rt-refund--refunded {
   background: #d1fae5;
   color: #059669 !important;
+  -webkit-text-fill-color: #059669 !important;
 }
 
 .rt-refund--na {
   background: #f3f4f6;
   color: #6b7280 !important;
+  -webkit-text-fill-color: #6b7280 !important;
 }
 
 .rt-return-card__meta {
@@ -442,13 +468,15 @@
 .rt-return-card__date {
   font-size: 0.75rem;
   color: #6b7280 !important;
+  -webkit-text-fill-color: #6b7280 !important;
 }
 
 .rt-link-btn {
   background: none;
   border: none;
   color: #dc2626 !important;
-  font-weight: 500;
+  -webkit-text-fill-color: #dc2626 !important;
+  font-weight: 600;
   font-size: 0.8125rem;
   cursor: pointer;
   display: inline-flex;
@@ -476,26 +504,31 @@
 .rt-status--pending {
   background: #fef3c7;
   color: #d97706 !important;
+  -webkit-text-fill-color: #d97706 !important;
 }
 
 .rt-status--approved {
   background: #dbeafe;
   color: #1d4ed8 !important;
+  -webkit-text-fill-color: #1d4ed8 !important;
 }
 
 .rt-status--transit {
   background: #ede9fe;
   color: #7c3aed !important;
+  -webkit-text-fill-color: #7c3aed !important;
 }
 
 .rt-status--completed {
   background: #d1fae5;
   color: #059669 !important;
+  -webkit-text-fill-color: #059669 !important;
 }
 
 .rt-status--rejected {
   background: #fee2e2;
   color: #dc2626 !important;
+  -webkit-text-fill-color: #dc2626 !important;
 }
 
 /* ============ EMPTY STATE ============ */
@@ -514,12 +547,14 @@
   font-size: 1.25rem;
   font-weight: 700;
   color: #111827 !important;
+  -webkit-text-fill-color: #111827 !important;
   margin: 0 0 0.5rem;
 }
 
 .rt-empty-state__desc {
   font-size: 0.875rem;
   color: #6b7280 !important;
+  -webkit-text-fill-color: #6b7280 !important;
   margin: 0 0 1.5rem;
 }
 
@@ -578,11 +613,13 @@
   font-size: 1.25rem;
   font-weight: 700;
   color: #111827 !important;
+  -webkit-text-fill-color: #111827 !important;
 }
 
 .rt-modal__subtitle {
   font-size: 0.8125rem;
   color: #6b7280 !important;
+  -webkit-text-fill-color: #6b7280 !important;
   margin: 0.25rem 0 0;
 }
 
@@ -592,6 +629,7 @@
   cursor: pointer;
   padding: 0.25rem;
   color: #6b7280 !important;
+  -webkit-text-fill-color: #6b7280 !important;
   border-radius: 0.25rem;
   font-size: 1.25rem;
   font-weight: 700;
@@ -635,6 +673,7 @@
   font-size: 0.875rem;
   font-weight: 500;
   color: #374151 !important;
+  -webkit-text-fill-color: #374151 !important;
   margin-bottom: 0.375rem;
 }
 
@@ -649,6 +688,7 @@
   outline: none;
   font-family: inherit;
   color: #111827 !important;
+  -webkit-text-fill-color: #111827 !important;
   background: #ffffff;
   box-sizing: border-box;
   transition: border-color 0.2s;
@@ -661,7 +701,8 @@
 
 .rt-form-input::placeholder,
 .rt-form-textarea::placeholder {
-  color: #9ca3af;
+  color: #9ca3af !important;
+  -webkit-text-fill-color: #9ca3af !important;
 }
 
 .rt-form-input:focus,
@@ -690,6 +731,7 @@
   font-size: 0.8125rem;
   font-weight: 500;
   color: #374151 !important;
+  -webkit-text-fill-color: #374151 !important;
   transition: all 0.2s;
   font-family: inherit;
 }
@@ -702,6 +744,7 @@
   border-color: #dc2626;
   background: #fef2f2;
   color: #b91c1c !important;
+  -webkit-text-fill-color: #b91c1c !important;
 }
 
 .rt-refund-option span:first-child {
@@ -727,12 +770,14 @@
   font-size: 0.875rem;
   font-weight: 600;
   color: #1d4ed8 !important;
+  -webkit-text-fill-color: #1d4ed8 !important;
   margin: 0 0 0.25rem;
 }
 
 .rt-notice-text {
   font-size: 0.8125rem;
   color: #374151 !important;
+  -webkit-text-fill-color: #374151 !important;
   margin: 0;
   line-height: 1.5;
 }
@@ -757,12 +802,14 @@
 .rt-track-label {
   font-size: 0.75rem;
   color: #6b7280 !important;
+  -webkit-text-fill-color: #6b7280 !important;
   font-weight: 500;
 }
 
 .rt-track-value {
   font-size: 0.9375rem;
   color: #111827 !important;
+  -webkit-text-fill-color: #111827 !important;
   font-weight: 600;
 }
 
@@ -770,6 +817,7 @@
   font-size: 1rem;
   font-weight: 700;
   color: #111827 !important;
+  -webkit-text-fill-color: #111827 !important;
   margin: 0 0 1rem;
 }
 
@@ -829,16 +877,19 @@
   font-size: 0.875rem;
   font-weight: 600;
   color: #111827 !important;
+  -webkit-text-fill-color: #111827 !important;
 }
 
 .rt-timeline__time {
   font-size: 0.75rem;
   color: #6b7280 !important;
+  -webkit-text-fill-color: #6b7280 !important;
 }
 
 .rt-timeline__location {
   font-size: 0.8125rem;
   color: #374151 !important;
+  -webkit-text-fill-color: #374151 !important;
   margin: 0;
 }
 
@@ -853,12 +904,14 @@
   font-size: 1.125rem;
   font-weight: 700;
   color: #111827 !important;
+  -webkit-text-fill-color: #111827 !important;
   margin: 0 0 0.5rem;
 }
 
 .rt-confirm-desc {
   font-size: 0.875rem;
   color: #6b7280 !important;
+  -webkit-text-fill-color: #6b7280 !important;
   margin: 0;
 }
 
@@ -948,7 +1001,8 @@
 }
 
 .rt-loading p {
-  color: #6b7280;
+  color: #6b7280 !important;
+  -webkit-text-fill-color: #6b7280 !important;
   font-size: 14px;
   font-weight: 500;
 }
@@ -967,6 +1021,7 @@
   animation: rtSlideIn 0.3s ease;
   max-width: 400px;
   color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
 }
 
 .rt-toast--success {
@@ -1001,6 +1056,7 @@
 
 .rt-field-error {
   color: #ef4444 !important;
+  -webkit-text-fill-color: #ef4444 !important;
   font-size: 12px;
   font-weight: 600;
   margin-top: 4px;
@@ -1009,6 +1065,7 @@
 
 .rt-field-hint {
   color: #6b7280 !important;
+  -webkit-text-fill-color: #6b7280 !important;
   font-size: 11px;
   font-weight: 500;
   margin-top: 4px;
@@ -1020,4 +1077,5 @@
 .rt-status--cancelled {
   background: #f3f4f6;
   color: #6b7280 !important;
+  -webkit-text-fill-color: #6b7280 !important;
 }

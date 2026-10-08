@@ -1017,7 +1017,7 @@ GST (18%): ₹${result.gst}
         <p>
           Need a custom quote for bulk shipments? 
           <Link to="/contact"> Contact our sales team</Link> or 
-          call <a href="tel:18001234567">📞 1800-123-4567</a>
+          call <a href="tel:18003099980">📞 1800-309-9980</a>
         </p>
       </footer>
     </div>

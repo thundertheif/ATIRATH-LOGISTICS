@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "../context/AuthContext";
 import "./Signup.css";
-import logoImg from "../assets/logo_3.png"; // ✅ Import logo
+import logoImg from "../assets/logo_3.png";
 
 export default function Signup() {
   const { signup } = useAuth();
@@ -84,7 +84,7 @@ export default function Signup() {
       setSuccess("✅ Account created successfully! Redirecting to KYC Verification...");
       
       setTimeout(() => {
-        navigate("/kyc-verification", { replace: true }); // ✅ Redirect to KYC
+        navigate("/kyc-verification", { replace: true });
       }, 1500);
       
     } catch (err) {
@@ -114,11 +114,10 @@ export default function Signup() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
       >
-        {/* Logo */}
         <Link to="/" className="signup-logo-link">
           <div className="signup-logo">
             <img 
-              src={logoImg} // ✅ Using imported logo
+              src={logoImg}
               alt="Atirath Logistics Logo" 
               className="signup-logo-img"
             />
@@ -126,13 +125,11 @@ export default function Signup() {
           </div>
         </Link>
 
-        {/* Header */}
         <div className="signup-header">
           <h1>Create Your Account 🎉</h1>
           <p>Join 5,000+ businesses shipping globally</p>
         </div>
 
-        {/* Messages */}
         <AnimatePresence>
           {error && (
             <motion.div 
@@ -156,13 +153,14 @@ export default function Signup() {
           )}
         </AnimatePresence>
 
-        {/* Form */}
         <form onSubmit={handleSubmit} className="signup-form">
+          {/* ✅ FULL NAME FIELD - ICON BESIDE TEXT (NOT BEHIND) */}
           <div className="form-field">
-            <label className="field-label">Full Name <span className="req">*</span></label>
+            <label htmlFor="name" className="field-label">Full Name <span className="req">*</span></label>
             <div className="input-box">
               <span className="field-icon">👤</span>
               <input
+                id="name"
                 type="text"
                 name="name"
                 className="text-input"
@@ -176,10 +174,11 @@ export default function Signup() {
           </div>
 
           <div className="form-field">
-            <label className="field-label">Email Address <span className="req">*</span></label>
+            <label htmlFor="email" className="field-label">Email Address <span className="req">*</span></label>
             <div className="input-box">
               <span className="field-icon">📧</span>
               <input
+                id="email"
                 type="email"
                 name="email"
                 className="text-input"
@@ -193,10 +192,11 @@ export default function Signup() {
           </div>
 
           <div className="form-field">
-            <label className="field-label">Password <span className="req">*</span></label>
+            <label htmlFor="password" className="field-label">Password <span className="req">*</span></label>
             <div className="input-box">
               <span className="field-icon">🔐</span>
               <input
+                id="password"
                 type={showPassword ? "text" : "password"}
                 name="password"
                 className="text-input"
@@ -210,6 +210,7 @@ export default function Signup() {
                 type="button"
                 className="eye-btn"
                 onClick={() => setShowPassword(!showPassword)}
+                aria-label={showPassword ? "Hide password" : "Show password"}
               >
                 {showPassword ? "🙈" : "👁️"}
               </button>
@@ -233,10 +234,11 @@ export default function Signup() {
           </div>
 
           <div className="form-field">
-            <label className="field-label">Confirm Password <span className="req">*</span></label>
+            <label htmlFor="confirmPassword" className="field-label">Confirm Password <span className="req">*</span></label>
             <div className="input-box">
               <span className="field-icon">🔐</span>
               <input
+                id="confirmPassword"
                 type={showConfirmPassword ? "text" : "password"}
                 name="confirmPassword"
                 className="text-input"
@@ -250,6 +252,7 @@ export default function Signup() {
                 type="button"
                 className="eye-btn"
                 onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                aria-label={showConfirmPassword ? "Hide password" : "Show password"}
               >
                 {showConfirmPassword ? "🙈" : "👁️"}
               </button>
@@ -265,10 +268,16 @@ export default function Signup() {
                 onChange={handleChange}
                 required
               />
-              <span>
+              <span style={{ 
+                color: '#000000', 
+                WebkitTextFillColor: '#000000', 
+                fontWeight: '600',
+                textShadow: 'none'
+              }}>
                 I agree to the{" "}
-                <Link to="/terms" target="_blank" className="link-terms">Terms</Link> &{" "}
-                <Link to="/privacy" target="_blank" className="link-terms">Privacy</Link>
+                <Link to="/terms" target="_blank" rel="noopener noreferrer" className="link-terms">Terms</Link>
+                {" & "}
+                <Link to="/privacy" target="_blank" rel="noopener noreferrer" className="link-terms">Privacy</Link>
               </span>
             </label>
           </div>

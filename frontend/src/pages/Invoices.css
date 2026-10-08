@@ -1,6 +1,6 @@
 /* =========================================
    INVOICES PAGE - CLEAN CONTENT ONLY
-   Sidebar comes from DashboardLayout
+   ✅ FIXED: 100% Text Visibility for "Unpaid" & all statuses
    ========================================= */
 
 .invoices-page {
@@ -285,31 +285,42 @@
   color: #0f172a !important;
 }
 
+/* =========================================
+   ✅ CRITICAL FIX: STATUS BADGE VISIBILITY
+   ========================================= */
 .status-badge {
   padding: 6px 12px !important;
   border-radius: 20px !important;
   font-size: 12px !important;
   font-weight: 700 !important;
-  display: inline-block;
-  text-transform: uppercase;
+  display: inline-block !important;
+  text-transform: uppercase !important;
+  visibility: visible !important;
+  opacity: 1 !important;
 }
 
 .status-badge.paid,
 .status-badge.Paid {
-  background: rgba(5, 150, 105, 0.1) !important;
+  background: rgba(5, 150, 105, 0.15) !important;
   color: #059669 !important;
+  -webkit-text-fill-color: #059669 !important; /* Safari/Chrome fix */
 }
 
+/* ✅ Added .unpaid and .Unpaid to make it 100% visible */
 .status-badge.pending,
-.status-badge.Pending {
-  background: rgba(249, 115, 22, 0.1) !important;
+.status-badge.Pending,
+.status-badge.unpaid,
+.status-badge.Unpaid {
+  background: rgba(249, 115, 22, 0.15) !important;
   color: #f97316 !important;
+  -webkit-text-fill-color: #f97316 !important; /* Safari/Chrome fix */
 }
 
 .status-badge.overdue,
 .status-badge.Overdue {
-  background: rgba(239, 68, 68, 0.1) !important;
+  background: rgba(239, 68, 68, 0.15) !important;
   color: #ef4444 !important;
+  -webkit-text-fill-color: #ef4444 !important; /* Safari/Chrome fix */
 }
 
 .actions {

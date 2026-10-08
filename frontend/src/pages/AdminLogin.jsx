@@ -2,12 +2,11 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "../context/AuthContext";
-import { auth } from "../firebase"; // ✅ ADD THIS
 import "./AdminLogin.css";
 import logoImg from "../assets/logo_3.png";
 
 export default function AdminLogin() {
-  const { login } = useAuth();
+  const { login, resetPassword, logout } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   
@@ -45,7 +44,6 @@ export default function AdminLogin() {
     setIsLoading(true);
     try {
       setError("");
-      const { resetPassword } = useAuth();
       await resetPassword(formData.email);
       setSuccess("✅ Password reset link sent! Check your Gmail inbox.");
     } catch (err) {
@@ -70,32 +68,22 @@ export default function AdminLogin() {
     setIsLoading(true);
     
     try {
-      // ✅ Login and get result
       const result = await login(formData.email, formData.password);
       
-      console.log("Login result:", result); // Debug
-      
-      // ✅ Check if admin
       if (result && result.role === 'admin') {
         setSuccess("✅ Admin login successful! Redirecting...");
         setTimeout(() => {
           navigate(redirectPath, { replace: true });
         }, 800);
       } else {
-        // ✅ NOT ADMIN - Logout and show error
         setError("⚠️ Access denied. This portal is for administrators only.");
-        
-        // Logout immediately
         setTimeout(async () => {
-          const { logout } = useAuth();
           await logout();
           navigate("/admin/login", { replace: true });
         }, 2000);
       }
-      
     } catch (err) {
       console.error("Admin Login Error:", err);
-      
       if (err.code === 'auth/invalid-credential' || err.code === 'auth/wrong-password') {
         setError("Invalid admin credentials. Please try again.");
       } else if (err.code === 'auth/user-not-found') {
@@ -113,7 +101,7 @@ export default function AdminLogin() {
       <div className="admin-login-bg">
         <img 
           src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&q=80" 
-          alt="Admin Dashboard"
+          alt="Admin Dashboard Background"
         />
         <div className="admin-login-bg-overlay"></div>
       </div>
@@ -124,54 +112,15 @@ export default function AdminLogin() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
       >
-        <Link 
-          to="/" 
-          className="back-home-link"
-          style={{
-            position: "absolute", top: "24px", left: "24px",
-            display: "inline-flex", alignItems: "center", gap: "0.5rem",
-            color: "#ffffff", textDecoration: "none", fontSize: "0.9rem",
-            fontWeight: "500", transition: "all 0.3s ease", zIndex: 10
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.color = "#f97316";
-            e.currentTarget.style.transform = "translateX(-4px)";
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.color = "#ffffff";
-            e.currentTarget.style.transform = "translateX(0)";
-          }}
-        >
-          ← Back to Home
-        </Link>
-
-        <Link 
-          to="/login" 
-          className="user-login-link"
-          style={{
-            position: "absolute", top: "24px", right: "24px",
-            display: "inline-flex", alignItems: "center", gap: "0.5rem",
-            color: "#f97316", textDecoration: "none", fontSize: "0.9rem",
-            fontWeight: "600", padding: "8px 16px",
-            backgroundColor: "rgba(255, 255, 255, 0.9)", borderRadius: "8px",
-            border: "2px solid #f97316", transition: "all 0.3s ease", zIndex: 10,
-            boxShadow: "0 2px 8px rgba(249, 115, 22, 0.15)"
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.backgroundColor = "#f97316";
-            e.currentTarget.style.color = "#ffffff";
-            e.currentTarget.style.transform = "translateY(-2px)";
-            e.currentTarget.style.boxShadow = "0 4px 12px rgba(249, 115, 22, 0.3)";
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.backgroundColor = "rgba(255, 255, 255, 0.9)";
-            e.currentTarget.style.color = "#f97316";
-            e.currentTarget.style.transform = "translateY(0)";
-            e.currentTarget.style.boxShadow = "0 2px 8px rgba(249, 115, 22, 0.15)";
-          }}
-        >
-          👤 User Login
-        </Link>
+        {/* ✅ CLEAN TOP NAVIGATION (No absolute positioning hacks) */}
+        <div className="admin-top-nav">
+          <Link to="/" className="back-home-link">
+            ← Back to Home
+          </Link>
+          <Link to="/login" className="user-login-link">
+            👤 User Login
+          </Link>
+        </div>
 
         <Link to="/" className="admin-login-logo-link">
           <div className="admin-login-logo">
@@ -204,9 +153,16 @@ export default function AdminLogin() {
             <label className="field-label">Admin Email <span className="req">*</span></label>
             <div className="input-box">
               <span className="field-icon">👤</span>
-              <input type="email" name="email" className="text-input"
-                placeholder="admin@company.com" value={formData.email}
-                onChange={handleChange} disabled={isLoading} required />
+              <input 
+                type="email" 
+                name="email" 
+                className="text-input"
+                placeholder="admin@company.com" 
+                value={formData.email}
+                onChange={handleChange} 
+                disabled={isLoading} 
+                required 
+              />
             </div>
           </div>
 
@@ -214,13 +170,22 @@ export default function AdminLogin() {
             <label className="field-label">Admin Password <span className="req">*</span></label>
             <div className="input-box">
               <span className="field-icon">🔐</span>
-              <input type={showPassword ? "text" : "password"} name="password"
-                className="text-input" placeholder="Enter admin password"
-                value={formData.password} onChange={handleChange}
-                disabled={isLoading} required />
-              <button type="button" className="eye-btn"
+              <input 
+                type={showPassword ? "text" : "password"} 
+                name="password"
+                className="text-input" 
+                placeholder="Enter admin password"
+                value={formData.password} 
+                onChange={handleChange}
+                disabled={isLoading} 
+                required 
+              />
+              <button 
+                type="button" 
+                className="eye-btn"
                 onClick={() => setShowPassword(!showPassword)}
-                aria-label="Toggle password visibility">
+                aria-label="Toggle password visibility"
+              >
                 {showPassword ? "🙈" : "👁️"}
               </button>
             </div>
@@ -228,12 +193,20 @@ export default function AdminLogin() {
 
           <div className="form-row">
             <label className="check-label">
-              <input type="checkbox" name="remember" checked={formData.remember}
-                onChange={handleChange} />
+              <input 
+                type="checkbox" 
+                name="remember" 
+                checked={formData.remember}
+                onChange={handleChange} 
+              />
               <span>Remember me</span>
             </label>
-            <button type="button" className="link-forgot"
-              onClick={handleForgotPassword} disabled={isLoading}>
+            <button 
+              type="button" 
+              className="link-forgot"
+              onClick={handleForgotPassword} 
+              disabled={isLoading}
+            >
               Forgot password?
             </button>
           </div>
@@ -241,8 +214,7 @@ export default function AdminLogin() {
           <button type="submit" className="submit-btn" disabled={isLoading}>
             {isLoading ? (
               <>
-                <motion.span animate={{ rotate: 360 }}
-                  transition={{ duration: 1, repeat: Infinity, ease: "linear" }}>
+                <motion.span animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity, ease: "linear" }}>
                   🔄
                 </motion.span>
                 Authenticating...
@@ -262,8 +234,8 @@ export default function AdminLogin() {
 
         <div className="trust-row">
           <span>🔒 Admin Only</span>
-          <span>✅ Encrypted Connection</span>
-          <span>🛡️ Protected Access</span>
+          <span>✅ Encrypted</span>
+          <span>🛡️ Protected</span>
         </div>
       </motion.div>
     </div>

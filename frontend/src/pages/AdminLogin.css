@@ -1,6 +1,6 @@
 /* =========================================
    ATIRATH LOGISTICS - ADMIN LOGIN PAGE
-   ✅ Dark Theme for Admin Portal
+   ✅ Clean Layout, No Hacks, 100% Visible Text
 ========================================= */
 
 * {
@@ -22,7 +22,7 @@
   overflow-x: hidden;
 }
 
-/* ===== BACKGROUND IMAGE ===== */
+/* ===== BACKGROUND ===== */
 .admin-login-bg {
   position: fixed;
   top: 0; left: 0;
@@ -40,8 +40,8 @@
   inset: 0;
   background: linear-gradient(
     135deg,
-    rgba(15, 23, 42, 0.92) 0%,
-    rgba(30, 41, 59, 0.88) 50%,
+    rgba(15, 23, 42, 0.95) 0%,
+    rgba(30, 41, 59, 0.90) 50%,
     rgba(15, 23, 42, 0.95) 100%
   );
 }
@@ -51,16 +51,68 @@
   position: relative;
   z-index: 10;
   width: 100%;
-  max-width: 440px;
+  max-width: 460px;
   background: rgba(30, 41, 59, 0.95) !important;
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(12px);
   border-radius: 24px;
   padding: 2.5rem 2rem;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
   border: 1px solid rgba(249, 115, 22, 0.3);
 }
 
-/* ===== LOGO ===== */
+/* ===== TOP NAVIGATION (Clean Flexbox, No Absolute Hacks) ===== */
+.admin-top-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  width: 100%;
+}
+
+.back-home-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #ffffff !important;
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 8px 14px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  transition: all 0.3s ease;
+}
+
+.back-home-link:hover {
+  background-color: rgba(249, 115, 22, 0.2);
+  border-color: #f97316;
+  color: #f97316 !important;
+}
+
+.user-login-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #0f172a !important;
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 8px 16px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  border: 1px solid #f97316;
+  box-shadow: 0 4px 12px rgba(249, 115, 22, 0.2);
+  transition: all 0.3s ease;
+}
+
+.user-login-link:hover {
+  background-color: #f97316;
+  color: #ffffff !important;
+  transform: translateY(-1px);
+}
+
+/* ===== LOGO & HEADER ===== */
 .admin-login-logo-link {
   text-decoration: none;
   display: block;
@@ -68,30 +120,29 @@
   margin-bottom: 1.5rem;
 }
 
-.admin-login-logo {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-weight: 800;
-  font-size: 1.3rem;
-  color: #ffffff !important;
+.real-logo-img {
+  max-width: 180px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
 }
 
-/* ===== HEADER ===== */
 .admin-login-header {
   text-align: center;
   margin-bottom: 2rem;
 }
 
 .admin-login-header h1 {
-  font-size: 1.8rem;
+  font-size: 1.75rem;
   font-weight: 800;
   color: #f97316 !important;
+  -webkit-text-fill-color: #f97316 !important;
   margin-bottom: 0.5rem;
 }
 
 .admin-login-header p {
   color: #cbd5e1 !important;
+  -webkit-text-fill-color: #cbd5e1 !important;
   font-size: 0.95rem;
 }
 
@@ -111,19 +162,21 @@
   background: rgba(239, 68, 68, 0.15) !important;
   border: 1px solid #ef4444 !important;
   color: #fca5a5 !important;
+  -webkit-text-fill-color: #fca5a5 !important;
 }
 
 .alert-success {
   background: rgba(34, 197, 94, 0.15) !important;
   border: 1px solid #22c55e !important;
   color: #86efac !important;
+  -webkit-text-fill-color: #86efac !important;
 }
 
 /* ===== FORM ===== */
 .admin-login-form {
   display: flex;
   flex-direction: column;
-  gap: 1.2rem;
+  gap: 1.25rem;
 }
 
 .form-field {
@@ -136,47 +189,51 @@
   font-weight: 600;
   font-size: 0.9rem;
   color: #e2e8f0 !important;
+  -webkit-text-fill-color: #e2e8f0 !important;
 }
 
 .req {
   color: #f97316 !important;
+  -webkit-text-fill-color: #f97316 !important;
 }
 
-/* ===== INPUT BOX ===== */
+/* ===== INPUT BOX (Fixed Padding to prevent icon overlap) ===== */
 .input-box {
   position: relative;
   display: flex;
   align-items: center;
+  width: 100%;
 }
 
 .field-icon {
   position: absolute;
   left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
   font-size: 1.1rem;
   z-index: 2;
   pointer-events: none;
+  color: #94a3b8;
 }
 
 .text-input {
   width: 100%;
-  padding: 0.95rem 3rem 0.95rem 2.9rem;
-  border: 2px solid rgba(255, 255, 255, 0.1) !important;
+  /* ✅ CRITICAL: 3rem (48px) left padding ensures text starts AFTER the icon */
+  padding: 0.9rem 3rem 0.9rem 3rem; 
+  border: 2px solid rgba(255, 255, 255, 0.1);
   border-radius: 12px;
   font-size: 1rem;
-  
-  /* DARK BACKGROUND, WHITE TEXT */
   background: rgba(15, 23, 42, 0.6) !important;
   color: #ffffff !important;
   -webkit-text-fill-color: #ffffff !important;
   caret-color: #f97316 !important;
-  
   font-family: inherit;
   transition: all 0.2s ease;
 }
 
 .text-input::placeholder {
-  color: #94a3b8 !important;
-  -webkit-text-fill-color: #94a3b8 !important;
+  color: #64748b !important;
+  -webkit-text-fill-color: #64748b !important;
   opacity: 1;
 }
 
@@ -196,13 +253,14 @@
   background: transparent !important;
   border: none;
   cursor: pointer;
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   z-index: 10;
-  padding: 0;
+  padding: 4px;
   display: flex;
   align-items: center;
   justify-content: center;
   color: #94a3b8;
+  transition: color 0.2s;
 }
 
 .eye-btn:hover {
@@ -225,20 +283,26 @@
   gap: 0.5rem;
   cursor: pointer;
   color: #cbd5e1 !important;
+  -webkit-text-fill-color: #cbd5e1 !important;
   font-weight: 500;
 }
 
 .check-label input[type="checkbox"] {
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 16px;
   accent-color: #f97316;
   cursor: pointer;
 }
 
 .link-forgot {
   color: #f97316 !important;
+  -webkit-text-fill-color: #f97316 !important;
   text-decoration: none;
   font-weight: 600;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.9rem;
 }
 
 .link-forgot:hover {
@@ -255,25 +319,27 @@
   padding: 1rem;
   background: linear-gradient(135deg, #dc2626, #f97316) !important;
   color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
   border: none;
-  border-radius: 14px;
+  border-radius: 12px;
   font-weight: 700;
   font-size: 1.05rem;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 8px 20px rgba(220, 38, 38, 0.4);
+  box-shadow: 0 8px 20px rgba(220, 38, 38, 0.3);
   font-family: inherit;
   margin-top: 0.5rem;
 }
 
 .submit-btn:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 12px 28px rgba(220, 38, 38, 0.5);
+  box-shadow: 0 12px 28px rgba(220, 38, 38, 0.4);
 }
 
 .submit-btn:disabled {
   opacity: 0.7;
   cursor: not-allowed;
+  transform: none;
 }
 
 /* ===== DIVIDER ===== */
@@ -281,8 +347,12 @@
   display: flex;
   align-items: center;
   gap: 1rem;
-  color: #94a3b8 !important;
-  font-size: 0.9rem;
+  color: #64748b !important;
+  -webkit-text-fill-color: #64748b !important;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
   margin: 1.5rem 0;
 }
 
@@ -298,12 +368,14 @@
 .switch-text {
   text-align: center;
   color: #cbd5e1 !important;
+  -webkit-text-fill-color: #cbd5e1 !important;
   font-size: 0.95rem;
   margin: 1.5rem 0 0;
 }
 
 .link-switch {
   color: #f97316 !important;
+  -webkit-text-fill-color: #f97316 !important;
   text-decoration: none;
   font-weight: 700;
 }
@@ -320,16 +392,18 @@
   margin-top: 1.5rem;
   padding-top: 1.5rem;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
-  font-size: 0.8rem;
-  color: #94a3b8 !important;
+  font-size: 0.75rem;
+  color: #64748b !important;
+  -webkit-text-fill-color: #64748b !important;
+  font-weight: 600;
   flex-wrap: wrap;
+  text-align: center;
 }
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
   .admin-login-card {
     padding: 2rem 1.5rem;
-    margin: 0 1rem;
   }
 
   .admin-login-header h1 { font-size: 1.5rem; }
@@ -345,82 +419,31 @@
   .admin-login-page { padding: 1rem 0.5rem; }
 
   .admin-login-card {
-    padding: 1.5rem 1rem;
+    padding: 1.5rem 1.25rem;
     border-radius: 20px;
+  }
+
+  .admin-top-nav {
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: stretch;
+  }
+
+  .back-home-link,
+  .user-login-link {
+    justify-content: center;
+    width: 100%;
   }
 
   .admin-login-header h1 { font-size: 1.3rem; }
 
   .text-input {
-    padding: 0.85rem 3rem 0.85rem 2.6rem;
+    padding: 0.85rem 3rem 0.85rem 2.8rem;
     font-size: 0.95rem;
   }
 
   .submit-btn {
     padding: 0.9rem;
     font-size: 1rem;
-  }
-}
-
-/* =========================================
-   FORCE TEXT VISIBILITY - ADMIN LOGIN
-========================================= */
-
-.check-label,
-.check-label span {
-  color: #cbd5e1 !important;
-  -webkit-text-fill-color: #cbd5e1 !important;
-}
-
-.divider-line,
-.divider-line span {
-  color: #94a3b8 !important;
-  -webkit-text-fill-color: #94a3b8 !important;
-}
-
-.switch-text {
-  color: #cbd5e1 !important;
-  -webkit-text-fill-color: #cbd5e1 !important;
-}
-
-.trust-row,
-.trust-row span {
-  color: #94a3b8 !important;
-  -webkit-text-fill-color: #94a3b8 !important;
-}
-
-.link-forgot {
-  color: #f97316 !important;
-  -webkit-text-fill-color: #f97316 !important;
-}
-
-/* =========================================
-   BACK TO HOME LINK STYLES (ADMIN)
-========================================= */
-.back-home-link {
-  position: absolute;
-  top: 24px;
-  left: 24px;
-  color: #ffffff !important;
-  text-decoration: none;
-  font-weight: 500;
-  font-size: 0.9rem;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  z-index: 20;
-  transition: all 0.3s ease;
-}
-
-.back-home-link:hover {
-  color: #f97316 !important;
-  transform: translateX(-4px);
-}
-
-@media (max-width: 768px) {
-  .back-home-link {
-    top: 16px;
-    left: 16px;
-    font-size: 0.8rem;
   }
 }

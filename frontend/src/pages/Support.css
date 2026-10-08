@@ -1,6 +1,38 @@
 /* =========================================
-   SUPPORT PAGE - CLEAN CONTENT ONLY
-   Sidebar comes from DashboardLayout
+   SUPPORT PAGE - 100% TEXT VISIBILITY FIX
+   ========================================= */
+
+/* 1. NUCLEAR OVERRIDE: Force Dark Text on Everything */
+.support-page,
+.support-page div {
+  color: #1f2937 !important; /* Base dark text fallback */
+}
+
+.support-page h1, .support-page h2, .support-page h3, .support-page h4,
+.support-page p, .support-page span, .support-page label,
+.support-page td, .support-page th, .support-page strong, .support-page b,
+.support-page li, .support-page a {
+  color: #1f2937 !important; /* Force dark slate on all text elements */
+}
+
+/* 2. EXCEPTIONS: Elements that MUST have white text */
+.support-page .tab-btn.active,
+.support-page .tab-btn.active *,
+.support-page .submit-btn,
+.support-page .submit-btn *,
+.support-page .create-ticket-btn,
+.support-page .create-ticket-btn *,
+.support-page .hours-badge,
+.support-page .hours-badge *,
+.support-page .faq-category-tag,
+.support-page .faq-category-tag *,
+.support-page .view-ticket-btn:hover,
+.support-page .view-ticket-btn:hover * {
+  color: #ffffff !important;
+}
+
+/* =========================================
+   STANDARD PAGE STYLES
    ========================================= */
 
 .support-page {
@@ -8,7 +40,6 @@
   max-width: 100%;
   padding: 0;
   margin: 0;
-  color: #1f2937 !important; /* Base text color fallback */
 }
 
 /* Page Header */
@@ -72,7 +103,7 @@
 .tab-btn.active {
   background: #059669 !important;
   border-color: #059669 !important;
-  color: #ffffff !important;
+  /* Color is handled by the nuclear exception above */
 }
 
 /* Quick Contact Grid */
@@ -142,7 +173,7 @@
 
 .quick-subtitle {
   font-size: 12px;
-  color: #059669 !important;
+  color: #047857 !important; /* Darker green for better visibility */
 }
 
 /* Content Grid */
@@ -236,13 +267,11 @@
   box-sizing: border-box !important;
 }
 
-/* ✅ FIX: Ensure dropdown options are visible */
 .form-group select option {
   background: #ffffff !important;
   color: #0f172a !important;
 }
 
-/* ✅ FIX: Ensure placeholders are visible but distinct */
 .form-group input::placeholder,
 .form-group textarea::placeholder {
   color: #94a3b8 !important;
@@ -324,7 +353,7 @@
   background: #059669 !important;
   border: none !important;
   border-radius: 10px !important;
-  color: #ffffff !important;
+  /* Color is handled by the nuclear exception above */
   font-size: 15px !important;
   font-weight: 700 !important;
   cursor: pointer;
@@ -399,7 +428,7 @@
   display: inline-block;
   padding: 6px 14px;
   background: #059669;
-  color: #ffffff !important;
+  /* Color is handled by the nuclear exception above */
   border-radius: 20px;
   font-size: 13px;
   font-weight: 700;
@@ -478,7 +507,7 @@
 
 .privacy-note {
   font-weight: 700;
-  color: #059669 !important;
+  color: #047857 !important; /* Darker green */
 }
 
 /* Ticket List */
@@ -558,7 +587,7 @@
 
 .view-ticket-btn:hover {
   background: #059669 !important;
-  color: #ffffff !important;
+  /* Color is handled by the nuclear exception above */
 }
 
 /* Empty State */
@@ -590,7 +619,7 @@
   background: #059669 !important;
   border: none !important;
   border-radius: 10px !important;
-  color: #ffffff !important;
+  /* Color is handled by the nuclear exception above */
   font-size: 14px !important;
   font-weight: 600 !important;
   cursor: pointer;
@@ -601,7 +630,7 @@
   background: #047857 !important;
 }
 
-/* FAQ */
+/* FAQ Section */
 .faq-search-box {
   margin-bottom: 20px;
 }
@@ -634,36 +663,46 @@
 }
 
 .faq-item {
-  padding: 16px;
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
-  border-radius: 10px;
+  padding: 24px !important;
+  background: #ffffff !important;
+  border: 2px solid #e2e8f0 !important;
+  border-radius: 10px !important;
+  transition: all 0.3s !important;
+}
+
+.faq-item:hover {
+  border-color: #059669 !important;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12) !important;
+  transform: translateY(-2px) !important;
 }
 
 .faq-category-tag {
-  display: inline-block;
-  padding: 4px 10px;
-  background: rgba(5, 150, 105, 0.1);
-  color: #059669 !important;
-  border-radius: 6px;
-  font-size: 11px;
-  font-weight: 700;
-  margin-bottom: 8px;
-  text-transform: uppercase;
+  display: inline-block !important;
+  padding: 6px 14px !important;
+  background: #059669 !important;
+  /* Color is handled by the nuclear exception above */
+  border-radius: 6px !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  margin-bottom: 12px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
 }
 
 .faq-item h3 {
-  font-size: 15px;
-  font-weight: 700;
+  font-size: 16px !important;
+  font-weight: 700 !important;
   color: #0f172a !important;
-  margin: 0 0 8px 0;
+  margin: 0 0 12px 0 !important;
+  line-height: 1.4 !important;
 }
 
 .faq-item p {
-  font-size: 14px;
+  font-size: 14px !important;
   color: #334155 !important;
-  margin: 0;
-  line-height: 1.5;
+  margin: 0 !important;
+  line-height: 1.6 !important;
+  font-weight: 500 !important;
 }
 
 .no-results {
@@ -761,7 +800,6 @@ input:checked + .slider:before {
   cursor: pointer;
 }
 
-/* ✅ FIX: Ensure language dropdown options are visible */
 .language-select option {
   background: #ffffff !important;
   color: #0f172a !important;

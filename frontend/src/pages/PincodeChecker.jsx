@@ -463,8 +463,8 @@ export default function PincodeChecker() {
               <div className="pc-support-section">
                 <p>Need urgent delivery? Contact our team:</p>
                 <div className="pc-support-buttons">
-                  <a href="tel:18001234567" className="pc-support-btn">
-                    📞 1800-123-4567
+                  <a href="tel:18003099980" className="pc-support-btn">
+                    📞 1800-309-9980
                   </a>
                   <Link to="/contact" className="pc-support-btn secondary">
                     💬 Chat Support

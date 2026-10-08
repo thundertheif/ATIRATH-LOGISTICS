@@ -1,8 +1,64 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import Footer from "../components/Footer";
 import "./Home.css";
+
+// ✅ ANIMATED COUNTER COMPONENT
+const AnimatedCounter = ({ end, suffix = "", decimals = 0, duration = 2000 }) => {
+  const [count, setCount] = useState(0);
+  const [hasAnimated, setHasAnimated] = useState(false);
+  const counterRef = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !hasAnimated) {
+          setHasAnimated(true);
+          
+          const startTime = Date.now();
+          const startValue = 0;
+          const endValue = parseFloat(end);
+          
+          const animate = () => {
+            const now = Date.now();
+            const elapsed = now - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            
+            // Ease-out quart easing function
+            const easeOut = 1 - Math.pow(1 - progress, 4);
+            
+            const currentCount = startValue + (endValue - startValue) * easeOut;
+            setCount(currentCount);
+            
+            if (progress < 1) {
+              requestAnimationFrame(animate);
+            } else {
+              setCount(endValue);
+            }
+          };
+          
+          animate();
+        }
+      },
+      { threshold: 0.5 }
+    );
+
+    if (counterRef.current) {
+      observer.observe(counterRef.current);
+    }
+    
+    return () => observer.disconnect();
+  }, [end, duration, hasAnimated]);
+
+  const formattedCount = count.toFixed(decimals);
+  
+  return (
+    <span ref={counterRef}>
+      {formattedCount}{suffix}
+    </span>
+  );
+};
 
 export default function Home() {
   const [scrollY, setScrollY] = useState(0);
@@ -16,7 +72,7 @@ export default function Home() {
   const features = [
     { icon: "📦", title: "End-to-End Solutions", desc: "From pickup to delivery, we handle it all." },
     { icon: "🌍", title: "Global Network", desc: "Strong connections across 150+ countries." },
-    { icon: "🛡️", title: "Safe & Reliable", desc: "Your cargo is fully insured and secure." },
+    { icon: "️", title: "Safe & Reliable", desc: "Your cargo is fully insured and secure." },
     { icon: "⏰", title: "On-Time Delivery", desc: "Punctuality is our core promise to you." },
   ];
 
@@ -32,15 +88,15 @@ export default function Home() {
   const processSteps = [
     { num: "01", title: "Request a Quote", desc: "Share your cargo details, dimensions, and destination with our experts.", icon: "📝" },
     { num: "02", title: "Custom Planning", desc: "We design the most efficient, cost-effective, and fastest route for you.", icon: "🗺️" },
-    { num: "03", title: "Secure Transit", desc: "Your shipment is handled with extreme care and tracked in real-time.", icon: "🚚" },
+    { num: "03", title: "Secure Transit", desc: "Your shipment is handled with extreme care and tracked in real-time.", icon: "" },
     { num: "04", title: "Safe Delivery", desc: "On-time delivery right to your doorstep, warehouse, or final destination.", icon: "✅" },
   ];
 
   const stats = [
-    { num: "150+", label: "Countries Served" },
-    { num: "50K+", label: "Monthly Shipments" },
-    { num: "500+", label: "Global Warehouses" },
-    { num: "99.7%", label: "On-Time Delivery" },
+    { num: 150, suffix: "+", label: "Countries Served", decimals: 0 },
+    { num: 50, suffix: "K+", label: "Monthly Shipments", decimals: 0 },
+    { num: 500, suffix: "+", label: "Global Warehouses", decimals: 0 },
+    { num: 99.7, suffix: "%", label: "On-Time Delivery", decimals: 1 },
   ];
 
   const testimonials = [
@@ -70,7 +126,7 @@ export default function Home() {
             transition={{ duration: 0.8, delay: 0.2 }}
           >
             <div className="home-hero-label">
-              <span>≡</span>
+              <span></span>
               <span>GLOBAL LOGISTICS PARTNER</span>
             </div>
             <h1 className="home-hero-title">
@@ -148,12 +204,12 @@ export default function Home() {
               transition={{ duration: 0.6, delay: 0.2 }}
             >
               <div className="home-intro-card">
-                <div className="home-intro-card-icon">🌐</div>
+                <div className="home-intro-card-icon"></div>
                 <h3>Global Reach</h3>
                 <p>Operating in over 150 countries with a network of trusted, vetted partners.</p>
               </div>
               <div className="home-intro-card">
-                <div className="home-intro-card-icon">⚡</div>
+                <div className="home-intro-card-icon"></div>
                 <h3>Fast Turnaround</h3>
                 <p>Industry-leading transit times without ever compromising on safety or compliance.</p>
               </div>
@@ -200,7 +256,7 @@ export default function Home() {
       <section className="home-process">
         <div className="container">
           <div className="home-section-head">
-            <div className="home-label"><span>≡</span> OUR PROCESS</div>
+            <div className="home-label"><span></span> OUR PROCESS</div>
             <h2>How We <span className="home-accent">Work</span></h2>
             <p>Our streamlined 4-step process ensures your cargo reaches its destination safely, efficiently, and on time.</p>
           </div>
@@ -224,7 +280,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ===== STATS BAR ===== */}
+      {/* ===== STATS BAR WITH ANIMATED COUNTERS ===== */}
       <section className="home-stats">
         <div className="container">
           <div className="home-stats-grid">
@@ -237,7 +293,14 @@ export default function Home() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: i * 0.1 }}
               >
-                <div className="home-stat-num">{s.num}</div>
+                <div className="home-stat-num">
+                  <AnimatedCounter 
+                    end={s.num} 
+                    suffix={s.suffix}
+                    decimals={s.decimals}
+                    duration={2000}
+                  />
+                </div>
                 <div className="home-stat-label">{s.label}</div>
               </motion.div>
             ))}
@@ -309,7 +372,7 @@ export default function Home() {
               <Link to="/contact" className="home-btn home-btn-accent">
                 Get Free Quote <span>→</span>
               </Link>
-              <a href="tel:+919676464756" className="home-btn home-btn-outline-light">
+              <a href="tel:+919553774933" className="home-btn home-btn-outline-light">
                 📞 Call Now
               </a>
             </div>

@@ -615,10 +615,10 @@ p {
 
 .home-partners-title {
   text-align: center;
-  color: #94A3B8 !important;
-  font-size: 0.85rem;
+  color: #475569 !important; /* ✅ FIXED: Changed from #94A3B8 to a more visible slate gray */
+  font-size: 0.9rem;
   font-weight: 700;
-  letter-spacing: 0.3em;
+  letter-spacing: 0.25em;
   margin-bottom: 50px;
   text-transform: uppercase;
 }
@@ -637,14 +637,20 @@ p {
 
 .home-partner-word {
   font-family: "Inter", sans-serif;
-  font-size: 2rem;
+  font-size: 1.8rem;
   font-weight: 800;
-  color: rgba(15, 23, 42, 0.15) !important;
+  color: #334155 !important; /* ✅ FIXED: Changed from 0.15 opacity to a solid, visible dark slate color */
   letter-spacing: 0.05em;
   white-space: nowrap;
-  transition: color 0.3s ease;
+  transition: all 0.3s ease;
+  opacity: 0.85; /* Gives a premium, slightly muted look without being invisible */
 }
-.home-partner-word:hover { color: var(--accent-gold) !important; }
+
+.home-partner-word:hover { 
+  color: var(--primary-navy) !important; /* ✅ PREMIUM HOVER: Turns to dark navy on hover */
+  opacity: 1;
+  transform: scale(1.05); /* ✅ Adds a subtle, professional pop effect */
+}
 
 /* ========================================
    SECTION 9: CTA - WHITE TEXT ON DARK

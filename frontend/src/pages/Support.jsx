@@ -95,7 +95,7 @@ export default function Support() {
         setActiveTab("tickets");
       } catch (error) {
         console.error("Error creating ticket:", error);
-        alert("Failed to create ticket");
+        alert("Failed to create ticket. Please try again.");
       } finally {
         setSubmitting(false);
       }
@@ -114,7 +114,6 @@ export default function Support() {
     faq.a.toLowerCase().includes(faqSearch.toLowerCase())
   );
 
-  // ❌ REMOVED: .top-navbar, .green-sidebar
   return (
     <div className="support-page">
       {/* Page Header */}
@@ -154,7 +153,7 @@ export default function Support() {
                 </div>
                 <div className="quick-info">
                   <span className="quick-title">Global Toll-Free</span>
-                  <span className="quick-value">+1 (800) 123-4567</span>
+                  <span className="quick-value">+1 (800) 309-9980</span>
                   <span className="quick-subtitle">Available 24/7</span>
                 </div>
               </div>
@@ -426,7 +425,12 @@ export default function Support() {
                       <span>⚡ {ticket.priority}</span>
                       <span>📅 {ticket.createdAt?.toLocaleDateString('en-IN')}</span>
                     </div>
-                    <button className="view-ticket-btn">View Details & Reply →</button>
+                    <button 
+                      className="view-ticket-btn"
+                      onClick={() => alert(`Opening details for Ticket: ${ticket.ticketId}`)}
+                    >
+                      View Details & Reply →
+                    </button>
                   </div>
                 ))}
               </div>

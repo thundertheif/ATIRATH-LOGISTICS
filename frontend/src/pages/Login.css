@@ -532,3 +532,47 @@
     font-size: 0.8rem;
   }
 }
+
+/* Social Login Buttons */
+.social-row {
+  display: flex;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.social-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px 20px;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #374151;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.social-btn:hover {
+  background: #f9fafb;
+  border-color: #9ca3af;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.social-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ✅ Perfect alignment for the inline SVG logos */
+.social-icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}

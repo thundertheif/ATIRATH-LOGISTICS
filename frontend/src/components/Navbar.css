@@ -39,6 +39,56 @@ body {
   padding-top: var(--nav-height);
   background: #F5F7FA;
 }
+/* =========================================
+   🚨 FIX: REMOVE UNWANTED TEXT HIGHLIGHTS
+   ========================================= */
+
+/* Reset all background colors on text elements */
+.navbar *,
+.navbar *::before,
+.navbar *::after {
+  background-clip: initial !important;
+}
+
+/* Prevent text highlighting issues */
+.navbar .brand-main,
+.navbar .brand-sub,
+.navbar .nav-link,
+.navbar .profile-name,
+.navbar .profile-email,
+.navbar .profile-role,
+.navbar .profile-title,
+.navbar .profile-subtitle,
+.navbar .profile-item,
+.navbar .profile-guest-note {
+  background: transparent !important;
+  -webkit-background-clip: initial !important;
+  background-clip: initial !important;
+}
+
+/* Fix for profile dropdown items */
+.profile-dropdown {
+  background: #FFFFFF !important;
+}
+
+.profile-dropdown * {
+  background: transparent !important;
+}
+
+.profile-dropdown .profile-item {
+  background: transparent !important;
+}
+
+.profile-dropdown .profile-item:hover {
+  background: linear-gradient(90deg, rgba(255, 107, 53, 0.1), rgba(255, 184, 0, 0.05)) !important;
+}
+
+/* Ensure inputs don't have weird backgrounds */
+.navbar input,
+.navbar select,
+.navbar textarea {
+  background: rgba(30, 41, 59, 0.6) !important;
+}
 
 /* =========================================
    🎨 COLORFUL NAVBAR WITH GRADIENT

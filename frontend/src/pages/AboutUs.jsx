@@ -15,7 +15,7 @@ import missionImg from "../assets/mission.jpg";
 import ourStoryVideo from "../assets/our-story.mp4";
 
 // =========================================
-// 🎯 ANIMATED COUNTER
+//  ANIMATED COUNTER
 // =========================================
 const AnimatedCounter = ({ end, duration = 2000, suffix = "", label }) => {
   const [count, setCount] = useState(0);
@@ -31,7 +31,7 @@ const AnimatedCounter = ({ end, duration = 2000, suffix = "", label }) => {
           observer.unobserve(entry.target);
         }
       },
-      { threshold: 0.5 }
+      { threshold: 0.3 }
     );
     observer.observe(ref.current);
     return () => observer.disconnect();
@@ -63,9 +63,6 @@ const AnimatedCounter = ({ end, duration = 2000, suffix = "", label }) => {
   );
 };
 
-// =========================================
-// ⏱️ TIMELINE ITEM
-// =========================================
 const TimelineItem = ({ year, title, desc, isLeft, index }) => {
   const ref = useRef(null);
   const [isVisible, setIsVisible] = useState(false);
@@ -89,31 +86,41 @@ const TimelineItem = ({ year, title, desc, isLeft, index }) => {
   return (
     <motion.div
       ref={ref}
-      className={`timeline-item ${isLeft ? "left" : "right"}`}
+      className={`timeline-item ${isLeft ? "left" : "right"} ${isExpanded ? "expanded" : ""}`}
       initial={{ opacity: 0, x: isLeft ? -40 : 40 }}
       animate={isVisible ? { opacity: 1, x: 0 } : {}}
-      transition={{ delay: index * 0.15 }}
+      transition={{ delay: index * 0.15, type: "spring", stiffness: 100 }}
+      style={{ willChange: "transform" }}
     >
       <div className="timeline-dot" />
-      <div className="timeline-content">
+      <div className="timeline-content" onClick={() => setIsExpanded(!isExpanded)}>
         <span className="timeline-year">{year}</span>
         <button
           className="timeline-title-btn"
-          onClick={() => setIsExpanded(!isExpanded)}
+          onClick={(e) => {
+            e.stopPropagation();
+            setIsExpanded(!isExpanded);
+          }}
           type="button"
+          aria-expanded={isExpanded}
         >
           <h4 className="timeline-title">{title}</h4>
-          <span className="timeline-toggle-icon">{isExpanded ? "−" : "+"}</span>
+          <span className="timeline-toggle-icon" aria-hidden="true">
+            {isExpanded ? "−" : "+"}
+          </span>
         </button>
-        {(isExpanded || (typeof window !== "undefined" && window.innerWidth >= 768)) && (
-          <motion.p
-            className="timeline-desc"
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-          >
-            {desc}
-          </motion.p>
-        )}
+        <motion.div
+          className="timeline-desc-wrapper"
+          initial={false}
+          animate={{
+            height: isExpanded ? "auto" : 0,
+            opacity: isExpanded ? 1 : 0
+          }}
+          transition={{ duration: 0.3, ease: "easeInOut" }}
+          style={{ overflow: "hidden" }}
+        >
+          <p className="timeline-desc">{desc}</p>
+        </motion.div>
       </div>
     </motion.div>
   );
@@ -128,7 +135,7 @@ const TeamCard = ({ member, index, onImageError }) => {
       className="team-card"
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
+      viewport={{ once: true, amount: 0.2 }}
       transition={{ delay: index * 0.15 }}
       whileHover={{ y: -10 }}
     >
@@ -161,12 +168,13 @@ const TeamCard = ({ member, index, onImageError }) => {
             className="social-link"
             target="_blank"
             rel="noopener noreferrer"
+            aria-label="LinkedIn"
           >
             in
           </a>
         )}
         {member.social.email && (
-          <a href={`mailto:${member.social.email}`} className="social-link">
+          <a href={`mailto:${member.social.email}`} className="social-link" aria-label="Email">
             ✉️
           </a>
         )}
@@ -251,32 +259,52 @@ export default function AboutUs() {
       {
         year: "2010",
         title: "Foundation",
-        desc: "Atirath Logistics founded with a vision to simplify shipping across India.",
+        desc: "Atirath Logistics was founded in Hyderabad with a small fleet of 5 trucks and a vision to simplify domestic shipping across India. Started with warehousing operations in Madhapur, serving local businesses with reliable last-mile delivery solutions.",
       },
       {
-        year: "2013",
+        year: "2012",
+        title: "First Major Client",
+        desc: "Secured our first enterprise contract with a leading FMCG company, handling distribution across 12 states. Expanded fleet to 50+ vehicles and established 3 regional distribution centers in South India.",
+      },
+      {
+        year: "2014",
         title: "National Expansion",
-        desc: "Expanded operations to 500+ cities across India with dedicated fleet.",
+        desc: "Expanded operations to 500+ cities across India with a dedicated fleet of 200+ vehicles. Launched express delivery services and opened 15 branch offices in major metros including Mumbai, Delhi, Bangalore, and Chennai.",
       },
       {
         year: "2016",
-        title: "Global Network",
-        desc: "Launched international shipping to 50+ countries with trusted partners.",
+        title: "Global Network Launch",
+        desc: "Launched international shipping services to 50+ countries through strategic partnerships with global carriers like Maersk, DHL, and MSC. Established customs clearance division and opened our first international office in Dubai.",
+      },
+      {
+        year: "2018",
+        title: "Air Freight Division",
+        desc: "Launched dedicated air freight services with partnerships across 30+ international airports. Introduced temperature-controlled logistics for pharmaceutical and perishable goods, serving healthcare and food industries.",
       },
       {
         year: "2019",
         title: "Tech Innovation",
-        desc: "AI-powered tracking & route optimization system launched.",
+        desc: "Launched AI-powered tracking & route optimization system, reducing delivery times by 35%. Introduced real-time GPS tracking, automated warehouse management, and a customer portal for seamless shipment monitoring.",
+      },
+      {
+        year: "2021",
+        title: "E-Commerce Logistics",
+        desc: "Partnered with 100+ e-commerce brands to handle their fulfillment and last-mile delivery. Built 5 automated sorting facilities capable of processing 50,000+ packages daily with 99.5% accuracy.",
       },
       {
         year: "2022",
         title: "120+ Countries",
-        desc: "Became a trusted global logistics partner serving enterprises worldwide.",
+        desc: "Became a trusted global logistics partner serving enterprises worldwide across 120+ countries. Achieved ISO 9001:2015 certification and IATA accreditation. Opened offices in Singapore, London, and New York.",
+      },
+      {
+        year: "2023",
+        title: "Green Fleet Initiative",
+        desc: "Introduced 100+ electric vehicles for urban deliveries and implemented carbon-offset programs. Reduced operational emissions by 40% while maintaining industry-leading delivery speeds.",
       },
       {
         year: "2024",
-        title: "Sustainability",
-        desc: "Carbon-neutral shipping initiative launched for eco-friendly logistics.",
+        title: "Sustainability & Innovation",
+        desc: "Launched carbon-neutral shipping initiative for eco-friendly logistics. Introduced blockchain-based supply chain transparency, drone delivery pilots in rural areas, and achieved AEO (Authorized Economic Operator) certification.",
       },
     ],
     []
@@ -285,7 +313,7 @@ export default function AboutUs() {
   const whyChooseData = useMemo(
     () => [
       {
-        icon: "🛡️",
+        icon: "️",
         title: "Secure Handling",
         desc: "Your cargo is fully insured and handled with military-grade care protocols.",
         color: "#f97316",
@@ -297,7 +325,7 @@ export default function AboutUs() {
         color: "#2563eb",
       },
       {
-        icon: "🌍",
+        icon: "",
         title: "Global Network",
         desc: "Seamlessly connected to 120+ countries with trusted local partners.",
         color: "#16a34a",
@@ -329,7 +357,7 @@ export default function AboutUs() {
         title: "Our Vision",
         content:
           "To be the world's most trusted logistics partner by 2030, setting new standards in speed, reliability, and sustainability.",
-        icon: "🔭",
+        icon: "",
         features: [
           "Global Leadership",
           "Innovation Hub",
@@ -477,7 +505,7 @@ export default function AboutUs() {
         </section>
 
         {/* ============================================
-            📊 STATS SECTION
+             STATS SECTION
             ============================================ */}
         <section className="about-section stats-section" id="stats">
           <div className="container">
@@ -485,7 +513,7 @@ export default function AboutUs() {
               className="section-header"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              viewport={{ once: true, amount: 0.3 }}
             >
               <span className="section-subheading">OUR IMPACT</span>
               <h2 className="section-heading">
@@ -515,7 +543,7 @@ export default function AboutUs() {
                 className="story-left-text"
                 initial={{ opacity: 0, x: -30 }}
                 whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
+                viewport={{ once: true, amount: 0.3 }}
               >
                 <span className="section-subheading">WHO WE ARE</span>
                 <h2>Delivering Excellence Since 2010</h2>
@@ -543,7 +571,7 @@ export default function AboutUs() {
                 className="story-right-image"
                 initial={{ opacity: 0, x: 30 }}
                 whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
+                viewport={{ once: true, amount: 0.3 }}
               >
                 <img
                   src={missionImg}
@@ -568,7 +596,7 @@ export default function AboutUs() {
               className="section-header"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              viewport={{ once: true, amount: 0.3 }}
             >
               <span className="section-subheading">WHY CHOOSE US</span>
               <h2 className="section-heading">The Atirath Advantage</h2>
@@ -581,7 +609,7 @@ export default function AboutUs() {
                   style={{ "--card-color": item.color }}
                   initial={{ opacity: 0, y: 50 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
+                  viewport={{ once: true, amount: 0.2 }}
                   transition={{ delay: i * 0.15 }}
                   whileHover={{ y: -8 }}
                 >
@@ -598,7 +626,7 @@ export default function AboutUs() {
         </section>
 
         {/* ============================================
-            ⏱️ TIMELINE
+             TIMELINE
             ============================================ */}
         <section className="about-section timeline-section">
           <div className="container">
@@ -606,7 +634,7 @@ export default function AboutUs() {
               className="section-header"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              viewport={{ once: true, amount: 0.3 }}
             >
               <span className="section-subheading">OUR JOURNEY</span>
               <h2 className="section-heading">Milestones of Excellence</h2>
@@ -636,7 +664,7 @@ export default function AboutUs() {
               className="section-header"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              viewport={{ once: true, amount: 0.3 }}
             >
               <span className="section-subheading">OUR PURPOSE</span>
               <h2 className="section-heading">Driven by Purpose</h2>
@@ -663,8 +691,9 @@ export default function AboutUs() {
                     <motion.div
                       key={key}
                       className="tab-content"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.4 }}
                     >
                       <span className="big-icon">{content.icon}</span>
                       <h3>{content.title}</h3>
@@ -685,7 +714,7 @@ export default function AboutUs() {
         </section>
 
         {/* ============================================
-            👥 TEAM
+             TEAM
             ============================================ */}
         <section className="about-section team-section">
           <div className="container">
@@ -693,7 +722,7 @@ export default function AboutUs() {
               className="section-header"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              viewport={{ once: true, amount: 0.3 }}
             >
               <span className="section-subheading">LEADERSHIP</span>
               <h2 className="section-heading">Meet Our Experts</h2>
@@ -720,7 +749,7 @@ export default function AboutUs() {
               className="section-header"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              viewport={{ once: true, amount: 0.3 }}
             >
               <span className="section-subheading">CERTIFICATIONS</span>
               <h2 className="section-heading">Recognitions & Awards</h2>
@@ -737,11 +766,11 @@ export default function AboutUs() {
                   className="cert-card"
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
+                  viewport={{ once: true, amount: 0.2 }}
                   transition={{ delay: i * 0.1 }}
                   whileHover={{ y: -8 }}
                 >
-                  <div className="cert-icon">🏆</div>
+                  <div className="cert-icon"></div>
                   <h3>{cert}</h3>
                 </motion.div>
               ))}
@@ -750,7 +779,7 @@ export default function AboutUs() {
         </section>
 
         {/* ============================================
-            📣 CTA
+             CTA
             ============================================ */}
         <section className="about-section cta-section">
           <div className="container">
@@ -758,7 +787,7 @@ export default function AboutUs() {
               className="cta-content"
               initial={{ y: 40, opacity: 0 }}
               whileInView={{ y: 0, opacity: 1 }}
-              viewport={{ once: true }}
+              viewport={{ once: true, amount: 0.3 }}
             >
               <h2>Ready to Move Forward?</h2>
               <p>

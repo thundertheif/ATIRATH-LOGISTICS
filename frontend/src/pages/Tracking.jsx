@@ -1,5 +1,5 @@
 // =========================================
-// ATIRATH LOGISTICS - REAL-TIME TRACKING (SWIGGY/ZOMATO STYLE)
+// ATIRATH LOGISTICS - REAL-TIME TRACKING (FIXED)
 // =========================================
 
 import { useState, useEffect, useRef } from "react";
@@ -23,7 +23,7 @@ L.Icon.Default.mergeOptions({
   shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
 });
 
-// ✅ Custom icons for pickup, delivery, driver
+// ✅ Custom icons
 const pickupIcon = new L.Icon({
   iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png",
   iconSize: [25, 41], iconAnchor: [12, 41]
@@ -39,7 +39,7 @@ const driverIcon = new L.Icon({
   iconSize: [30, 50], iconAnchor: [15, 50]
 });
 
-// ✅ Map auto-center component
+// ✅ Map auto-center
 function MapUpdater({ center }) {
   const map = useMap();
   useEffect(() => {
@@ -53,17 +53,16 @@ export default function Tracking() {
   const { currentUser } = useAuth();
   const [trackingId, setTrackingId] = useState(urlTrackingId || "");
   const [result, setResult] = useState(null);
-  const [shipmentId, setShipmentId] = useState(null); // ✅ For real-time listener
+  const [shipmentId, setShipmentId] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [recentTrackings, setRecentTrackings] = useState([]);
   const [activeTab, setActiveTab] = useState("overview");
-  const [countdown, setCountdown] = useState({});
-  const [liveLocation, setLiveLocation] = useState(null); // ✅ Real-time driver location
+  const [countdown, setCountdown] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+  const [liveLocation, setLiveLocation] = useState(null);
   const [isListening, setIsListening] = useState(false);
   const unsubscribeRef = useRef(null);
   
-  // Modal States
   const [showProofModal, setShowProofModal] = useState(false);
   const [deliveryProof, setDeliveryProof] = useState(null);
   const [showDriverModal, setShowDriverModal] = useState(false);
@@ -84,18 +83,16 @@ export default function Tracking() {
     }
   }, [urlTrackingId]);
 
-  // ✅ REAL-TIME LISTENER - Swiggy/Zomato style!
+  // ✅ REAL-TIME LISTENER
   useEffect(() => {
     if (!shipmentId) return;
 
     console.log("🔴 Starting real-time listener for shipment:", shipmentId);
 
-    // Cleanup previous listener
     if (unsubscribeRef.current) {
       unsubscribeRef.current();
     }
 
-    // ✅ Listen to shipment document in real-time
     const shipmentDocRef = doc(db, "shipments", shipmentId);
     
     unsubscribeRef.current = onSnapshot(
@@ -105,7 +102,6 @@ export default function Tracking() {
           const data = docSnap.data();
           console.log("🔄 Real-time update received:", data);
 
-          // ✅ Update live location if driver location exists
           if (data.driverLocation) {
             setLiveLocation({
               lat: data.driverLocation.lat,
@@ -115,7 +111,6 @@ export default function Tracking() {
             });
           }
 
-          // ✅ Transform data for UI
           const shipmentData = {
             trackingNumber: data.trackingId || docSnap.id,
             status: data.status || "Label Created",
@@ -140,7 +135,7 @@ export default function Tracking() {
               contact: data.receiverPhone || "",
               location: data.dropLocation || null
             },
-            driver: data.driver || null, // ✅ Driver details
+            driver: data.driver || null,
             driverLocation: data.driverLocation || null,
             history: data.trackingHistory || [{
               status: data.status,
@@ -156,7 +151,7 @@ export default function Tracking() {
         }
       },
       (err) => {
-        console.error("❌ Real-time listener error:", err);
+        console.error(" Real-time listener error:", err);
         setError("Lost connection. Retrying...");
       }
     );
@@ -168,34 +163,55 @@ export default function Tracking() {
     };
   }, [shipmentId]);
 
-  // ✅ Countdown Timer
+  // ✅ FIXED: Countdown Timer - Better date parsing
   useEffect(() => {
-    if (result?.estimatedDelivery && result.status !== "Delivered") {
-      const timer = setInterval(() => {
-        const now = new Date().getTime();
-        const deliveryTime = result.estimatedDelivery instanceof Timestamp 
-          ? result.estimatedDelivery.toDate().getTime() 
-          : new Date(result.estimatedDelivery).getTime();
-        const distance = deliveryTime - now;
-        
-        if (distance > 0) {
-          setCountdown({
-            days: Math.floor(distance / (1000 * 60 * 60 * 24)),
-            hours: Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
-            minutes: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
-            seconds: Math.floor((distance % (1000 * 60)) / 1000)
-          });
-        } else { 
-          setCountdown({ days: 0, hours: 0, minutes: 0, seconds: 0 }); 
-        }
-      }, 1000);
-      return () => clearInterval(timer);
+    if (!result?.estimatedDelivery || result.status === "Delivered") {
+      setCountdown({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+      return;
     }
-  }, [result]);
+
+    const timer = setInterval(() => {
+      const now = new Date().getTime();
+      let deliveryTime;
+      
+      try {
+        if (result.estimatedDelivery instanceof Timestamp) {
+          deliveryTime = result.estimatedDelivery.toDate().getTime();
+        } else if (result.estimatedDelivery instanceof Date) {
+          deliveryTime = result.estimatedDelivery.getTime();
+        } else if (typeof result.estimatedDelivery === 'string') {
+          deliveryTime = new Date(result.estimatedDelivery).getTime();
+        } else if (result.estimatedDelivery?.seconds) {
+          // Firestore Timestamp object
+          deliveryTime = new Date(result.estimatedDelivery.seconds * 1000).getTime();
+        } else {
+          deliveryTime = new Date(result.estimatedDelivery).getTime();
+        }
+      } catch (e) {
+        console.error("Date parsing error:", e);
+        deliveryTime = now + 86400000; // Default: 1 day from now
+      }
+      
+      const distance = deliveryTime - now;
+      
+      if (distance > 0) {
+        setCountdown({
+          days: Math.floor(distance / (1000 * 60 * 60 * 24)),
+          hours: Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+          minutes: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
+          seconds: Math.floor((distance % (1000 * 60)) / 1000)
+        });
+      } else { 
+        setCountdown({ days: 0, hours: 0, minutes: 0, seconds: 0 }); 
+      }
+    }, 1000);
+    
+    return () => clearInterval(timer);
+  }, [result?.estimatedDelivery, result?.status]);
 
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
 
-  // ✅ INITIAL TRACK - Find shipment & start real-time listener
+  // ✅ INITIAL TRACK
   const handleTrack = async (id = trackingId) => {
     if (!currentUser) {
       setError("Please login to track shipments");
@@ -239,10 +255,8 @@ export default function Tracking() {
       const docSnap = querySnapshot.docs[0];
       const data = docSnap.data();
       
-      // ✅ Set shipment ID to start real-time listener
       setShipmentId(docSnap.id);
 
-      // ✅ Initial data load
       const shipmentData = {
         trackingNumber: data.trackingId || docSnap.id,
         status: data.status || "Label Created",
@@ -303,27 +317,52 @@ export default function Tracking() {
     localStorage.setItem("recentTrackings", JSON.stringify(newRecent));
   };
 
-  const getStatusStep = (status) => ({ 
-    "Label Created": 1, "Picked Up": 2, "In Transit": 3, 
-    "Out for Delivery": 4, "Delivered": 5 
-  }[status] || 0);
+  // ✅ FIXED: Status step mapping - Added "Booked"
+  const getStatusStep = (status) => {
+    const statusMap = { 
+      "Booked": 1,
+      "Label Created": 1, 
+      "Picked Up": 2, 
+      "In Transit": 3, 
+      "Out for Delivery": 4, 
+      "Delivered": 5 
+    };
+    return statusMap[status] || 1;
+  };
   
   const currentStep = result ? getStatusStep(result.status) : 0;
   
+  // ✅ FIXED: Added "Booked" to icon map
   const getStatusIcon = (status) => ({ 
-    "Label Created": "📋", "Picked Up": "📦", "In Transit": "🚚", 
-    "Out for Delivery": "🏃", "Delivered": "✅" 
+    "Booked": "📋",
+    "Label Created": "📋", 
+    "Picked Up": "📦", 
+    "In Transit": "🚚", 
+    "Out for Delivery": "🏃", 
+    "Delivered": "✅" 
   }[status] || "📦");
   
+  // ✅ FIXED: Added "Booked" to color map
   const getStatusColor = (status) => ({ 
-    "Label Created": "#64748b", "Picked Up": "#3b82f6", "In Transit": "#f59e0b", 
-    "Out for Delivery": "#10b981", "Delivered": "#22c55e" 
+    "Booked": "#3b82f6",
+    "Label Created": "#64748b", 
+    "Picked Up": "#3b82f6", 
+    "In Transit": "#f59e0b", 
+    "Out for Delivery": "#10b981", 
+    "Delivered": "#22c55e" 
   }[status] || "#64748b");
   
   const formatDate = (dateString) => {
     if (!dateString) return 'N/A';
     try {
-      const d = dateString instanceof Timestamp ? dateString.toDate() : new Date(dateString);
+      let d;
+      if (dateString instanceof Timestamp) {
+        d = dateString.toDate();
+      } else if (dateString?.seconds) {
+        d = new Date(dateString.seconds * 1000);
+      } else {
+        d = new Date(dateString);
+      }
       return d.toLocaleString("en-IN", { 
         day: "2-digit", month: "short", year: "numeric", 
         hour: "2-digit", minute: "2-digit", hour12: true 
@@ -356,10 +395,9 @@ export default function Tracking() {
     scrollToTop(); 
   };
 
-  // ✅ Calculate distance between driver and destination
   const calculateDistance = () => {
     if (!liveLocation || !result?.receiver?.location) return null;
-    const R = 6371; // Earth radius in km
+    const R = 6371;
     const dLat = (result.receiver.location.lat - liveLocation.lat) * Math.PI / 180;
     const dLon = (result.receiver.location.lng - liveLocation.lng) * Math.PI / 180;
     const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
@@ -369,11 +407,10 @@ export default function Tracking() {
     return (R * c).toFixed(1);
   };
 
-  // ✅ Map center - prioritize driver location
   const getMapCenter = () => {
     if (liveLocation) return [liveLocation.lat, liveLocation.lng];
     if (result?.sender?.location) return [result.sender.location.lat, result.sender.location.lng];
-    return [20.5937, 78.9629]; // India center
+    return [20.5937, 78.9629];
   };
 
   return (
@@ -420,7 +457,7 @@ export default function Tracking() {
       {result && (
         <div className="tracking-result">
           
-          {/* ✅ LIVE STATUS BANNER - Swiggy Style */}
+          {/* ✅ LIVE STATUS BANNER */}
           {isListening && (
             <div className="live-status-banner">
               <div className="live-dot"></div>
@@ -429,7 +466,7 @@ export default function Tracking() {
             </div>
           )}
 
-          {/* ✅ COUNTDOWN */}
+          {/* ✅ FIXED: COUNTDOWN - Better date handling */}
           {result.status !== "Delivered" && (
             <div className="countdown-banner">
               <h3>⏰ Estimated Delivery In:</h3>
@@ -444,7 +481,7 @@ export default function Tracking() {
             </div>
           )}
 
-          {/* ✅ LIVE MAP - Swiggy/Zomato Style */}
+          {/* ✅ LIVE MAP */}
           {(currentStep >= 2) && (
             <div className="live-map-card">
               <div className="map-header">
@@ -467,21 +504,18 @@ export default function Tracking() {
                   />
                   <MapUpdater center={getMapCenter()} />
                   
-                  {/* Pickup Marker */}
                   {result.sender?.location && (
                     <Marker position={[result.sender.location.lat, result.sender.location.lng]} icon={pickupIcon}>
                       <Popup><strong>Pickup:</strong> {result.sender.city}</Popup>
                     </Marker>
                   )}
                   
-                  {/* Delivery Marker */}
                   {result.receiver?.location && (
                     <Marker position={[result.receiver.location.lat, result.receiver.location.lng]} icon={deliveryIcon}>
                       <Popup><strong>Delivery:</strong> {result.receiver.city}</Popup>
                     </Marker>
                   )}
                   
-                  {/* Driver Live Marker */}
                   {liveLocation && (
                     <Marker position={[liveLocation.lat, liveLocation.lng]} icon={driverIcon}>
                       <Popup>
@@ -493,7 +527,6 @@ export default function Tracking() {
                     </Marker>
                   )}
 
-                  {/* Route Line */}
                   {result.sender?.location && result.receiver?.location && (
                     <Polyline
                       positions={[
@@ -510,7 +543,7 @@ export default function Tracking() {
             </div>
           )}
 
-          {/* ✅ DRIVER INFO CARD - Swiggy/Zomato/Rapido Style */}
+          {/* ✅ DRIVER INFO CARD */}
           {result.driver && currentStep >= 2 && (
             <div className="driver-card">
               <div className="driver-header">
@@ -537,7 +570,7 @@ export default function Tracking() {
                   className="driver-action-btn location"
                   onClick={() => setShowDriverModal(true)}
                 >
-                  📍 View Location
+                   View Location
                 </button>
               </div>
               {liveLocation && (
@@ -549,7 +582,6 @@ export default function Tracking() {
             </div>
           )}
 
-          {/* ✅ NO DRIVER ASSIGNED YET */}
           {!result.driver && currentStep >= 2 && currentStep < 5 && (
             <div className="driver-card pending">
               <div className="driver-header">
@@ -564,7 +596,7 @@ export default function Tracking() {
             </div>
           )}
 
-          {/* Status Badge */}
+          {/* ✅ FIXED: Status Badge - Better styling */}
           <div className="status-badge-container">
             <span className="status-badge" style={{ background: getStatusColor(result.status) }}>
               {getStatusIcon(result.status)} {result.status}
@@ -576,17 +608,18 @@ export default function Tracking() {
           <div className="tracking-tabs">
             {["overview", "details", "actions"].map((tab) => (
               <button key={tab} className={`tab ${activeTab === tab ? "active" : ""}`} onClick={() => setActiveTab(tab)}>
-                {tab === "overview" ? "📊 Overview" : tab === "details" ? "📋 Details" : "⚡ Actions"}
+                {tab === "overview" ? "📊 Overview" : tab === "details" ? "📋 Details" : " Actions"}
               </button>
             ))}
           </div>
 
           {activeTab === "overview" && (
             <>
+              {/* ✅ FIXED: Progress Steps - Now shows active/completed properly */}
               <div className="status-overview">
                 <div className="progress-container">
                   <div className="progress-steps">
-                    {["Label Created", "Picked Up", "In Transit", "Out for Delivery", "Delivered"].map((step, idx) => (
+                    {["Booked", "Picked Up", "In Transit", "Out for Delivery", "Delivered"].map((step, idx) => (
                       <div key={step} className={`step ${idx + 1 <= currentStep ? "completed" : ""} ${idx + 1 === currentStep ? "active" : ""}`}>
                         <div className="step-icon">{getStatusIcon(step)}</div>
                         <div className="step-label">{step}</div>
@@ -599,12 +632,13 @@ export default function Tracking() {
                 </div>
               </div>
 
+              {/* ✅ FIXED: Route Card - Better visibility */}
               <div className="route-card">
-                <h3>📍 Shipment Route</h3>
+                <h3> Shipment Route</h3>
                 <div className="location from">
                   <div className="location-icon">🏢</div>
                   <div>
-                    <div className="location-label">From</div>
+                    <div className="location-label">FROM</div>
                     <div className="location-address">
                       <strong>{result.sender.name}</strong><br />
                       {result.sender.city}, {result.sender.state} {result.sender.pincode}
@@ -615,7 +649,7 @@ export default function Tracking() {
                 <div className="location to">
                   <div className="location-icon">🏠</div>
                   <div>
-                    <div className="location-label">To</div>
+                    <div className="location-label">TO</div>
                     <div className="location-address">
                       <strong>{result.receiver.name}</strong><br />
                       {result.receiver.city}, {result.receiver.state} {result.receiver.pincode}
@@ -624,6 +658,7 @@ export default function Tracking() {
                 </div>
               </div>
 
+              {/* ✅ FIXED: Tracking History - Better visibility */}
               <div className="detail-card full-width">
                 <h3>📜 Tracking History</h3>
                 <div className="timeline">
@@ -638,6 +673,7 @@ export default function Tracking() {
                           <span className="timeline-date">{formatDate(event.timestamp)}</span>
                         </div>
                         <div className="timeline-location">📍 {event.location}</div>
+                        {event.description && <div className="timeline-desc">{event.description}</div>}
                       </div>
                     </div>
                   ))}
@@ -656,6 +692,7 @@ export default function Tracking() {
                   <div className="info-item"><span className="label">Weight:</span><span className="value">{result.weight} kg</span></div>
                   <div className="info-item"><span className="label">From:</span><span className="value">{result.sender.city}</span></div>
                   <div className="info-item"><span className="label">To:</span><span className="value">{result.receiver.city}</span></div>
+                  <div className="info-item"><span className="label">Status:</span><span className="value" style={{ color: getStatusColor(result.status) }}>{result.status}</span></div>
                 </div>
               </div>
             </div>
@@ -707,7 +744,7 @@ export default function Tracking() {
         <section className="tracking-features">
           <h2>Why Track With ATIRATH?</h2>
           <div className="features-grid">
-            <div className="feature-card"><div className="feature-icon">📍</div><h3>Real-Time GPS</h3><p>Live location updates for your shipments</p></div>
+            <div className="feature-card"><div className="feature-icon"></div><h3>Real-Time GPS</h3><p>Live location updates for your shipments</p></div>
             <div className="feature-card"><div className="feature-icon">🔔</div><h3>Instant Alerts</h3><p>SMS and email alerts at every milestone</p></div>
             <div className="feature-card"><div className="feature-icon">🛡️</div><h3>Secure & Insured</h3><p>Full insurance coverage and proof of delivery</p></div>
           </div>

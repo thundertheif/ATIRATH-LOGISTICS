@@ -1,95 +1,287 @@
-// src/components/pickup/SchedulePickupModal.jsx
 import React, { useState } from "react";
 
 const SchedulePickupModal = ({ isOpen, onClose, onSubmit }) => {
   const [formData, setFormData] = useState({
-    pickupDate: "", pickupTimeSlot: "09:00-11:00", warehouseId: "wh-1",
-    contactPerson: "", contactPhone: "", serviceType: "express",
-    totalPackages: 1, totalWeight: "", status: "scheduled"
+    pickupDate: "",
+    timeSlot: "",
+    warehouse: "",
+    contactPerson: "",
+    phoneNumber: "",
+    serviceType: "Air Cargo",
+    packages: "1",
+    totalWeight: ""
   });
-  const [loading, setLoading] = useState(false);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault(); // Prevents page reload
+    onSubmit(formData); // Sends data to parent component
+  };
 
   if (!isOpen) return null;
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    await onSubmit(formData);
-    setLoading(false);
-  };
-
   return (
-    <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl">
-        <div className="p-6 border-b flex justify-between items-center sticky top-0 bg-white z-10">
-          <h2 className="text-xl font-bold text-gray-900">📅 Schedule New Pickup</h2>
-          <button onClick={onClose} className="text-gray-400 hover:text-gray-600 text-2xl">&times;</button>
+    <>
+      {/* INLINE STYLES: No external CSS file needed, preventing Vite errors */}
+      <style>{`
+        .modal-overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: rgba(15, 23, 42, 0.6);
+          backdrop-filter: blur(4px);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          z-index: 9999;
+          padding: 1rem;
+        }
+        .modal-content {
+          background: #ffffff;
+          border-radius: 1rem;
+          max-width: 550px;
+          width: 100%;
+          max-height: 90vh;
+          overflow-y: auto;
+          box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+          border: 1px solid #e2e8f0;
+        }
+        .modal-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 1.25rem 1.5rem;
+          border-bottom: 1px solid #e2e8f0;
+          position: sticky;
+          top: 0;
+          background: #ffffff;
+          z-index: 10;
+        }
+        .modal-header h2 {
+          margin: 0;
+          color: #0f172a;
+          font-size: 1.25rem;
+          font-weight: 700;
+        }
+        .modal-close {
+          background: #f1f5f9;
+          border: none;
+          font-size: 1.5rem;
+          cursor: pointer;
+          color: #64748b;
+          line-height: 1;
+          width: 36px;
+          height: 36px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 0.5rem;
+          transition: all 0.2s;
+        }
+        .modal-close:hover {
+          background: #e2e8f0;
+          color: #0f172a;
+        }
+        .pickup-form {
+          padding: 1.5rem;
+        }
+        .form-group {
+          margin-bottom: 1rem;
+        }
+        .form-group label {
+          display: block;
+          margin-bottom: 0.375rem;
+          font-weight: 600;
+          color: #334155;
+          font-size: 0.875rem;
+        }
+        .form-group input,
+        .form-group select {
+          width: 100%;
+          padding: 0.625rem 0.875rem;
+          border: 1px solid #cbd5e1;
+          border-radius: 0.5rem;
+          font-size: 0.95rem;
+          color: #0f172a;
+          background: #ffffff;
+          transition: all 0.2s;
+          box-sizing: border-box;
+        }
+        .form-group input:focus,
+        .form-group select:focus {
+          outline: none;
+          border-color: #2563eb;
+          box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+        .modal-actions {
+          display: flex;
+          gap: 0.75rem;
+          justify-content: flex-end;
+          margin-top: 1.5rem;
+          padding-top: 1.25rem;
+          border-top: 1px solid #e2e8f0;
+        }
+        .btn-cancel,
+        .btn-submit {
+          padding: 0.625rem 1.25rem;
+          border-radius: 0.5rem;
+          font-weight: 600;
+          font-size: 0.95rem;
+          cursor: pointer;
+          transition: all 0.2s;
+          border: none;
+        }
+        .btn-cancel {
+          background: #f1f5f9;
+          color: #475569;
+          border: 1px solid #cbd5e1;
+        }
+        .btn-cancel:hover {
+          background: #e2e8f0;
+          color: #0f172a;
+        }
+        .btn-submit {
+          background: #2563eb;
+          color: #ffffff !important;
+          box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);
+        }
+        .btn-submit:hover {
+          background: #1d4ed8;
+          transform: translateY(-1px);
+          box-shadow: 0 6px 8px -1px rgba(37, 99, 235, 0.3);
+        }
+        @media (max-width: 640px) {
+          .modal-actions {
+            flex-direction: column-reverse;
+          }
+          .btn-cancel, .btn-submit {
+            width: 100%;
+          }
+        }
+      `}</style>
+
+      <div className="modal-overlay" onClick={onClose}>
+        <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+          <div className="modal-header">
+            <h2>📅 Schedule New Pickup</h2>
+            <button className="modal-close" onClick={onClose} type="button">&times;</button>
+          </div>
+          
+          <form onSubmit={handleSubmit} className="pickup-form">
+            <div className="form-group">
+              <label>Pickup Date *</label>
+              <input
+                type="date"
+                name="pickupDate"
+                value={formData.pickupDate}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Time Slot *</label>
+              <select name="timeSlot" value={formData.timeSlot} onChange={handleChange} required>
+                <option value="">Select Time Slot</option>
+                <option value="09:00 AM - 11:00 AM">09:00 AM - 11:00 AM</option>
+                <option value="11:00 AM - 01:00 PM">11:00 AM - 01:00 PM</option>
+                <option value="02:00 PM - 04:00 PM">02:00 PM - 04:00 PM</option>
+                <option value="04:00 PM - 06:00 PM">04:00 PM - 06:00 PM</option>
+              </select>
+            </div>
+
+            <div className="form-group">
+              <label>Warehouse *</label>
+              <select name="warehouse" value={formData.warehouse} onChange={handleChange} required>
+                <option value="">Select Warehouse</option>
+                <option value="Hyderabad Central Warehouse">Hyderabad Central Warehouse</option>
+                <option value="Bangalore Warehouse">Bangalore Warehouse</option>
+                <option value="Chennai Port">Chennai Port</option>
+                <option value="Mumbai Warehouse">Mumbai Warehouse</option>
+              </select>
+            </div>
+
+            <div className="form-group">
+              <label>Contact Person *</label>
+              <input
+                type="text"
+                name="contactPerson"
+                value={formData.contactPerson}
+                onChange={handleChange}
+                required
+                placeholder="e.g., FAROOQ"
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Phone Number *</label>
+              <input
+                type="tel"
+                name="phoneNumber"
+                value={formData.phoneNumber}
+                onChange={handleChange}
+                required
+                pattern="[0-9]{10}"
+                placeholder="e.g., 9848022338"
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Service Type</label>
+              <select name="serviceType" value={formData.serviceType} onChange={handleChange}>
+                <option value="Air Cargo">Air Cargo</option>
+                <option value="Road Transport">Road Transport</option>
+                <option value="Express Delivery">Express Delivery</option>
+                <option value="Standard">Standard</option>
+              </select>
+            </div>
+
+            <div className="form-group">
+              <label>Packages</label>
+              <input
+                type="number"
+                name="packages"
+                value={formData.packages}
+                onChange={handleChange}
+                min="1"
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Total Weight (kg) *</label>
+              <input
+                type="number"
+                name="totalWeight"
+                value={formData.totalWeight}
+                onChange={handleChange}
+                required
+                min="0.1"
+                step="0.1"
+                placeholder="e.g., 25"
+              />
+            </div>
+
+            <div className="modal-actions">
+              <button type="button" className="btn-cancel" onClick={onClose}>
+                Cancel
+              </button>
+              <button type="submit" className="btn-submit">
+                ✓ Confirm Pickup
+              </button>
+            </div>
+          </form>
         </div>
-        
-        <form onSubmit={handleSubmit} className="p-6 space-y-4">
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-1">Pickup Date *</label>
-              <input type="date" required min={new Date().toISOString().split('T')[0]} value={formData.pickupDate} onChange={e => setFormData({...formData, pickupDate: e.target.value})} className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" />
-            </div>
-            <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-1">Time Slot *</label>
-              <select value={formData.pickupTimeSlot} onChange={e => setFormData({...formData, pickupTimeSlot: e.target.value})} className="w-full px-3 py-2 border border-gray-300 rounded-lg">
-                <option value="09:00-11:00">09:00 AM - 11:00 AM</option>
-                <option value="11:00-13:00">11:00 AM - 01:00 PM</option>
-                <option value="15:00-17:00">03:00 PM - 05:00 PM</option>
-              </select>
-            </div>
-          </div>
-
-          <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-1">Warehouse *</label>
-            <select value={formData.warehouseId} onChange={e => setFormData({...formData, warehouseId: e.target.value})} className="w-full px-3 py-2 border border-gray-300 rounded-lg">
-              <option value="wh-1">Hyderabad Central Warehouse</option>
-              <option value="wh-2">Chennai Port Warehouse</option>
-              <option value="wh-3">Mumbai Logistics Hub</option>
-            </select>
-          </div>
-
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-1">Contact Person *</label>
-              <input type="text" required value={formData.contactPerson} onChange={e => setFormData({...formData, contactPerson: e.target.value})} className="w-full px-3 py-2 border border-gray-300 rounded-lg" placeholder="Full Name" />
-            </div>
-            <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-1">Phone Number *</label>
-              <input type="tel" required maxLength={10} value={formData.contactPhone} onChange={e => setFormData({...formData, contactPhone: e.target.value})} className="w-full px-3 py-2 border border-gray-300 rounded-lg" placeholder="10-digit mobile" />
-            </div>
-          </div>
-
-          <div className="grid grid-cols-3 gap-4">
-            <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-1">Service Type</label>
-              <select value={formData.serviceType} onChange={e => setFormData({...formData, serviceType: e.target.value})} className="w-full px-3 py-2 border border-gray-300 rounded-lg">
-                <option value="express">Express</option>
-                <option value="standard">Standard</option>
-                <option value="air">Air Cargo</option>
-              </select>
-            </div>
-            <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-1">Packages</label>
-              <input type="number" min="1" value={formData.totalPackages} onChange={e => setFormData({...formData, totalPackages: e.target.value})} className="w-full px-3 py-2 border border-gray-300 rounded-lg" />
-            </div>
-            <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-1">Total Weight (kg) *</label>
-              <input type="number" step="0.1" required value={formData.totalWeight} onChange={e => setFormData({...formData, totalWeight: e.target.value})} className="w-full px-3 py-2 border border-gray-300 rounded-lg" placeholder="e.g. 15.5" />
-            </div>
-          </div>
-
-          <div className="flex justify-end gap-3 pt-4 border-t mt-6">
-            <button type="button" onClick={onClose} className="px-5 py-2 text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 font-semibold">Cancel</button>
-            <button type="submit" disabled={loading} className="px-5 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-semibold disabled:opacity-50 flex items-center gap-2">
-              {loading ? "Scheduling..." : "✓ Confirm Pickup"}
-            </button>
-          </div>
-        </form>
       </div>
-    </div>
+    </>
   );
 };
 

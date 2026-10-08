@@ -41,7 +41,7 @@ export default function Footer() {
         <div className="footer-col">
           <h4>Contact Info</h4>
           <p>📍 Vamsiram Builders, Madhapur Road, Andra Basti, Guttala_Begumpet, Kavuri Hills, Madhapur, Hyderabad, Telangana</p>
-          <p>📞 <a href="tel:+919676464756">+91 96764 64756</a></p>
+          <p>📞 <a href="tel:+919553774933">+91 9553774933</a></p>
           <p>✉️ <a href="mailto:info@atirathlogistics.com">info@atirathlogistics.com</a></p>
           <p>🕐 Mon-Sat: 9AM - 8PM IST</p>
         </div>

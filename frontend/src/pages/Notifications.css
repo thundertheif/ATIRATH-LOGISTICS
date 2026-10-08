@@ -1,6 +1,6 @@
 /* =========================================
-   NOTIFICATIONS PAGE - CLEAN CONTENT ONLY
-   Sidebar comes from DashboardLayout
+   NOTIFICATIONS PAGE - 100% TEXT VISIBILITY
+   All sections fixed including View Details button
    ========================================= */
 
 .notifications-page {
@@ -8,11 +8,14 @@
   max-width: 100%;
   padding: 0;
   margin: 0;
+  background: #f8fafc !important;
 }
 
-/* Page Header */
+/* =========================================
+   PAGE HEADER
+   ========================================= */
 .page-header {
-  background: #ffffff;
+  background: #ffffff !important;
   padding: 20px 24px;
   border-bottom: 2px solid #e2e8f0;
   margin-bottom: 24px;
@@ -22,17 +25,21 @@
 .header-info h1 {
   font-size: 24px;
   font-weight: 800;
-  color: #1f2937 !important;
+  color: #0f172a !important;
+  -webkit-text-fill-color: #0f172a !important;
   margin-bottom: 4px;
 }
 
 .header-info p {
   font-size: 14px;
-  color: #4b5563 !important;
+  color: #475569 !important;
+  -webkit-text-fill-color: #475569 !important;
   margin: 0;
 }
 
-/* Loading Screen */
+/* =========================================
+   LOADING SCREEN
+   ========================================= */
 .loading-screen {
   display: flex;
   flex-direction: column;
@@ -40,7 +47,9 @@
   justify-content: center;
   height: 60vh;
   font-size: 18px;
-  color: #64748b;
+  color: #475569 !important;
+  -webkit-text-fill-color: #475569 !important;
+  font-weight: 600;
 }
 
 .spinner {
@@ -57,7 +66,9 @@
   to { transform: rotate(360deg); }
 }
 
-/* Summary Cards */
+/* =========================================
+   SUMMARY CARDS
+   ========================================= */
 .summary-cards {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -66,13 +77,14 @@
 }
 
 .summary-card {
-  background: #ffffff;
+  background: #ffffff !important;
   border: 1px solid #e2e8f0;
   border-radius: 12px;
   padding: 20px;
   display: flex;
   align-items: center;
   gap: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
 .summary-icon-wrapper {
@@ -99,30 +111,37 @@
 .summary-label {
   font-size: 13px;
   color: #64748b !important;
+  -webkit-text-fill-color: #64748b !important;
   margin-bottom: 4px;
+  font-weight: 600;
 }
 
 .summary-value {
-  font-size: 24px;
+  font-size: 28px;
   font-weight: 800;
   color: #0f172a !important;
+  -webkit-text-fill-color: #0f172a !important;
   line-height: 1;
 }
 
 .summary-subtitle {
   font-size: 12px;
-  color: #94a3b8 !important;
+  color: #475569 !important;
+  -webkit-text-fill-color: #475569 !important;
   margin-top: 4px;
+  font-weight: 500;
 }
 
-/* Filter Tabs Container */
+/* =========================================
+   FILTER TABS CONTAINER
+   ========================================= */
 .filter-tabs-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 16px;
   margin-bottom: 24px;
-  background: #ffffff;
+  background: #ffffff !important;
   padding: 16px 20px;
   border-radius: 12px;
   border: 1px solid #e2e8f0;
@@ -140,7 +159,8 @@
   background: #f8fafc !important;
   border: 1px solid #e2e8f0 !important;
   border-radius: 20px !important;
-  color: #475569 !important;
+  color: #334155 !important;
+  -webkit-text-fill-color: #334155 !important;
   font-size: 13px !important;
   font-weight: 600 !important;
   cursor: pointer;
@@ -150,12 +170,14 @@
 .filter-tab:hover {
   border-color: #059669 !important;
   color: #059669 !important;
+  -webkit-text-fill-color: #059669 !important;
 }
 
 .filter-tab.active {
   background: #059669 !important;
   border-color: #059669 !important;
   color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
 }
 
 .mark-all-read-btn {
@@ -164,6 +186,7 @@
   border: none !important;
   border-radius: 10px !important;
   color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
   font-size: 14px !important;
   font-weight: 600 !important;
   cursor: pointer;
@@ -175,14 +198,18 @@
   background: #047857 !important;
 }
 
-/* Notifications List Container */
+/* =========================================
+   NOTIFICATIONS LIST CONTAINER
+   ========================================= */
 .notifications-list-container {
   display: flex;
   flex-direction: column;
   gap: 24px;
 }
 
-/* Notification Group */
+/* =========================================
+   NOTIFICATION GROUP
+   ========================================= */
 .notification-group {
   margin-bottom: 8px;
 }
@@ -199,6 +226,7 @@
   font-size: 14px;
   font-weight: 700;
   color: #0f172a !important;
+  -webkit-text-fill-color: #0f172a !important;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
@@ -206,21 +234,27 @@
 .group-count {
   font-size: 12px;
   color: #64748b !important;
+  -webkit-text-fill-color: #64748b !important;
+  font-weight: 600;
 }
 
-/* Notifications List */
+/* =========================================
+   NOTIFICATIONS LIST
+   ========================================= */
 .notifications-list {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
-/* Notification Item */
+/* =========================================
+   NOTIFICATION ITEM
+   ========================================= */
 .notification-item {
   display: flex;
   gap: 16px;
   padding: 16px 20px;
-  background: #ffffff;
+  background: #ffffff !important;
   border: 1px solid #e2e8f0;
   border-radius: 12px;
   cursor: pointer;
@@ -234,11 +268,13 @@
 }
 
 .notification-item.unread {
-  background: rgba(5, 150, 105, 0.02);
+  background: rgba(5, 150, 105, 0.03) !important;
   border-left: 3px solid #059669;
 }
 
-/* Notification Icon */
+/* =========================================
+   NOTIFICATION ICON
+   ========================================= */
 .notif-icon {
   width: 48px;
   height: 48px;
@@ -250,7 +286,9 @@
   flex-shrink: 0;
 }
 
-/* Notification Content */
+/* =========================================
+   NOTIFICATION CONTENT
+   ========================================= */
 .notif-content {
   flex: 1;
   min-width: 0;
@@ -268,6 +306,7 @@
   font-size: 15px;
   font-weight: 700;
   color: #0f172a !important;
+  -webkit-text-fill-color: #0f172a !important;
   margin: 0;
   flex: 1;
 }
@@ -275,14 +314,18 @@
 .notif-time {
   font-size: 12px;
   color: #64748b !important;
+  -webkit-text-fill-color: #64748b !important;
   white-space: nowrap;
+  font-weight: 600;
 }
 
 .notif-message {
   font-size: 14px;
-  color: #475569 !important;
+  color: #334155 !important;
+  -webkit-text-fill-color: #334155 !important;
   margin: 0 0 12px 0;
   line-height: 1.5;
+  font-weight: 500;
 }
 
 .notif-footer {
@@ -296,32 +339,43 @@
 .notif-tracking {
   font-size: 12px;
   color: #059669 !important;
-  font-weight: 600;
+  -webkit-text-fill-color: #059669 !important;
+  font-weight: 700;
   font-family: 'Courier New', monospace;
   background: rgba(5, 150, 105, 0.1);
   padding: 4px 10px;
   border-radius: 6px;
 }
 
+/* =========================================
+   ✅ FIXED: NOTIFICATION ACTION BUTTON
+   ========================================= */
 .notif-action-btn {
   padding: 6px 14px !important;
   background: transparent !important;
-  border: 1px solid !important;
+  border: 2px solid !important;
   border-radius: 8px !important;
   font-size: 13px !important;
-  font-weight: 600 !important;
+  font-weight: 700 !important;
   cursor: pointer;
   transition: all 0.3s !important;
   white-space: nowrap;
+  color: #059669 !important; /* ✅ DEFAULT GREEN COLOR */
+  -webkit-text-fill-color: #059669 !important; /* ✅ SAFARI/CHROME FIX */
+  border-color: #059669 !important; /* ✅ DEFAULT BORDER COLOR */
 }
 
 .notif-action-btn:hover {
   background: #059669 !important;
   color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
   border-color: #059669 !important;
+  transform: translateY(-1px);
 }
 
-/* Unread Dot */
+/* =========================================
+   UNREAD DOT
+   ========================================= */
 .unread-dot {
   position: absolute;
   top: 20px;
@@ -332,11 +386,13 @@
   border-radius: 50%;
 }
 
-/* Empty State */
+/* =========================================
+   EMPTY STATE
+   ========================================= */
 .empty-state {
   text-align: center;
   padding: 80px 20px;
-  background: #ffffff;
+  background: #ffffff !important;
   border: 1px solid #e2e8f0;
   border-radius: 12px;
 }
@@ -350,16 +406,21 @@
 .empty-state h3 {
   font-size: 22px !important;
   color: #0f172a !important;
+  -webkit-text-fill-color: #0f172a !important;
   margin-bottom: 12px !important;
   font-weight: 700 !important;
 }
 
 .empty-state p {
   font-size: 15px !important;
-  color: #64748b !important;
+  color: #475569 !important;
+  -webkit-text-fill-color: #475569 !important;
+  font-weight: 500;
 }
 
-/* Responsive */
+/* =========================================
+   RESPONSIVE
+   ========================================= */
 @media (max-width: 1200px) {
   .summary-cards {
     grid-template-columns: repeat(2, 1fr);

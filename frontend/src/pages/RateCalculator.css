@@ -1387,24 +1387,47 @@ button:focus-visible {
   min-height: 48px !important;
 }
 
-/* Focus state - Even more visible */
+/* ========================================
+   ✅ CRITICAL FIX: WEIGHT INPUT VISIBILITY
+   ======================================== */
+
+/* Target the weight input specifically */
+.input-with-unit input[name="weight"],
+.form-group input[name="weight"] {
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+  color: #000000 !important; /* BLACK text - MAXIMUM VISIBILITY */
+  -webkit-text-fill-color: #000000 !important; /* Safari/Chrome fix */
+  caret-color: #000000 !important; /* Black cursor */
+  font-size: 18px !important; /* Larger font */
+  font-weight: 700 !important; /* Bold text */
+  padding: 12px 14px !important;
+  border: 2px solid #d1d5db !important;
+  border-radius: 8px !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  min-height: 48px !important;
+}
+
+/* Focus state - Even more visible with orange border */
 .input-with-unit input[name="weight"]:focus,
 .form-group input[name="weight"]:focus {
   background: #ffffff !important;
   color: #000000 !important;
-  border-color: #ff7a00 !important;
+  border-color: #ff7a00 !important; /* Orange border */
   box-shadow: 0 0 0 4px rgba(255, 122, 0, 0.3) !important;
   outline: none !important;
 }
 
-/* Placeholder - Visible gray */
+/* Placeholder - Visible dark gray */
 .input-with-unit input[name="weight"]::placeholder,
 .form-group input[name="weight"]::placeholder {
-  color: #6b7280 !important;
+  color: #6b7280 !important; /* Dark gray placeholder */
   opacity: 1 !important;
+  font-weight: 500 !important;
 }
 
-/* Fix browser autofill for weight */
+/* Fix browser autofill for weight input */
 .input-with-unit input[name="weight"]:-webkit-autofill,
 .input-with-unit input[name="weight"]:-webkit-autofill:hover,
 .input-with-unit input[name="weight"]:-webkit-autofill:focus,
@@ -1415,18 +1438,20 @@ button:focus-visible {
   transition: background-color 5000s ease-in-out 0s !important;
 }
 
-/* All number inputs - General fix */
-input[type="number"],
-input[type="text"],
-input[type="tel"] {
+/* ALL text inputs - Ensure visibility */
+.rate-calculator-page input[type="text"],
+.rate-calculator-page input[type="number"],
+.rate-calculator-page input[type="tel"] {
   background: #ffffff !important;
   color: #000000 !important;
   -webkit-text-fill-color: #000000 !important;
+  caret-color: #000000 !important;
   font-size: 16px !important;
-  padding: 10px 12px !important;
+  font-weight: 600 !important;
+  opacity: 1 !important;
 }
 
-/* Ensure all inputs in form are visible */
+/* ALL inputs in form sections */
 .form-section input,
 .form-section select,
 .form-section textarea {
@@ -1437,4 +1462,23 @@ input[type="tel"] {
   font-size: 16px !important;
   font-weight: 500 !important;
   opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Fix for ALL placeholders */
+.form-section input::placeholder,
+.form-section textarea::placeholder {
+  color: #6b7280 !important;
+  opacity: 1 !important;
+}
+
+/* Fix browser autofill globally */
+.rate-calculator-page input:-webkit-autofill,
+.rate-calculator-page input:-webkit-autofill:hover,
+.rate-calculator-page input:-webkit-autofill:focus,
+.rate-calculator-page input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px #ffffff inset !important;
+  -webkit-text-fill-color: #000000 !important;
+  caret-color: #000000 !important;
+  transition: background-color 5000s ease-in-out 0s !important;
 }

@@ -546,12 +546,12 @@
 }
 
 /* =========================================
-   KYC SECTION
+   ✅ KYC SECTION (ENHANCED)
    ========================================= */
 #profile-root .kyc-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 20px;
   margin-bottom: 24px;
 }
 
@@ -569,17 +569,10 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
-#profile-root .kyc-item.verified {
-  border-left: 4px solid #16a34a;
-}
-
-#profile-root .kyc-item.pending {
-  border-left: 4px solid #d97706;
-}
-
-#profile-root .kyc-item.not-uploaded {
-  border-left: 4px solid #64748b;
-}
+#profile-root .kyc-item.verified { border-left: 4px solid #16a34a; }
+#profile-root .kyc-item.pending { border-left: 4px solid #d97706; }
+#profile-root .kyc-item.rejected { border-left: 4px solid #dc2626; }
+#profile-root .kyc-item.not-uploaded { border-left: 4px solid #64748b; }
 
 #profile-root .kyc-icon {
   font-size: 32px;
@@ -612,18 +605,6 @@
   font-weight: 500;
 }
 
-#profile-root .kyc-info p strong {
-  color: #0f172a !important;
-  font-weight: 700;
-}
-
-#profile-root .kyc-date {
-  font-size: 12px !important;
-  color: #475569 !important;
-  font-style: italic;
-  font-weight: 500;
-}
-
 #profile-root .kyc-desc {
   font-size: 12px !important;
   color: #475569 !important;
@@ -631,33 +612,113 @@
   font-weight: 500;
 }
 
+/* ✅ NEW: KYC Status Badges */
+#profile-root .kyc-status-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+#profile-root .kyc-status-badge.not-uploaded { background: #f1f5f9; color: #475569; }
+#profile-root .kyc-status-badge.pending { background: #fef3c7; color: #d97706; }
+#profile-root .kyc-status-badge.verified { background: #d1fae5; color: #059669; }
+#profile-root .kyc-status-badge.rejected { background: #fee2e2; color: #dc2626; }
+
+/* ✅ NEW: Rejection Reason Box */
+#profile-root .kyc-rejection-reason {
+  background: #fee2e2;
+  border: 1px solid #fca5a5;
+  color: #991b1b;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+/* ✅ NEW: File Name Display */
+#profile-root .kyc-file-name {
+  font-size: 12px;
+  color: #475569;
+  margin-bottom: 12px;
+  font-style: italic;
+  word-break: break-all;
+  background: #e2e8f0;
+  padding: 4px 8px;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+/* ✅ NEW: Upload Area & Actions */
+#profile-root .kyc-actions {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+#profile-root .kyc-file-input {
+  display: none;
+}
+
+#profile-root .kyc-upload-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: #f97316;
+  color: #ffffff !important;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-align: center;
+}
+
+#profile-root .kyc-upload-btn:hover {
+  background: #ea580c;
+  transform: translateY(-1px);
+}
+
 #profile-root .kyc-btn {
-  padding: 8px 16px !important;
+  padding: 10px 16px !important;
   background: rgba(59, 130, 246, 0.1) !important;
   color: #2563eb !important;
   border: 1px solid rgba(59, 130, 246, 0.3) !important;
-  border-radius: 6px !important;
+  border-radius: 8px !important;
   font-size: 13px !important;
   font-weight: 600 !important;
   cursor: pointer;
   transition: all 0.3s;
-  margin-top: 8px;
-  font-family: inherit;
+  text-align: center;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
 }
 
-#profile-root .kyc-btn:hover {
+#profile-root .kyc-btn.view-btn {
   background: #3b82f6 !important;
-  color: #ffffff !important;
-}
-
-#profile-root .kyc-btn.primary {
-  background: #f97316 !important;
   color: #ffffff !important;
   border: none !important;
 }
 
-#profile-root .kyc-btn.primary:hover {
-  background: #ea580c !important;
+#profile-root .kyc-btn.view-btn:hover {
+  background: #2563eb !important;
+}
+
+#profile-root .kyc-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none !important;
 }
 
 #profile-root .kyc-benefits {
@@ -712,14 +773,8 @@
 }
 
 @keyframes modalSlideIn {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 #profile-root .modal-header {
@@ -842,7 +897,6 @@
   #profile-root .profile-overview {
     grid-template-columns: 1fr;
   }
-
   #profile-root .profile-stats-grid {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -853,43 +907,34 @@
     flex-wrap: nowrap;
     overflow-x: auto;
   }
-
   #profile-root .tab-btn {
     flex: 0 0 auto;
   }
-
   #profile-root .form-grid {
     grid-template-columns: 1fr;
   }
-
   #profile-root .security-item {
     flex-direction: column;
     align-items: flex-start;
     gap: 12px;
   }
-
   #profile-root .security-btn {
     width: 100%;
     text-align: center;
   }
-
   #profile-root .kyc-grid {
     grid-template-columns: 1fr;
   }
-
   #profile-root .kyc-item {
     flex-direction: column;
     text-align: center;
   }
-
   #profile-root .kyc-icon {
     margin: 0 auto;
   }
-
   #profile-root .profile-card {
     padding: 20px;
   }
-
   #profile-root .submit-btn {
     width: 100%;
   }
@@ -899,25 +944,20 @@
   #profile-root .profile-stats-grid {
     grid-template-columns: 1fr;
   }
-
   #profile-root .profile-avatar-large {
     width: 100px;
     height: 100px;
     font-size: 40px;
   }
-
   #profile-root .page-header h1 {
     font-size: 20px !important;
   }
-
   #profile-root .modal-content {
     max-width: 100%;
   }
-
   #profile-root .modal-footer {
     flex-direction: column;
   }
-
   #profile-root .modal-btn {
     width: 100%;
   }

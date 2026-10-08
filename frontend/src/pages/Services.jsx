@@ -293,7 +293,7 @@ export default function Services() {
               <p>Talk to a logistics specialist — no IVR mazes, no wait times. Just answers.</p>
             </div>
             <div className="sv-cta-btns">
-              <a href="tel:+919676464756" className="sv-btn sv-btn-yellow">
+              <a href="tel:+919553774933" className="sv-btn sv-btn-yellow">
                 📞 Call Now <span>→</span>
               </a>
               <Link to="/booking" className="sv-btn sv-btn-dark">

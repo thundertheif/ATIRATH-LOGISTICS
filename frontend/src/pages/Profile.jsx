@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { doc, getDoc, updateDoc, serverTimestamp } from "firebase/firestore";
 import { updatePassword, EmailAuthProvider, reauthenticateWithCredential } from "firebase/auth";
-import { db, auth } from "../firebase";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { db, auth, storage } from "../firebase"; // ⚠️ Ensure 'storage' is exported from your firebase.js
 import { useAuth } from "../context/AuthContext";
 import "./Profile.css";
 
@@ -42,11 +43,12 @@ export default function Profile() {
     language: "English"
   });
 
-  const [kycStatus, setKycStatus] = useState({
-    aadhar: { status: "not-uploaded", date: null },
-    pan: { status: "not-uploaded", date: null },
-    gst: { status: "not-uploaded", date: null },
-    business: { status: "not-uploaded", date: null }
+  // ✅ Enhanced KYC State with URL, fileName, and rejectionReason
+  const [kycData, setKycData] = useState({
+    aadhar: { status: "not-uploaded", url: "", fileName: "", rejectionReason: "", uploadedAt: null },
+    pan: { status: "not-uploaded", url: "", fileName: "", rejectionReason: "", uploadedAt: null },
+    gst: { status: "not-uploaded", url: "", fileName: "", rejectionReason: "", uploadedAt: null },
+    business: { status: "not-uploaded", url: "", fileName: "", rejectionReason: "", uploadedAt: null }
   });
 
   useEffect(() => {
@@ -75,7 +77,16 @@ export default function Profile() {
           });
           
           if (data.preferences) setPreferences(data.preferences);
-          if (data.kycStatus) setKycStatus(data.kycStatus);
+          
+          // ✅ Merge fetched KYC data with default structure to prevent missing fields
+          if (data.kycStatus) {
+            setKycData({
+              aadhar: { status: "not-uploaded", url: "", fileName: "", rejectionReason: "", uploadedAt: null, ...data.kycStatus.aadhar },
+              pan: { status: "not-uploaded", url: "", fileName: "", rejectionReason: "", uploadedAt: null, ...data.kycStatus.pan },
+              gst: { status: "not-uploaded", url: "", fileName: "", rejectionReason: "", uploadedAt: null, ...data.kycStatus.gst },
+              business: { status: "not-uploaded", url: "", fileName: "", rejectionReason: "", uploadedAt: null, ...data.kycStatus.business }
+            });
+          }
         } else {
           setProfileData(prev => ({
             ...prev,
@@ -112,7 +123,7 @@ export default function Profile() {
       await updateDoc(doc(db, "users", currentUser.uid), {
         ...profileData,
         preferences,
-        kycStatus,
+        kycStatus: kycData, // ✅ Save expanded KYC data
         updatedAt: serverTimestamp()
       });
       
@@ -120,6 +131,66 @@ export default function Profile() {
     } catch (error) {
       console.error("Error updating profile:", error);
       showToast("❌ Failed to update profile", 'error');
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  // ✅ KYC File Upload Handler with Validation & Firebase Storage
+  const handleKycUpload = async (type, file) => {
+    if (!file) return;
+    
+    // 1. Validation
+    const validTypes = ["application/pdf", "image/jpeg", "image/png", "image/jpg"];
+    if (!validTypes.includes(file.type)) {
+      showToast("❌ Invalid file type. Please upload PDF, JPG, or PNG only.", "error");
+      return;
+    }
+    if (file.size > 5 * 1024 * 1024) { // 5MB limit
+      showToast("❌ File size exceeds 5MB limit.", "error");
+      return;
+    }
+
+    setSaving(true);
+    try {
+      // 2. Update local state to pending
+      setKycData(prev => ({
+        ...prev,
+        [type]: { ...prev[type], status: "pending", fileName: file.name }
+      }));
+
+      // 3. Upload to Firebase Storage
+      const storageRef = ref(storage, `kyc/${currentUser.uid}/${type}_${Date.now()}`);
+      const snapshot = await uploadBytes(storageRef, file);
+      const downloadURL = await getDownloadURL(snapshot.ref);
+
+      // 4. Update Firestore with new KYC data
+      const newKycData = {
+        ...kycData,
+        [type]: { 
+          status: "pending", 
+          url: downloadURL, 
+          fileName: file.name,
+          uploadedAt: new Date().toISOString(),
+          rejectionReason: "" // Clear previous rejection reason
+        }
+      };
+
+      await updateDoc(doc(db, "users", currentUser.uid), {
+        kycStatus: newKycData,
+        updatedAt: serverTimestamp()
+      });
+
+      setKycData(newKycData);
+      showToast(`✅ ${type.toUpperCase()} uploaded successfully! Pending admin verification.`, "success");
+    } catch (error) {
+      console.error("Error uploading KYC:", error);
+      showToast("❌ Failed to upload document. Please try again.", "error");
+      // Revert status on failure
+      setKycData(prev => ({
+        ...prev,
+        [type]: { ...prev[type], status: prev[type].status === "rejected" ? "rejected" : "not-uploaded" }
+      }));
     } finally {
       setSaving(false);
     }
@@ -164,7 +235,6 @@ export default function Profile() {
     if (!window.confirm("⚠️ Are you sure you want to delete your account? This action cannot be undone!")) {
       return;
     }
-    
     showToast("Account deletion is disabled for safety. Contact support.", 'error');
   };
 
@@ -180,7 +250,63 @@ export default function Profile() {
   }
 
   const userInitial = (profileData.displayName || 'U').charAt(0).toUpperCase();
-  const verifiedCount = Object.values(kycStatus).filter(k => k.status === 'verified').length;
+  const verifiedCount = Object.values(kycData).filter(k => k.status === 'verified').length;
+
+  // ✅ Reusable KYC Item Renderer
+  const renderKycItem = (type, label, icon, description) => {
+    const data = kycData[type];
+    const isVerified = data.status === "verified";
+    const isPending = data.status === "pending";
+    const isRejected = data.status === "rejected";
+    const isNotUploaded = data.status === "not-uploaded";
+
+    return (
+      <div className={`kyc-item ${data.status}`}>
+        <div className="kyc-icon">{icon}</div>
+        <div className="kyc-info">
+          <h3>{label}</h3>
+          <span className={`kyc-status-badge ${data.status}`}>
+            {isVerified ? "✓ Verified" : isPending ? "⏳ Pending Review" : isRejected ? "❌ Rejected" : "❌ Not Uploaded"}
+          </span>
+          
+          {isRejected && data.rejectionReason && (
+            <div className="kyc-rejection-reason">
+              <strong>Admin Note:</strong> {data.rejectionReason}
+            </div>
+          )}
+          
+          <p className="kyc-desc">{description}</p>
+          
+          {data.fileName && (
+            <p className="kyc-file-name">📄 {data.fileName}</p>
+          )}
+
+          <div className="kyc-actions">
+            <input
+              type="file"
+              id={`file-${type}`}
+              className="kyc-file-input"
+              accept=".pdf,.jpg,.jpeg,.png"
+              onChange={(e) => handleKycUpload(type, e.target.files[0])}
+              disabled={saving || isPending || isVerified}
+            />
+            
+            {isNotUploaded || isRejected ? (
+              <label htmlFor={`file-${type}`} className="kyc-upload-btn">
+                {isRejected ? "🔄 Re-upload Document" : "📤 Upload Document"}
+              </label>
+            ) : isPending ? (
+              <button className="kyc-btn" disabled>⏳ Under Review</button>
+            ) : (
+              <a href={data.url} target="_blank" rel="noopener noreferrer" className="kyc-btn view-btn">
+                👁️ View Document
+              </a>
+            )}
+          </div>
+        </div>
+      </div>
+    );
+  };
 
   return (
     <div id="profile-root">
@@ -571,64 +697,17 @@ export default function Profile() {
         </div>
       )}
 
-      {/* TAB 4: KYC VERIFICATION */}
+      {/* TAB 4: KYC VERIFICATION (✅ FULLY FUNCTIONAL) */}
       {activeTab === "kyc" && (
         <div className="profile-card">
           <h2>🆔 KYC Verification</h2>
           <p className="section-desc">Complete your KYC to unlock premium features, higher limits, and faster processing. Verified accounts get priority support.</p>
           
           <div className="kyc-grid">
-            <div className={`kyc-item ${kycStatus.aadhar.status}`}>
-              <div className="kyc-icon">🆔</div>
-              <div className="kyc-info">
-                <h3>Aadhar Card</h3>
-                <p>Status: <strong>{kycStatus.aadhar.status === 'verified' ? '✓ Verified' : kycStatus.aadhar.status === 'pending' ? '⏳ Pending' : '❌ Not Uploaded'}</strong></p>
-                {kycStatus.aadhar.date && <p className="kyc-date">Verified on: {kycStatus.aadhar.date}</p>}
-                <p className="kyc-desc">Required for identity verification and compliance.</p>
-                <button className={`kyc-btn ${kycStatus.aadhar.status === 'not-uploaded' ? 'primary' : ''}`}>
-                  {kycStatus.aadhar.status === 'verified' ? 'View Document' : 'Upload Aadhar'}
-                </button>
-              </div>
-            </div>
-
-            <div className={`kyc-item ${kycStatus.pan.status}`}>
-              <div className="kyc-icon">💳</div>
-              <div className="kyc-info">
-                <h3>PAN Card</h3>
-                <p>Status: <strong>{kycStatus.pan.status === 'verified' ? '✓ Verified' : kycStatus.pan.status === 'pending' ? '⏳ Pending' : '❌ Not Uploaded'}</strong></p>
-                {kycStatus.pan.date && <p className="kyc-date">Verified on: {kycStatus.pan.date}</p>}
-                <p className="kyc-desc">Required for tax compliance and high-value transactions.</p>
-                <button className={`kyc-btn ${kycStatus.pan.status === 'not-uploaded' ? 'primary' : ''}`}>
-                  {kycStatus.pan.status === 'verified' ? 'View Document' : 'Upload PAN'}
-                </button>
-              </div>
-            </div>
-
-            <div className={`kyc-item ${kycStatus.gst.status}`}>
-              <div className="kyc-icon">📋</div>
-              <div className="kyc-info">
-                <h3>GST Certificate</h3>
-                <p>Status: <strong>{kycStatus.gst.status === 'verified' ? '✓ Verified' : kycStatus.gst.status === 'pending' ? '⏳ Pending' : '❌ Not Uploaded'}</strong></p>
-                {kycStatus.gst.date && <p className="kyc-date">Verified on: {kycStatus.gst.date}</p>}
-                <p className="kyc-desc">Required for B2B shipments and input tax credit.</p>
-                <button className={`kyc-btn ${kycStatus.gst.status === 'not-uploaded' ? 'primary' : ''}`}>
-                  {kycStatus.gst.status === 'verified' ? 'View Document' : 'Upload GST'}
-                </button>
-              </div>
-            </div>
-
-            <div className={`kyc-item ${kycStatus.business.status}`}>
-              <div className="kyc-icon">🏢</div>
-              <div className="kyc-info">
-                <h3>Business Registration</h3>
-                <p>Status: <strong>{kycStatus.business.status === 'verified' ? '✓ Verified' : kycStatus.business.status === 'pending' ? '⏳ Pending' : '❌ Not Uploaded'}</strong></p>
-                {kycStatus.business.date && <p className="kyc-date">Verified on: {kycStatus.business.date}</p>}
-                <p className="kyc-desc">Required for business accounts and bulk shipping.</p>
-                <button className={`kyc-btn ${kycStatus.business.status === 'not-uploaded' ? 'primary' : ''}`}>
-                  {kycStatus.business.status === 'verified' ? 'View Document' : 'Upload Certificate'}
-                </button>
-              </div>
-            </div>
+            {renderKycItem("aadhar", "Aadhar Card", "🆔", "Required for identity verification and compliance.")}
+            {renderKycItem("pan", "PAN Card", "💳", "Required for tax compliance and high-value transactions.")}
+            {renderKycItem("gst", "GST Certificate", "📋", "Required for B2B shipments and input tax credit.")}
+            {renderKycItem("business", "Business Registration", "🏢", "Required for business accounts and bulk shipping.")}
           </div>
 
           <div className="kyc-benefits">

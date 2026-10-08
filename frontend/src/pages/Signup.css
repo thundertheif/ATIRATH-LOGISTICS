@@ -1,7 +1,56 @@
-* {
+/* =========================================
+   🚨 CRITICAL FIX: 100% DARK TEXT VISIBILITY
+   All light colors replaced with dark colors
+   ========================================= */
+.signup-page *,
+.signup-page *::before,
+.signup-page *::after {
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+}
+
+/* Force all text to be visible and VERY DARK */
+.signup-page {
+  color: #0f172a !important;
+}
+
+/* ✅ FIXED: Removed .check-label and span from this selector */
+.signup-page h1,
+.signup-page h2,
+.signup-page h3,
+.signup-page h4,
+.signup-page p,
+.signup-page a,
+.signup-page strong,
+.signup-page .field-label,
+.signup-page .strength-label,
+.signup-page .link-switch,
+.signup-page .signup-logo-text,
+.signup-page .switch-text,
+.signup-page .benefits-row span {
+  background: transparent !important;
+  color: #030303 !important;
+  -webkit-text-fill-color: #030303 !important;
+  opacity: 1 !important;
+  text-shadow: none !important;
+  display: inline !important;
+}
+
+/* ===== BASE RESET ===== */
+* { 
+  margin: 0; 
+  padding: 0; 
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+  width: 100%;
+}
+
+body {
+  min-height: 100vh;
+  min-height: 100dvh;
 }
 
 .signup-page {
@@ -13,21 +62,28 @@
   align-items: center;
   justify-content: center;
   padding: 2rem 1rem;
-  font-family: 'Inter', system-ui, sans-serif;
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   overflow-x: hidden;
+  overflow-y: auto;
+  isolation: isolate;
 }
 
-/* Background */
 .signup-bg {
   position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  z-index: 0;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -2;
+  pointer-events: none;
+  overflow: hidden;
 }
 
 .signup-bg img {
-  width: 100%; height: 100%;
+  display: block;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
+  object-position: center;
 }
 
 .signup-bg-overlay {
@@ -41,43 +97,64 @@
   );
 }
 
-/* WHITE CARD - Like Login Page */
 .signup-card {
   position: relative;
-  z-index: 10;
-  width: 100%;
-  max-width: 480px;
-  background: #ffffff !important;
+  z-index: 1;
+  width: min(100%, 480px);
+  margin: auto;
+  background: #ffffff;
+  color: #0f172a;
   border-radius: 24px;
   padding: 2.5rem 2rem;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(5, 5, 5, 0.3);
 }
 
-/* Logo */
 .signup-logo-link {
-  text-decoration: none;
   display: block;
+  width: 100%;
+  margin: 0 auto 1.5rem;
+  text-decoration: none;
   text-align: center;
-  margin-bottom: 1.5rem;
 }
 
 .signup-logo {
-  display: inline-flex;
+  display: flex;
+  flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 0.5rem;
   font-weight: 800;
-  font-size: 1.3rem;
-  color: #0a1a2f !important;
+  font-size: 1.8rem;
+  line-height: 1.2;
+  color: #0f172a !important;
+  -webkit-text-fill-color: #0f172a !important;
 }
 
 .signup-logo-img {
-  width: 50px !important;
-  height: 50px !important;
-  object-fit: contain !important;
+  display: block;
+  width: 280px !important;
+  height: auto !important;
+  max-height: 120px !important;
+  object-fit: contain;
+  margin: 0 auto;
 }
 
-/* Header */
+.signup-logo-text {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  width: auto !important;
+  height: auto !important;
+  overflow: visible !important;
+  color: #000000 !important;
+  -webkit-text-fill-color: #050505 !important;
+  font-size: 1.5rem !important;
+  font-weight: 800 !important;
+  margin-top: 0.5rem;
+  text-align: center;
+}
+
 .signup-header {
   text-align: center;
   margin-bottom: 2rem;
@@ -85,38 +162,44 @@
 
 .signup-header h1 {
   font-size: 1.8rem;
+  line-height: 1.25;
   font-weight: 800;
-  color: #0a1a2f !important;
+  color: #0f172a !important;
+  -webkit-text-fill-color: #000000 !important;
   margin-bottom: 0.5rem;
 }
 
 .signup-header p {
-  color: #4b5563 !important;
+  color: #0f172a !important;
+  -webkit-text-fill-color: #0f172a !important;
   font-size: 0.95rem;
+  line-height: 1.5;
+  font-weight: 500;
 }
 
-/* Alerts */
 .alert-box {
   padding: 0.85rem 1rem;
   border-radius: 10px;
   font-size: 0.9rem;
   font-weight: 600;
+  line-height: 1.4;
   margin-bottom: 1.5rem;
 }
 
 .alert-error {
-  background: #fef2f2 !important;
-  border: 1px solid #ef4444 !important;
-  color: #dc2626 !important;
+  background: #fef2f2;
+  border: 1px solid #ef4444;
+  color: #991b1b !important;
+  -webkit-text-fill-color: #991b1b !important;
 }
 
 .alert-success {
-  background: #f0fdf4 !important;
-  border: 1px solid #22c55e !important;
-  color: #16a34a !important;
+  background: #f0fdf4;
+  border: 1px solid #22c55e;
+  color: #14532d !important;
+  -webkit-text-fill-color: #14532d !important;
 }
 
-/* Form */
 .signup-form {
   display: flex;
   flex-direction: column;
@@ -127,20 +210,25 @@
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  min-width: 0;
 }
 
 .field-label {
-  font-weight: 600;
+  font-weight: 700;
   font-size: 0.9rem;
-  color: #374151 !important;
+  line-height: 1.3;
+  color: #000000 !important;
+  -webkit-text-fill-color: #0f172a !important;
 }
 
 .req {
   color: #dc2626 !important;
+  -webkit-text-fill-color: #dc2626 !important;
 }
 
 .input-box {
   position: relative;
+  width: 100%;
   display: flex;
   align-items: center;
 }
@@ -148,32 +236,62 @@
 .field-icon {
   position: absolute;
   left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
   font-size: 1.1rem;
+  line-height: 1;
   z-index: 2;
   pointer-events: none;
+  color: #0f172a !important;
+  -webkit-text-fill-color: #0f172a !important;
 }
 
 .text-input {
+  display: block;
   width: 100%;
-  padding: 0.95rem 3rem 0.95rem 2.9rem;
-  border: 2px solid #e5e7eb !important;
+  min-width: 0;
+  min-height: 48px;
+  padding: 0.95rem 3.1rem 0.95rem 3.2rem;
+  border: 2px solid #e2e8f0;
   border-radius: 12px;
-  font-size: 1rem;
-  background: #ffffff !important;
-  color: #000000 !important;
-  -webkit-text-fill-color: #000000 !important;
+  font-size: 15px;
+  line-height: 1.25;
+  background: #f8fafc !important;
+  box-sizing: border-box;
+  color: #1e293b !important;
+  -webkit-text-fill-color: #0f172a !important;
   font-family: inherit;
-  transition: all 0.2s ease;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+  appearance: none;
+}
+
+.text-input:hover {
+  border-color: #94a3b8;
 }
 
 .text-input:focus {
   outline: none;
-  border-color: #f97316 !important;
-  box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.2) !important;
+  border-color: #f97316;
+  box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.2);
 }
 
 .text-input::placeholder {
-  color: #9ca3af !important;
+  color: #334155 !important;
+  -webkit-text-fill-color: #334155 !important;
+  opacity: 1 !important;
+}
+
+.text-input:disabled {
+  background: #f1f5f9 !important;
+  cursor: not-allowed;
+}
+
+.text-input:-webkit-autofill,
+.text-input:-webkit-autofill:hover,
+.text-input:-webkit-autofill:focus {
+  -webkit-text-fill-color: #0f172a !important;
+  background-color: #ffffff !important;
+  transition: background-color 9999s ease-in-out 0s;
 }
 
 .eye-btn {
@@ -181,20 +299,35 @@
   right: 12px;
   top: 50%;
   transform: translateY(-50%);
-  background: transparent !important;
-  border: none;
-  cursor: pointer;
-  font-size: 1.3rem;
-  z-index: 10;
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   padding: 0;
-  color: #6b7280;
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  color: #0f172a !important;
+  -webkit-text-fill-color: #0f172a !important;
+  cursor: pointer;
+  font: inherit;
+  font-size: 1.25rem;
+  line-height: 1;
+  z-index: 3;
 }
 
 .eye-btn:hover {
-  color: #f97316;
+  color: #f97316 !important;
+  -webkit-text-fill-color: #f97316 !important;
+  background: rgba(249, 115, 22, 0.08);
 }
 
-/* Password Strength */
+.eye-btn:focus-visible {
+  outline: 2px solid #f97316;
+  outline-offset: 2px;
+}
+
 .password-strength {
   margin-top: 0.5rem;
 }
@@ -209,66 +342,99 @@
 .strength-bar {
   flex: 1;
   height: 100%;
+  min-width: 0;
   border-radius: 2px;
-  transition: all 0.3s ease;
+  transition: background-color 0.3s ease, opacity 0.3s ease;
 }
 
 .strength-label {
   font-size: 0.75rem;
-  font-weight: 600;
+  line-height: 1.3;
+  font-weight: 700;
+  color: #0f172a !important;
+  -webkit-text-fill-color: #0f172a !important;
 }
 
-/* Form Row */
 .form-row {
   display: flex;
   align-items: center;
+  width: 100%;
   font-size: 0.9rem;
 }
 
-.check-label {
+/* ✅ CRITICAL FIX: Checkbox styles with HIGHER specificity */
+.signup-form .check-label {
   display: flex;
-  align-items: flex-start;
-  gap: 0.5rem;
+  align-items: center;
+  gap: 10px;
   cursor: pointer;
-  color: #374151 !important;
-  font-weight: 500;
-  line-height: 1.4;
+  font-weight: 600 !important;
 }
 
-.check-label input[type="checkbox"] {
+.signup-form .check-label input[type="checkbox"] {
   width: 18px;
   height: 18px;
-  margin-top: 2px;
-  accent-color: #f97316;
+  margin: 0;
   cursor: pointer;
+  accent-color: #16a34a;
 }
 
-.link-terms {
-  color: #f97316 !important;
+/* ✅ "I agree to the" and "&" - PURE BLACK */
+.signup-form .check-label > span {
+  color: #000000 !important;
+  -webkit-text-fill-color: #000000 !important;
+  opacity: 1 !important;
+  text-shadow: none !important;
+  font-weight: 600 !important;
+  background: transparent !important;
+  background-image: none !important;
+  -webkit-background-clip: initial !important;
+  background-clip: initial !important;
+}
+
+/* ✅ "Terms" and "Privacy" - ORANGE */
+.signup-form .check-label .link-terms {
+  color: #c2410c !important;
+  -webkit-text-fill-color: #c2410c !important;
+  opacity: 1 !important;
+  text-shadow: none !important;
+  font-weight: 700 !important;
   text-decoration: none;
-  font-weight: 600;
 }
 
-.link-terms:hover {
+.signup-form .check-label .link-terms:hover {
   text-decoration: underline;
 }
 
-/* Submit Button */
+.link-switch {
+  color: #c2410c !important;
+  -webkit-text-fill-color: #c2410c !important;
+  text-decoration: none;
+  font-weight: 800;
+}
+
+.link-switch:hover {
+  text-decoration: underline;
+}
+
 .submit-btn {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
   width: 100%;
+  min-height: 50px;
   padding: 1rem;
-  background: linear-gradient(135deg, #f97316, #fbbf24) !important;
+  background: linear-gradient(135deg, #f97316, #fbbf24);
   color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
   border: none;
   border-radius: 14px;
   font-weight: 700;
   font-size: 1.05rem;
+  line-height: 1.2;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
   box-shadow: 0 8px 20px rgba(249, 115, 22, 0.4);
   font-family: inherit;
   margin-top: 0.5rem;
@@ -279,70 +445,158 @@
   box-shadow: 0 12px 28px rgba(249, 115, 22, 0.5);
 }
 
+.submit-btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.submit-btn:focus-visible {
+  outline: 3px solid rgba(249, 115, 22, 0.35);
+  outline-offset: 3px;
+}
+
 .submit-btn:disabled {
   opacity: 0.7;
   cursor: not-allowed;
+  transform: none;
 }
 
-/* Switch Text */
 .switch-text {
   text-align: center;
-  color: #374151 !important;
+  color: #0f172a !important;
+  -webkit-text-fill-color: #0f172a !important;
   font-size: 0.95rem;
+  line-height: 1.5;
   margin: 1.5rem 0 0;
+  font-weight: 600;
 }
 
-.link-switch {
-  color: #f97316 !important;
-  text-decoration: none;
-  font-weight: 700;
-}
-
-.link-switch:hover {
-  text-decoration: underline;
-}
-
-/* Benefits */
 .benefits-row {
   display: flex;
   justify-content: center;
-  gap: 1rem;
+  align-items: center;
+  gap: 0.75rem 1rem;
   margin-top: 1.5rem;
   padding-top: 1.5rem;
-  border-top: 1px solid #e5e7eb;
-  font-size: 0.8rem;
-  color: #16a34a !important;
-  font-weight: 600;
+  border-top: 1px solid #cbd5e1;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  color: #0f172a !important;
+  -webkit-text-fill-color: #0f172a !important;
+  font-weight: 700;
   flex-wrap: wrap;
+  text-align: center;
 }
 
-/* Responsive */
+.benefits-row span {
+  color: #0f172a !important;
+  -webkit-text-fill-color: #0f172a !important;
+}
+
 @media (max-width: 768px) {
-  .signup-card {
-    padding: 2rem 1.5rem;
-    margin: 0 1rem;
+  .signup-page {
+    justify-content: flex-start;
+    padding: 1.5rem 1rem;
   }
 
-  .signup-header h1 { font-size: 1.5rem; }
+  .signup-card {
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+  }
+
+  .signup-header h1 {
+    font-size: 1.5rem;
+  }
 }
 
 @media (max-width: 480px) {
-  .signup-page { padding: 1rem 0.5rem; }
+  .signup-page {
+    padding: 1rem 0.5rem;
+  }
 
   .signup-card {
+    width: 100%;
     padding: 1.5rem 1rem;
     border-radius: 20px;
   }
 
-  .signup-header h1 { font-size: 1.3rem; }
+  .signup-logo {
+    font-size: 1.3rem;
+  }
+
+  .signup-logo-img {
+    width: 200px !important;
+    height: auto !important;
+    max-height: 100px !important;
+  }
+
+  .signup-logo-text {
+    font-size: 1.2rem !important;
+  }
+
+  .signup-header {
+    margin-bottom: 1.5rem;
+  }
+
+  .signup-header h1 {
+    font-size: 1.3rem;
+  }
+
+  .signup-header p {
+    font-size: 0.88rem;
+  }
+
+  .signup-form {
+    gap: 1rem;
+  }
 
   .text-input {
-    padding: 0.85rem 3rem 0.85rem 2.6rem;
+    min-height: 46px;
+    padding: 0.85rem 3rem 0.85rem 3rem;
     font-size: 0.95rem;
   }
 
+  .field-icon {
+    left: 0.85rem;
+    font-size: 1rem;
+  }
+
+  .eye-btn {
+    right: 9px;
+  }
+
   .submit-btn {
+    min-height: 48px;
     padding: 0.9rem;
     font-size: 1rem;
+  }
+
+  .benefits-row {
+    gap: 0.5rem 0.75rem;
+    font-size: 0.75rem;
+  }
+}
+
+@media (max-height: 700px) and (min-width: 481px) {
+  .signup-page {
+    justify-content: flex-start;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+
+  .signup-card {
+    margin-top: 0;
+    margin-bottom: 1rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .text-input,
+  .strength-bar,
+  .submit-btn {
+    transition: none;
+  }
+
+  .submit-btn:hover:not(:disabled) {
+    transform: none;
   }
 }

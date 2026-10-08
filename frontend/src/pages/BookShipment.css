@@ -1,137 +1,5 @@
-/* ============ CRITICAL FIX: BLACK INPUT BOXES ============ */
-
-/* Force white background on ALL inputs */
-.book-shipment-page input,
-.book-shipment-page select,
-.book-shipment-page textarea {
-  background-color: #ffffff !important;
-  background-image: none !important;
-  -webkit-text-fill-color: #1f2937 !important;
-  color: #1f2937 !important;
-  caret-color: #1f2937 !important;
-}
-
-/* Fix browser autofill dark background */
-.book-shipment-page input:-webkit-autofill,
-.book-shipment-page input:-webkit-autofill:hover,
-.book-shipment-page input:-webkit-autofill:focus,
-.book-shipment-page input:-webkit-autofill:active {
-  -webkit-box-shadow: 0 0 0 30px #ffffff inset !important;
-  -webkit-text-fill-color: #1f2937 !important;
-  caret-color: #1f2937 !important;
-  transition: background-color 5000s ease-in-out 0s !important;
-}
-
-/* Fix for Firefox autofill */
-.book-shipment-page input:-moz-autofill,
-.book-shipment-page input:-moz-autofill-preview {
-  background-color: #ffffff !important;
-  color: #1f2937 !important;
-}
-
-/* Ensure form-group inputs are white */
-.form-group input,
-.form-group select,
-.form-group textarea {
-  background: #ffffff !important;
-  background-color: #ffffff !important;
-  color: #1f2937 !important;
-  border: 2px solid #000000 !important;
-  padding: 12px 14px !important;
-  border-radius: 8px !important;
-  font-size: 14px !important;
-  font-weight: 600 !important;
-  width: 100% !important;
-  box-sizing: border-box !important;
-  transition: all 0.2s;
-}
-
-/* Fix placeholder visibility */
-.form-group input::placeholder,
-.form-group textarea::placeholder {
-  color: #9ca3af !important;
-  opacity: 1 !important;
-}
-
-/* Focus state */
-.form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus {
-  outline: none !important;
-  border-color: #10b981 !important;
-  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2) !important;
-  background: #ffffff !important;
-  background-color: #ffffff !important;
-  color: #1f2937 !important;
-}
-
-/* Select options */
-.form-group select option {
-  background: #ffffff !important;
-  background-color: #ffffff !important;
-  color: #1f2937 !important;
-  padding: 8px;
-}
-
-/* Date inputs */
-.form-group input[type="date"] {
-  background: #ffffff !important;
-  background-color: #ffffff !important;
-  color: #1f2937 !important;
-  min-height: 48px;
-}
-
-/* Quantity inputs */
-.quantity-control input {
-  background: #ffffff !important;
-  background-color: #ffffff !important;
-  color: #1f2937 !important;
-  border: 2px solid #000000 !important;
-  text-align: center;
-  font-weight: 700 !important;
-}
-
-/* COD amount field */
-.cod-amount-field input {
-  background: #ffffff !important;
-  background-color: #ffffff !important;
-  color: #1f2937 !important;
-  border: 2px solid #000000 !important;
-}
-
-/* Input with unit */
-.input-with-unit input {
-  background: #ffffff !important;
-  background-color: #ffffff !important;
-  color: #1f2937 !important;
-}
-
-/* Search inputs */
-.search-box input {
-  background: #ffffff !important;
-  background-color: #ffffff !important;
-  color: #1f2937 !important;
-}
-
-/* Prevent inheritance from dark parents */
-.book-shipment-page * {
-  -webkit-text-fill-color: initial !important;
-}
-
-/* Override any dark mode styles */
-@media (prefers-color-scheme: dark) {
-  .book-shipment-page input,
-  .book-shipment-page select,
-  .book-shipment-page textarea {
-    background: #ffffff !important;
-    background-color: #ffffff !important;
-    color: #1f2937 !important;
-    -webkit-text-fill-color: #1f2937 !important;
-  }
-}
-
 /* =========================================
-   BOOK SHIPMENT - MULTI-STEP FORM
+   BOOK SHIPMENT - MULTI-STEP FORM (FINAL FIXED)
    ========================================= */
 
 .book-shipment-page {
@@ -141,9 +9,33 @@
   padding: 20px;
   background: #f8fafc;
   min-height: 100vh;
+  /* Force base text color to Dark for the entire page */
+  color: #1f2937 !important;
+  -webkit-text-fill-color: #1f2937 !important;
 }
 
-/* PAGE HEADER */
+/* =========================================
+   CRITICAL FIX: FORCE DARK TEXT VISIBILITY
+   ========================================= */
+.book-shipment-page h1,
+.book-shipment-page h2,
+.book-shipment-page h3,
+.book-shipment-page h4,
+.book-shipment-page h5,
+.book-shipment-page p,
+.book-shipment-page span,
+.book-shipment-page label,
+.book-shipment-page strong,
+.book-shipment-page b,
+.book-shipment-page div {
+  color: #1f2937 !important;
+  -webkit-text-fill-color: #1f2937 !important;
+  text-shadow: none !important;
+}
+
+/* =========================================
+   PAGE HEADER & DASHBOARD LINK (RED)
+   ========================================= */
 .page-header {
   background: #ffffff;
   padding: 20px 24px;
@@ -160,13 +52,40 @@
   font-size: 24px;
   font-weight: 800;
   color: #1f2937 !important;
+  -webkit-text-fill-color: #1f2937 !important;
   margin: 0 0 4px 0;
 }
 
 .header-info p {
   font-size: 14px;
   color: #4b5563 !important;
+  -webkit-text-fill-color: #4b5563 !important;
   margin: 0;
+}
+
+/* ✅ FIX: Dashboard Back Button - RED TEXT */
+.back-btn,
+.page-header a[href="/dashboard"],
+.page-header .back-link {
+  padding: 10px 20px;
+  background: #ffffff !important;
+  color: #dc2626 !important;              /* BRIGHT RED TEXT */
+  -webkit-text-fill-color: #dc2626 !important;
+  border: 2px solid #dc2626 !important;
+  border-radius: 8px;
+  font-weight: 800 !important;
+  cursor: pointer;
+  font-size: 13px;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+.back-btn:hover,
+.page-header a[href="/dashboard"]:hover {
+  background: #dc2626 !important;
+  color: #ffffff !important;              /* White text on hover */
+  -webkit-text-fill-color: #ffffff !important;
+  transform: translateY(-1px);
 }
 
 .header-actions {
@@ -191,24 +110,9 @@
   color: #ffffff !important;
 }
 
-.back-btn {
-  padding: 10px 20px;
-  background: #10b981;
-  color: #ffffff !important;
-  border: 2px solid #000000;
-  border-radius: 8px;
-  font-weight: 700;
-  cursor: pointer;
-  font-size: 13px;
-  transition: all 0.2s;
-}
-
-.back-btn:hover {
-  background: #059669;
-  transform: translateY(-1px);
-}
-
-/* ============ PROGRESS STEPPER ============ */
+/* =========================================
+   PROGRESS STEPPER
+   ========================================= */
 .progress-stepper {
   display: flex;
   justify-content: space-between;
@@ -287,10 +191,12 @@
   background: #059669;
 }
 
-/* ============ SAVE SUCCESS MESSAGE ============ */
+/* =========================================
+   SAVE SUCCESS MESSAGE
+   ========================================= */
 .save-success-message {
-  background: #d1fae5;
-  border: 2px solid #10b981;
+  background: #d1fae5 !important;
+  border: 2px solid #10b981 !important;
   color: #047857 !important;
   padding: 12px 20px;
   border-radius: 8px;
@@ -305,9 +211,11 @@
   to { transform: translateY(0); opacity: 1; }
 }
 
-/* ============ STEP INDICATOR ============ */
+/* =========================================
+   STEP INDICATOR
+   ========================================= */
 .step-indicator {
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
   color: #ffffff !important;
   padding: 12px 20px;
   border-radius: 8px;
@@ -322,7 +230,9 @@
   font-size: 16px;
 }
 
-/* ============ FORM SECTION ============ */
+/* =========================================
+   FORM SECTION & GRID
+   ========================================= */
 .form-section {
   background: #ffffff;
   border: 2px solid #000000;
@@ -353,7 +263,6 @@
   margin: 0 0 20px 0;
 }
 
-/* ============ FORM GRID ============ */
 .form-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -374,29 +283,50 @@
   font-size: 13px;
   font-weight: 700 !important;
   color: #1f2937 !important;
+  display: block;
+  margin-bottom: 6px;
 }
 
-/* ✅ CRITICAL FIX: Input styling for visibility */
+/* =========================================
+   CRITICAL FIX: INPUT VISIBILITY (WHITE BG, DARK TEXT)
+   ========================================= */
+.book-shipment-page input,
+.book-shipment-page select,
+.book-shipment-page textarea,
 .form-group input,
 .form-group select,
 .form-group textarea {
-  padding: 12px 14px !important;
   background: #ffffff !important;
+  background-color: #ffffff !important;
+  color: #1f2937 !important;
+  -webkit-text-fill-color: #1f2937 !important;
   border: 2px solid #000000 !important;
+  padding: 12px 14px !important;
   border-radius: 8px !important;
   font-size: 14px !important;
   font-weight: 600 !important;
-  color: #1f2937 !important;
-  font-family: inherit;
   width: 100% !important;
   box-sizing: border-box !important;
   transition: all 0.2s;
+  caret-color: #1f2937 !important;
+}
+
+/* Fix browser autofill dark background */
+.book-shipment-page input:-webkit-autofill,
+.book-shipment-page input:-webkit-autofill:hover,
+.book-shipment-page input:-webkit-autofill:focus,
+.book-shipment-page input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px #ffffff inset !important;
+  -webkit-text-fill-color: #1f2937 !important;
+  caret-color: #1f2937 !important;
+  transition: background-color 5000s ease-in-out 0s !important;
 }
 
 .form-group input::placeholder,
 .form-group textarea::placeholder {
   color: #9ca3af !important;
-  opacity: 1;
+  -webkit-text-fill-color: #9ca3af !important;
+  opacity: 1 !important;
 }
 
 .form-group input:focus,
@@ -406,6 +336,7 @@
   border-color: #10b981 !important;
   box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2) !important;
   background: #ffffff !important;
+  color: #1f2937 !important;
 }
 
 .form-group select {
@@ -427,7 +358,12 @@
   min-height: 80px;
 }
 
-/* ✅ Field Error */
+.form-group input[type="date"] {
+  background: #ffffff !important;
+  color: #1f2937 !important;
+  min-height: 48px;
+}
+
 .field-error {
   color: #dc2626 !important;
   font-size: 12px;
@@ -443,7 +379,9 @@
   margin-top: 2px;
 }
 
-/* ============ TWO COLUMN (Step 4) ============ */
+/* =========================================
+   TWO COLUMN & PRODUCT LIST
+   ========================================= */
 .two-column {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -466,7 +404,6 @@
   border-bottom: 2px solid #10b981;
 }
 
-/* ============ PRODUCT LIST (Step 3) ============ */
 .product-list {
   display: flex;
   flex-direction: column;
@@ -475,8 +412,8 @@
 }
 
 .product-card {
-  background: #f9fafb;
-  border: 2px solid #e5e7eb;
+  background: #f9fafb !important;
+  border: 2px solid #e5e7eb !important;
   border-radius: 10px;
   padding: 16px;
 }
@@ -570,7 +507,9 @@
   border-style: solid;
 }
 
-/* ============ OPTIONS SECTION ============ */
+/* =========================================
+   OPTIONS SECTION
+   ========================================= */
 .options-section {
   margin-top: 24px;
   padding-top: 20px;
@@ -646,24 +585,21 @@
 .cod-amount-field input {
   width: 100% !important;
   padding: 10px 12px !important;
-  border: 2px solid #000000 !important;
-  border-radius: 6px !important;
-  color: #1f2937 !important;
-  background: #ffffff !important;
-  box-sizing: border-box !important;
 }
 
 .volumetric-display {
   padding: 12px 14px;
-  background: #fef3c7;
-  border: 2px solid #f59e0b;
+  background: #fef3c7 !important;
+  border: 2px solid #f59e0b !important;
   border-radius: 8px;
   font-size: 14px;
   font-weight: 700;
   color: #92400e !important;
 }
 
-/* ============ STEP ACTIONS ============ */
+/* =========================================
+   STEP ACTIONS & BUTTONS
+   ========================================= */
 .step-actions {
   display: flex;
   justify-content: space-between;
@@ -713,7 +649,7 @@
   background: #f0fdf4;
 }
 
-.btn-next {
+.btn-next, .btn-book {
   padding: 12px 24px;
   background: #10b981;
   color: #ffffff !important;
@@ -725,7 +661,7 @@
   transition: all 0.2s;
 }
 
-.btn-next:hover {
+.btn-next:hover, .btn-book:hover:not(:disabled) {
   background: #059669;
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
@@ -733,23 +669,11 @@
 
 .btn-book {
   padding: 14px 28px;
-  background: #10b981;
-  color: #ffffff !important;
-  border: 3px solid #000000;
-  border-radius: 8px;
   font-weight: 800;
-  cursor: pointer;
   font-size: 15px;
-  transition: all 0.2s;
   display: inline-flex;
   align-items: center;
   gap: 8px;
-}
-
-.btn-book:hover:not(:disabled) {
-  background: #059669;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(16, 185, 129, 0.4);
 }
 
 .btn-book:disabled {
@@ -757,7 +681,9 @@
   cursor: not-allowed;
 }
 
-/* ============ REVIEW SECTION (Step 6) ============ */
+/* =========================================
+   REVIEW SECTION (Step 6)
+   ========================================= */
 .review-section {
   display: flex;
   flex-direction: column;
@@ -852,7 +778,7 @@
 }
 
 .charges-summary {
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
   color: #ffffff !important;
   border-radius: 10px;
   padding: 20px;
@@ -908,7 +834,9 @@
   font-weight: 800 !important;
 }
 
-/* Declarations */
+/* =========================================
+   DECLARATIONS
+   ========================================= */
 .declarations-section {
   margin-top: 20px;
   padding: 20px;
@@ -950,7 +878,9 @@
   font-weight: 700 !important;
 }
 
-/* ============ CONFIRMATION MODAL ============ */
+/* =========================================
+   CONFIRMATION MODAL
+   ========================================= */
 .confirm-modal-overlay {
   position: fixed;
   inset: 0;
@@ -969,7 +899,7 @@
 }
 
 .confirm-modal {
-  background: #ffffff;
+  background: #ffffff !important;
   border-radius: 16px;
   width: 100%;
   max-width: 550px;
@@ -991,7 +921,7 @@
   align-items: center;
   padding: 20px 24px;
   border-bottom: 2px solid #e5e7eb;
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
   color: #ffffff !important;
 }
 
@@ -1134,7 +1064,6 @@
   cursor: not-allowed;
 }
 
-/* Spinner */
 .spinner {
   width: 14px;
   height: 14px;
@@ -1149,20 +1078,16 @@
   to { transform: rotate(360deg); }
 }
 
-/* ============ RESPONSIVE ============ */
+/* =========================================
+   RESPONSIVE DESIGN
+   ========================================= */
 @media (max-width: 900px) {
-  .two-column {
-    grid-template-columns: 1fr;
-  }
-  .review-people {
-    grid-template-columns: 1fr;
-  }
+  .two-column { grid-template-columns: 1fr; }
+  .review-people { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 768px) {
-  .book-shipment-page {
-    padding: 12px;
-  }
+  .book-shipment-page { padding: 12px; }
   
   .page-header {
     flex-direction: column;
@@ -1170,276 +1095,32 @@
     align-items: stretch;
   }
   
-  .header-actions {
-    justify-content: space-between;
-  }
+  .header-actions { justify-content: space-between; }
+  .progress-stepper { padding: 12px; }
+  .step-label, .step-line { display: none; }
+  .form-grid, .product-grid, .charges-grid, .review-grid { grid-template-columns: 1fr; }
   
-  .progress-stepper {
-    padding: 12px;
+  .step-actions { flex-direction: column; }
+  .step-actions-right { width: 100%; flex-direction: column; }
+  .step-actions-right button { width: 100%; }
+}
+
+@media (max-height: 700px) and (min-width: 481px) {
+  .book-shipment-page {
+    justify-content: flex-start;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
   }
-  
-  .step-label {
-    display: none;
+  .confirm-modal { margin-top: 0; margin-bottom: 1rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .book-shipment-page input,
+  .book-shipment-page select,
+  .book-shipment-page textarea,
+  .strength-bar,
+  .btn-next, .btn-book, .btn-save, .btn-back, .btn-cancel {
+    transition: none;
   }
-  
-  .step-line {
-    display: none;
-  }
-  
-  .form-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .product-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .charges-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .step-actions {
-    flex-direction: column;
-  }
-  
-  .step-actions-right {
-    width: 100%;
-    flex-direction: column;
-  }
-  
-  .step-actions-right button {
-    width: 100%;
-  }
-  
-  .review-grid {
-    grid-template-columns: 1fr;
-  }
+  .btn-next:hover, .btn-book:hover, .back-btn:hover { transform: none; }
 }
-
-/* ============ CRITICAL FIX: INPUT VISIBILITY ============ */
-
-/* All input fields - White background, Dark text */
-.form-group input,
-.form-group select,
-.form-group textarea {
-  background: #ffffff !important;
-  color: #1f2937 !important;
-  border: 2px solid #000000 !important;
-  padding: 12px 14px !important;
-  border-radius: 8px !important;
-  font-size: 14px !important;
-  font-weight: 600 !important;
-  width: 100% !important;
-  box-sizing: border-box !important;
-  transition: all 0.2s;
-}
-
-/* Placeholder text - Visible gray */
-.form-group input::placeholder,
-.form-group textarea::placeholder {
-  color: #9ca3af !important;
-  opacity: 1 !important;
-}
-
-/* Focus state - Green border */
-.form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus {
-  outline: none !important;
-  border-color: #10b981 !important;
-  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2) !important;
-  background: #ffffff !important;
-  color: #1f2937 !important;
-}
-
-/* Select dropdown options */
-.form-group select option {
-  background: #ffffff !important;
-  color: #1f2937 !important;
-  padding: 8px;
-}
-
-/* Date input specific fix */
-.form-group input[type="date"] {
-  background: #ffffff !important;
-  color: #1f2937 !important;
-  min-height: 48px;
-}
-
-/* Ensure labels are visible */
-.form-group label {
-  color: #1f2937 !important;
-  font-weight: 700 !important;
-  font-size: 13px !important;
-  display: block;
-  margin-bottom: 6px;
-}
-
-/* Section headers */
-.form-section h3 {
-  color: #1f2937 !important;
-  font-weight: 800 !important;
-}
-
-/* Product cards background */
-.product-card {
-  background: #f9fafb !important;
-  border: 2px solid #e5e7eb !important;
-}
-
-/* Checkbox options */
-.checkbox-option {
-  background: #ffffff !important;
-  border: 2px solid #000000 !important;
-}
-
-/* Buttons - Ensure text is visible */
-.btn-next,
-.btn-save,
-.btn-book,
-.btn-back,
-.btn-cancel {
-  color: #ffffff !important;
-  font-weight: 700 !important;
-}
-
-.btn-save,
-.btn-back,
-.btn-cancel {
-  color: #1f2937 !important;
-}
-
-/* Quantity control inputs */
-.quantity-control input {
-  background: #ffffff !important;
-  color: #1f2937 !important;
-  border: 2px solid #000000 !important;
-  text-align: center;
-  font-weight: 700 !important;
-}
-
-/* COD amount field */
-.cod-amount-field input {
-  background: #ffffff !important;
-  color: #1f2937 !important;
-  border: 2px solid #000000 !important;
-}
-
-/* Volumetric display - Yellow background */
-.volumetric-display {
-  background: #fef3c7 !important;
-  color: #92400e !important;
-  border: 2px solid #f59e0b !important;
-}
-
-/* Field hints */
-.field-hint {
-  color: #6b7280 !important;
-  font-size: 11px !important;
-}
-
-/* Error messages */
-.field-error {
-  color: #dc2626 !important;
-  font-size: 12px !important;
-}
-
-/* Review section values */
-.review-value {
-  color: #1f2937 !important;
-  font-weight: 600 !important;
-}
-
-.review-label {
-  color: #6b7280 !important;
-  font-weight: 700 !important;
-}
-
-/* Charges summary */
-.charges-summary {
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
-  color: #ffffff !important;
-}
-
-.charges-summary h4 {
-  color: #ffffff !important;
-}
-
-.charges-grid span {
-  color: #d1fae5 !important;
-}
-
-.charges-grid strong {
-  color: #ffffff !important;
-}
-
-/* Confirm modal */
-.confirm-modal {
-  background: #ffffff !important;
-}
-
-.confirm-modal__header {
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
-  color: #ffffff !important;
-}
-
-.confirm-modal__header h2 {
-  color: #ffffff !important;
-}
-
-.confirm-row span {
-  color: #6b7280 !important;
-}
-
-.confirm-row strong {
-  color: #1f2937 !important;
-}
-
-/* All text elements - Force visibility */
-.book-shipment-page h1,
-.book-shipment-page h2,
-.book-shipment-page h3,
-.book-shipment-page h4,
-.book-shipment-page p,
-.book-shipment-page span,
-.book-shipment-page label,
-.book-shipment-page div {
-  /* Don't override if already has color */
-}
-
-/* Specific dark text for content */
-.book-shipment-page .header-info h1,
-.book-shipment-page .header-info p {
-  color: #1f2937 !important;
-}
-
-/* Progress stepper */
-.step-circle {
-  color: #6b7280 !important;
-}
-
-.step-item.active .step-circle {
-  color: #ffffff !important;
-}
-
-.step-label {
-  color: #6b7280 !important;
-}
-
-.step-item.active .step-label {
-  color: #10b981 !important;
-}
-
-/* Save success message */
-.save-success-message {
-  background: #d1fae5 !important;
-  color: #047857 !important;
-  border: 2px solid #10b981 !important;
-}
-
-/* Step indicator */
-.step-indicator {
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
-  color: #ffffff !important;
-}
-
