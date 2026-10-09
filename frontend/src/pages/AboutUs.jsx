@@ -63,10 +63,13 @@ const AnimatedCounter = ({ end, duration = 2000, suffix = "", label }) => {
   );
 };
 
+// =========================================
+// ✅ FIXED TIMELINE ITEM: No shaking, text visible by default
+// =========================================
 const TimelineItem = ({ year, title, desc, isLeft, index }) => {
   const ref = useRef(null);
   const [isVisible, setIsVisible] = useState(false);
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(true); // ✅ CHANGED TO TRUE: Text is visible by default
 
   useEffect(() => {
     if (!ref.current) return;
@@ -89,8 +92,7 @@ const TimelineItem = ({ year, title, desc, isLeft, index }) => {
       className={`timeline-item ${isLeft ? "left" : "right"} ${isExpanded ? "expanded" : ""}`}
       initial={{ opacity: 0, x: isLeft ? -40 : 40 }}
       animate={isVisible ? { opacity: 1, x: 0 } : {}}
-      transition={{ delay: index * 0.15, type: "spring", stiffness: 100 }}
-      style={{ willChange: "transform" }}
+      transition={{ delay: index * 0.1, duration: 0.6, ease: "easeOut" }} // ✅ SMOOTH EASEOUT: Prevents springy shaking
     >
       <div className="timeline-dot" />
       <div className="timeline-content" onClick={() => setIsExpanded(!isExpanded)}>
@@ -313,7 +315,7 @@ export default function AboutUs() {
   const whyChooseData = useMemo(
     () => [
       {
-        icon: "️",
+        icon: "🛡️",
         title: "Secure Handling",
         desc: "Your cargo is fully insured and handled with military-grade care protocols.",
         color: "#f97316",
@@ -325,7 +327,7 @@ export default function AboutUs() {
         color: "#2563eb",
       },
       {
-        icon: "",
+        icon: "🌍",
         title: "Global Network",
         desc: "Seamlessly connected to 120+ countries with trusted local partners.",
         color: "#16a34a",
@@ -357,7 +359,7 @@ export default function AboutUs() {
         title: "Our Vision",
         content:
           "To be the world's most trusted logistics partner by 2030, setting new standards in speed, reliability, and sustainability.",
-        icon: "",
+        icon: "🔭",
         features: [
           "Global Leadership",
           "Innovation Hub",
@@ -770,7 +772,7 @@ export default function AboutUs() {
                   transition={{ delay: i * 0.1 }}
                   whileHover={{ y: -8 }}
                 >
-                  <div className="cert-icon"></div>
+                  <div className="cert-icon">🏆</div>
                   <h3>{cert}</h3>
                 </motion.div>
               ))}
