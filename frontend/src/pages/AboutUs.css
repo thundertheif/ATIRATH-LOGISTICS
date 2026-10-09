@@ -121,6 +121,76 @@
 }
 
 /* ============================================
+   ✅ BUTTONS - FORCED VISIBILITY & HIGH CONTRAST (FIXED)
+   ============================================ */
+.about-page .btn-primary,
+.about-page .btn-outline {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 16px 32px !important;
+  border-radius: 8px !important;
+  font-size: 16px !important;
+  font-weight: 700 !important;
+  text-decoration: none !important;
+  white-space: nowrap !important;
+  cursor: pointer !important;
+  transition: all 0.3s ease !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  min-height: 56px !important;
+  line-height: 1 !important;
+  text-align: center !important;
+}
+
+/* ✅ Primary Button: Bright Blue Background + Pure White Text (MAXIMUM VISIBILITY) */
+.about-page .btn-primary {
+  background: #3b82f6 !important; 
+  color: #FFFFFF !important; 
+  border: 2px solid #3b82f6 !important;
+  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4) !important;
+}
+
+/* Outline Button: Transparent Background + White Text + White Border */
+.about-page .btn-outline {
+  background: transparent !important;
+  color: #FFFFFF !important;
+  border: 2px solid #FFFFFF !important;
+}
+
+/* ✅ NUCLEAR FORCE: Guarantee text and arrow (→) inside buttons are ALWAYS visible */
+.about-page .btn-primary,
+.about-page .btn-primary *,
+.about-page .btn-primary span,
+.about-page .btn-primary svg,
+.about-page .btn-outline,
+.about-page .btn-outline * {
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+
+/* Hover Effects */
+.about-page .btn-primary:hover {
+  background: #2563eb !important; /* Darker Blue on hover */
+  border-color: #2563eb !important;
+  color: #FFFFFF !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 8px 25px rgba(59, 130, 246, 0.5) !important;
+}
+
+.about-page .btn-outline:hover {
+  background: #FFFFFF !important;
+  color: #0B1E3D !important;
+  border-color: #FFFFFF !important;
+  transform: translateY(-2px) !important;
+}
+
+/* ============================================
    1. HERO SECTION
    ============================================ */
 .about-hero {
@@ -206,6 +276,19 @@
   visibility: visible !important;
   opacity: 1 !important;
 }
+
+.hero-buttons, .cta-buttons {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 16px !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+  flex-wrap: wrap !important;
+  width: 100% !important;
+}
+
 .features-checklist {
   list-style: none;
   display: grid;
@@ -259,75 +342,6 @@
   color: #FFFFFF !important;
   visibility: visible !important;
   opacity: 1 !important;
-}
-
-/* =========================================================
-   HERO BUTTONS — CLEAN FINAL VERSION
-   ========================================================= */
-
-.about-page .hero-buttons {
-  width: 100% !important;
-  display: flex !important;
-  flex-direction: row !important;
-  align-items: center !important;
-  justify-content: center !important;
-  gap: 16px !important;
-  margin: 0 auto !important;
-  padding: 0 !important;
-  flex-wrap: nowrap !important;
-}
-
-/* BOTH BUTTONS */
-.about-page .hero-buttons .btn-primary,
-.about-page .hero-buttons .btn-outline {
-  box-sizing: border-box !important;
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  height: 64px !important;
-  min-height: 64px !important;
-  margin: 0 !important;
-  padding: 0 30px !important;
-  border-radius: 8px !important;
-  font-size: 16px !important;
-  font-weight: 700 !important;
-  line-height: 1 !important;
-  text-align: center !important;
-  text-decoration: none !important;
-  white-space: nowrap !important;
-  transform: none;
-}
-
-/* GET A FREE QUOTE */
-.about-page .hero-buttons .btn-primary {
-  width: 355px !important;
-  background: #FFFFFF !important;
-  color: #0B1E3D !important;
-  border: 2px solid #FFFFFF !important;
-  box-shadow: 0 5px 18px rgba(0, 0, 0, 0.35) !important;
-}
-
-/* EXPLORE SERVICES */
-.about-page .hero-buttons .btn-outline {
-  width: 200px !important;
-  background: transparent !important;
-  color: #FFFFFF !important;
-  border: 2px solid #FFFFFF !important;
-  box-shadow: none !important;
-}
-
-/* HOVER */
-.about-page .hero-buttons .btn-primary:hover {
-  background: #E2E8F0 !important;
-  border-color: #E2E8F0 !important;
-  transform: translateY(-2px) !important;
-}
-
-.about-page .hero-buttons .btn-outline:hover {
-  background: #FFFFFF !important;
-  color: #0B1E3D !important;
-  border-color: #FFFFFF !important;
-  transform: translateY(-2px) !important;
 }
 
 /* Hero Video */
@@ -1492,10 +1506,6 @@
   visibility: visible !important;
   opacity: 1 !important;
 }
-.cta-buttons {
-  justify-content: center;
-  margin-bottom: 40px;
-}
 
 /* ============================================
    TRUST BADGES - SINGLE LINE WITH JUSTIFICATION
@@ -1558,9 +1568,6 @@
   }
   .hero-features-list {
     align-items: center;
-  }
-  .hero-buttons, .cta-buttons {
-    justify-content: center;
   }
   .stats-grid, .why-grid, .cert-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -1653,8 +1660,8 @@
     width: 100%;
   }
   .btn-primary, .btn-outline {
-    width: 100%;
-    justify-content: center;
+    width: 100% !important;
+    justify-content: center !important;
   }
   .tab-button {
     width: 100%;
